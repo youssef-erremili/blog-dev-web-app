@@ -33,7 +33,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{ Str::limit($post->title, 25, '') }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{ Str::limit($post->content, 30, '...') }}</td>
                                     <td class="text-white px-6 py-4 whitespace-nowrap text-sm font-normal">
-                                        <span class="{{ $post->status == 'draft' ? 'bg-red-500' : 'bg-indigo-600' }} rounded-full py-[1.4px] px-[12px]">{{ $post->status }}</span>
+                                        <span class="@if ($post->status == 'draft') bg-red-500 bg-indigo-600 rounded-full py-[1.4px] px-[12px]">{{ $post->status }}</span>
                                     </td>
                                     <td class="px-6 py-4"><img class="w-8 h-8 rounded-full" src="{{ asset('storage/'. $post->articale_cover ) }}" alt="{{ $post->title }}"></td>
                                     <td class="py-4 whitespace-nowrap text-center text-sm font-medium relative">
