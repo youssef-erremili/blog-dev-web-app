@@ -2,7 +2,7 @@
     <div class="flex items-start justify-between relative">
         <section>
             <h1 class="capitalize font-semibold text-2xl text-slate-800">article insights</h1>
-            <p class="text-sm text-gray-600 my-2 lowercase">Everything you want know about you article and your result in weeks is showen here </p>
+            <p class="text-sm text-gray-500 my-2">Manage your articles and articles settings.</p>
         </section>
         <section>
             <a class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-indigo-600 border-2 border-white rounded-lg focus:ring-2 focus:ring-indigo-600" href="{{ route('publish-blog.create') }}" target="_blank">
@@ -49,7 +49,7 @@
                                                     </a>
                                                 </li>
                                                 <li class="py-3 px-6 my-0.5">
-                                                    <a class="flex justify-center items-center capitalize font-medium text-sm text-slate-500" href="#" target="_blank" >
+                                                    <a class="flex justify-center items-center capitalize font-medium text-sm text-slate-500" href="{{ route('publish-blog.edit', ['post'=>$post->id]) }}" target="_blank" >
                                                         <ion-icon class="text-lg mr-3" name="refresh-outline"></ion-icon>
                                                         update
                                                     </a>

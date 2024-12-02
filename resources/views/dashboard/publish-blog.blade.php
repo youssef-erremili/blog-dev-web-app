@@ -80,4 +80,5 @@
                 <p class="text-lg text-slate-800 font-medium capitalize text-center mt-10">No articles yet</p>
             @endforelse
         </div>
+    </div>
 </x-layout>

@@ -1,5 +1,6 @@
 <x-layout>
     <x-form action="{{ route('login') }}">
+        @method('POST')
         <div class="border bg-slate-50 bg-opacity-20 w-2/4 py-10 px-12 mx-auto my-10 rounded-lg shadow-md shadow-gray-100">
             @error('failed')
                 <span class="text-base bg-red-500 mx-auto text-center my-3 text-white rounded-md block w-[25rem] py-2 px-3">{{ $message }}</span>

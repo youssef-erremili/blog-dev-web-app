@@ -38,7 +38,7 @@
                                         class="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600">
                                         <span class="absolute -inset-1.5"></span>
                                         <span class="sr-only">Open user menu</span>
-                                        <img class="h-10 w-10 rounded-full border-2 border-white" src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="">
+                                        <img class="h-10 w-10 rounded-full border-2 border-white" src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="profile">
                                     </button>
                                 </div>
                                 <!-- Dropdown menu -->
@@ -67,25 +67,25 @@
                     <li class="mb-6">
                         <h3 class="font-medium text-indigo-600 text-2xl">Dashboard</h3>
                     </li>
-                    <li class="{{ Request::is('medium/users/dashboard/insight') ? 'bg-gray-100 rounded-lg' : '' }}">
+                    <li class="{{ Request::is('dashboard/insight') ? 'bg-gray-100 rounded-lg' : '' }}">
                         <a href="{{ route('insight') }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
                             <img src="{{ asset('images/insight.svg') }}" class="w-4" alt="insight">
                             <span class="flex-1 ms-3 whitespace-nowrap">Insight</span>
                         </a>
                     </li>
-                    <li class="{{ Request::is('medium/users/dashboard/profile') ? 'bg-gray-100 rounded-lg' : '' }}">
+                    <li class="{{ Request::is('dashboard/profile') ? 'bg-gray-100 rounded-lg' : '' }}">
                         <a href="{{ route('profile') }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
                             <img src="{{ asset('images/profile.svg') }}" class="w-4" alt="profile">
                             <span class="flex-1 ml-3 whitespace-nowrap">Profile</span>
                         </a>
                     </li>
-                    <li class="{{ Request::is('medium/users/dashboard/article') ? 'bg-gray-100 rounded-lg' : '' }}">
+                    <li class="{{ Request::is('dashboard/article') ? 'bg-gray-100 rounded-lg' : '' }}">
                         <a href="{{ route('article') }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
                             <img class="w-4" src="{{ asset('images/article.svg') }}" alt="article">
                             <span class="flex-1 ms-3 whitespace-nowrap">Article</span>
                         </a>
                     </li>
-                    <li class="{{ Request::is('medium/users/dashboard/chat') ? 'bg-gray-100 rounded-lg' : '' }}">
+                    <li class="{{ Request::is('dashboard/chat') ? 'bg-gray-100 rounded-lg' : '' }}">
                         <a href="{{ route('chat') }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
                             <img src="{{ asset('images/chat.svg') }}" class="w-4" alt="chat">
                             <span class="flex-1 ms-3 whitespace-nowrap">Message</span>
@@ -95,8 +95,8 @@
             </div>
         </aside>
 
-        <div class="p-4 sm:ml-64 mt-2">
-            <div class="p-4 border-2 border-slate-200 border-dashed capitalize rounded-lg mt-14">
+        <div class="p-6 sm:ml-64 mt-2">
+            <div class="py-8 px-8 border border-slate-200 capitalize rounded-lg mt-14">
                 {{ $slot }}
             </div>
         </div>

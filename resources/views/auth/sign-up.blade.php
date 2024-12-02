@@ -1,5 +1,6 @@
 <x-layout>
     <x-form action="{{ route('sign-up') }}">
+        @method('POST')
         <div class="border bg-slate-50 bg-opacity-20 w-2/4 py-10 px-12 mx-auto my-10 rounded-lg shadow-md shadow-gray-100">
             <h2 class="text-3xl text-indigo-500 my-5 font-bold">Sign up to begin new joureny</h2>
             <div class="mb-6">
