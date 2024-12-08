@@ -6,7 +6,9 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
+use SHTayeb\Bookworm\Bookworm;
 
 class PublishBlogController extends Controller
 {
@@ -16,10 +18,10 @@ class PublishBlogController extends Controller
     public function index()
     {
         $posts = Post::where('status', 'published')
-                    ->where('user_id', Auth::user()->id)
-                    ->latest()
-                    ->limit(3)
-                    ->get();
+            ->where('user_id', Auth::user()->id)
+            ->latest()
+            ->limit(3)
+            ->get();
         return view('dashboard.publish-blog', compact('posts'));
     }
 
@@ -34,47 +36,56 @@ class PublishBlogController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Post $post)
     {
         // validate user topic elements
-        $request->validate([
-            'title' => ['required', 'min:10', 'max:80'],
-            'content' => ['required', 'min:10', 'max:10000'],
-            'status' => ['required', 'in:draft,published'],
-            'articale_cover' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-            'tag1' => ['required', 'string', 'nullable', 'max:8'],
-            'tag2' => ['required', 'string', 'nullable', 'max:8'],
-            'tag3' => ['required', 'string', 'nullable', 'max:8'],
-            'tag4' => ['required'],
-            'tag5' => ['required'],
-        ]);
+        if (Gate::allows('view', $post)) {
+            $request->validate([
+                'title' => ['required', 'min:10', 'max:5000'],
+                'content' => ['required', 'min:10'],
+                'status' => ['required', 'in:draft,published'],
+                'articale_cover' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+                'tag1' => ['required', 'string', 'nullable'],
+                'tag2' => ['required', 'string', 'nullable'],
+                'tag3' => ['required', 'string', 'nullable'],
+                'tag4' => ['required'],
+                'tag5' => ['required'],
+            ]);
 
-        // move image
-        $image = time() . '.' . $request->file('articale_cover')->extension();
-        $path = $request->file('articale_cover')->storeAs('articale_cover', $image, 'public');
-        
-        // Save post data in DB
-        Auth::user()->posts()->create([
-            'title' => trim($request->input('title')),
-            'content' => trim($request->input('content')),
-            'status' => trim($request->input('status')),
-            'articale_cover' => $path,
-            'tag1' => trim($request->input('tag1')),
-            'tag2' => trim($request->input('tag2')),
-            'tag3' => trim($request->input('tag3')),
-            'tag4' => trim($request->input('tag4')),
-            'tag5' => trim($request->input('tag5')),
-        ]);
+            // move image
+            $image = time() . '.' . $request->file('articale_cover')->extension();
+            $path = $request->file('articale_cover')->storeAs('articale_cover', $image, 'public');
 
-        return redirect()->back();
+            // Save post data in DB
+            Auth::user()->posts()->create([
+                'title' => trim($request->input('title')),
+                'content' => trim($request->input('content')),
+                'status' => trim($request->input('status')),
+                'articale_cover' => $path,
+                'tag1' => trim($request->input('tag1')),
+                'tag2' => trim($request->input('tag2')),
+                'tag3' => trim($request->input('tag3')),
+                'tag4' => trim($request->input('tag4')),
+                'tag5' => trim($request->input('tag5')),
+            ]);
+            return redirect()->back();
+        } else {
+            return back()->route('home');
+        }
     }
-    
+
     /**
      * Display the specified resource.
      */
     public function show(string $id, Post $post)
     {
-        // 
+        if ($post->status == 'draft') {
+            return redirect()->route('home');
+        }
+
+        $post = Post::where('status', 'published')->findOrFail($id);
+        $reading_time = (new Bookworm())->estimate($post->content);
+        return view('dashboard.read-article', compact(['post', 'reading_time']));
     }
 
     /**
@@ -82,55 +93,68 @@ class PublishBlogController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('dashboard.edit-article', compact('post'));
+        if (Gate::allows('update', $post)) {
+            return view('dashboard.edit-article', compact('post'));
+        } else {
+            return redirect()->route('home');
+        }
     }
-    
+
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Post $post)
     {
-        $old_articale_cover = $post->articale_cover;
-        $path = null;
-        $data = $request->validate([
-            'title' => ['required', 'min:10', 'max:80'],
-            'content' => ['required', 'min:10', 'max:10000'],
-            'status' => ['required', 'in:draft,published'],
-            'articale_cover' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-            'tag1' => ['required', 'string', 'nullable', 'max:8'],
-            'tag2' => ['required', 'string', 'nullable', 'max:8'],
-            'tag3' => ['string', 'nullable', 'max:8'],
-            'tag4' => ['string', 'nullable', 'max:8'],
-            'tag5' => ['string', 'nullable', 'max:8'],
-        ]);
-        if ($request->hasFile('articale_cover')) {
-            // C:\Users\Youssef\Desktop\blog-dev\public\storage\articale_cover\1731886429.png
-            if (Storage::exists('public/' . $old_articale_cover)) {
-                // dd('true path exists');
-                Storage::disk("public")->delete('public/' . $old_articale_cover);
-                // $image = time() . '.' . $request->file('articale_cover')->extension();
-                // $path = $request->file('articale_cover')->storeAs('articale_cover', $image, 'public');
-                // dd($path, 'it has new file');
+        if (Gate::allows('update', $post)) {
+            $old_articale_cover = $post->articale_cover;
+            $path = null;
+            $request->validate([
+                'title' => ['required', 'min:10', 'max:80'],
+                'content' => ['required', 'min:10', 'max:10000'],
+                'status' => ['required', 'in:draft,published'],
+                'articale_cover' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+                'tag1' => ['required', 'string', 'nullable',],
+                'tag2' => ['required', 'string', 'nullable',],
+                'tag3' => ['string', 'nullable',],
+                'tag4' => ['string', 'nullable',],
+                'tag5' => ['string', 'nullable',],
+            ]);
+            if ($request->hasFile('articale_cover')) {
+                $image = time() . '.' . $request->file('articale_cover')->extension();
+                $path = $request->file('articale_cover')->storeAs('articale_cover', $image, 'public');
+            } else {
+                $path = $old_articale_cover;
             }
-            else{
-                dd('does not exists');
-            }
-        } else {
-            dd($old_articale_cover, 'it just the old file');
-        }
-        
-        // dd($path);
-        // Update post data in DB
-        // $post->update($data);
 
-        return redirect()->back('dashboard/article');
+            Post::where('id', $post->id)->update([
+                'title' => $request->title,
+                'content' => $request->content,
+                'status' => $request->status,
+                'articale_cover' => $path,
+                'tag1' => $request->tag1,
+                'tag2' => $request->tag2,
+                'tag3' => $request->tag3,
+                'tag4' => $request->tag4,
+                'tag5' => $request->tag5,
+            ]);
+
+            return redirect()->back();
+        } else {
+            return back()->route('home');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, Post $post)
     {
-        //
+        Gate::allows('delete', $post);
+        $post = Post::findOrFail($id);
+        if ($post) {
+            $post->delete();
+        } else {
+            dd('not delete');
+        }
     }
 }

@@ -11,8 +11,10 @@ Route::get('/', function () {
 
 
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Route::get('/', [SingleActionController::class, 'index'])->name('home');
+
+// Route::view('read-article', 'dashboard.read-article')
+Route::get('/reader/{id}/{writer}/{title}', [PublishBlogController::class, 'show'])->name('reader');
 
 
 
@@ -27,6 +29,7 @@ Route::middleware('guest')->group(function () {
 
 
 Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     // sidebar links
     Route::view('/dashboard/insight', 'dashboard.insight')->name('insight');
     Route::view('/dashboard/profile', 'dashboard.profile')->name('profile');
@@ -37,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/publish-articale', [PublishBlogController::class, 'store'])->name('publish-blog.store');
     Route::get('/publish-articale/edit/{post}', [PublishBlogController::class, 'edit'])->name('publish-blog.edit');
     Route::put('/publish-articale/edit/{post}', [PublishBlogController::class, 'update'])->name('publish-blog.update');
+    Route::delete('/publish-articale/delete/{post}', [PublishBlogController::class, 'destroy'])->name('publish-blog.delete');
     
     // dashboard controller to show post for writer 
     Route::get('/dashboard/article', [DashboardController::class, 'index'])->name('article');

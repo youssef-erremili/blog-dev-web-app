@@ -42,19 +42,21 @@
                                         </button>
                                         <div x-show="open" @click.outside="open = false" x-transition class="bg-white border shadow-md rounded-md absolute z-50 top-6 -left-16">
                                             <ul>
-                                                <li class="py-3 px-6 my-0.5">
-                                                    <a class="flex items-center capitalize font-medium text-sm text-slate-500" href="#" target="_blank">
-                                                        <ion-icon class="text-lg mr-3" name="reader-outline"></ion-icon>
-                                                        read
-                                                    </a>
-                                                </li>
+                                                @if ($post->status === "published") 
+                                                    <li class="py-3 px-6 my-0.5">
+                                                        <a class="flex items-center capitalize font-medium text-sm text-slate-500" href="{{ route('reader', ['id' => $post->id, 'writer' => str_replace(' ', '-', $post->user->name), 'title' => str_replace(' ', '-', $post->title)]) }}" target="_blank">
+                                                            <ion-icon class="text-lg mr-3" name="reader-outline"></ion-icon>
+                                                            read
+                                                        </a>
+                                                    </li>
+                                                @endif
                                                 <li class="py-3 px-6 my-0.5">
                                                     <a class="flex justify-center items-center capitalize font-medium text-sm text-slate-500" href="{{ route('publish-blog.edit', ['post'=>$post->id]) }}" target="_blank" >
                                                         <ion-icon class="text-lg mr-3" name="refresh-outline"></ion-icon>
                                                         update
                                                     </a>
                                                 </li>
-                                                <li class="py-3 px-6 my-0.5">
+                                                <li class="py-3 px-6 my-0.5"> {{--  {{publish-blog.delete}} --}}
                                                     <button type="button" @click="model = ! model" class="flex justify-center items-center capitalize font-medium text-sm text-red-600">
                                                         <ion-icon class="text-lg mr-3" name="trash-outline"></ion-icon>
                                                         delete
@@ -76,6 +78,11 @@
                 </div>
             </div>
         </div>
-        <x-model></x-model>
+        @isset($post)
+            <x-form action="{{ route('publish-blog.delete', ['post'=>$post->id]) }}">
+                @method('delete')
+                <x-model></x-model>
+            </x-form>
+        @endisset
     </div>
 </x-dashboard>

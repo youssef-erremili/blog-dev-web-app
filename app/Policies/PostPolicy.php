@@ -5,31 +5,13 @@ namespace App\Policies;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class PostPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    public function view(Post $post): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Post $post): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-        //
+        return Auth::user()->id === $post->user_id;
     }
 
     /**
@@ -45,7 +27,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        //
+        return $user->id === $post->user_id;
     }
 
     /**

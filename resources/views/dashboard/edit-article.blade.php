@@ -16,8 +16,8 @@
                 <div class="flex justify-between">
                     <div class="flex flex-wrap items-center">
                         <div class="">
-                            <span class="border-2 overflow-hidden rounded-md border-indigo-600 flex shrink-0 w-48 h-36 cursor-pointer">
-                                <img class="border-4 border-white rounded-md object-cover" id="imagePreview" src="{{ asset('storage/' . $post->articale_cover) }}" alt="articale cover">
+                            <span class="border-2 text-center overflow-hidden rounded-md border-indigo-600 flex shrink-0 w-48 h-36 cursor-pointer">
+                                <img class="border-4 text-center border-white rounded-lg object-cover" id="imagePreview" src="{{ asset('storage/' . $post->articale_cover) }}" alt="articale cover">
                             </span>
                         </div>
                         <div class="mx-3">

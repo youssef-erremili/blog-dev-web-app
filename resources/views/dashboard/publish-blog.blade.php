@@ -45,10 +45,11 @@
             <div class="mt-6">
                 <label for="tag-container" class="block text-slate-800 font-medium my-1 text-[17px]">blog tags :</label>
                 <div class="inline-block" id="tag-container">
-                    {{-- tags here --}}
-                </div>
-                <div class="inline-block">
-                    <input type="text" placeholder="Type Your Blog Tags" class="bg-white outline-none" id="tag-input">
+                    <input type="text" class="text-slate-800 py-2 text-center mx-1 px-2.5 w-[6rem] outline-none select-none rounded-md font-medium capitalize border text-sm bg-white focus:border-none ring-2 ring-indigo-600 " placeholder="tag" name="tag1">
+                    <input type="text" class="text-slate-800 py-2 text-center mx-1 px-2.5 w-[6rem] outline-none select-none rounded-md font-medium capitalize border text-sm bg-white focus:border-none ring-2 ring-indigo-600 " placeholder="tag" name="tag2">
+                    <input type="text" class="text-slate-800 py-2 text-center mx-1 px-2.5 w-[6rem] outline-none select-none rounded-md font-medium capitalize border text-sm bg-white focus:border-none ring-2 ring-indigo-600 " placeholder="tag" name="tag3">
+                    <input type="text" class="text-slate-800 py-2 text-center mx-1 px-2.5 w-[6rem] outline-none select-none rounded-md font-medium capitalize border text-sm bg-white focus:border-none ring-2 ring-indigo-600 " placeholder="tag" name="tag4">
+                    <input type="text" class="text-slate-800 py-2 text-center mx-1 px-2.5 w-[6rem] outline-none select-none rounded-md font-medium capitalize border text-sm bg-white focus:border-none ring-2 ring-indigo-600 " placeholder="tag" name="tag5">
                 </div>
                 @error('tag5')
                     <span class="text-red-500 text-sm">{{ $message }}</span>

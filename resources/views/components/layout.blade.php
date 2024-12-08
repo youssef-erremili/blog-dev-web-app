@@ -37,14 +37,10 @@
                         </div>
                         <div class=" sm:ml-6 sm:block">
                             <div class="flex space-x-4">
-                                <a href="#"
-                                    class="rounded-md bg-slate-900 px-3 py-2 text-[17px] font-medium text-white">Dashboard</a>
-                                <a href="#"
-                                    class="rounded-md px-3 py-2 text-[17px] font-semibold text-slate-700 hover:bg-slate-100">Team</a>
-                                <a href="#"
-                                    class="rounded-md px-3 py-2 text-[17px] font-semibold text-slate-700 hover:bg-slate-100">Projects</a>
-                                <a href="#"
-                                    class="rounded-md px-3 py-2 text-[17px] font-semibold text-slate-700 hover:bg-slate-100">Calendar</a>
+                                <a href="{{ route('insight') }}" class="rounded-md bg-slate-900 px-3 py-2 text-[17px] font-medium text-white">Dashboard</a>
+                                <a href="#" class="rounded-md px-3 py-2 text-[17px] font-semibold text-slate-700 hover:bg-slate-100">Team</a>
+                                <a href="#" class="rounded-md px-3 py-2 text-[17px] font-semibold text-slate-700 hover:bg-slate-100">Projects</a>
+                                <a href="#" class="rounded-md px-3 py-2 text-[17px] font-semibold text-slate-700 hover:bg-slate-100">Calendar</a>
                             </div>
                         </div>
                         @auth
@@ -67,7 +63,7 @@
                                             class="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600">
                                             <span class="absolute -inset-1.5"></span>
                                             <span class="sr-only">Open user menu</span>
-                                            <img class="h-8 w-8 rounded-full border-2 border-white" src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="">
+                                            <img class="h-8 w-8 rounded-full border-2 border-white" src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="profile">
                                         </button>
                                     </div>
                                     <!-- Dropdown menu -->
@@ -118,7 +114,7 @@
     <main class="w-[90%] min-h-screen mx-auto py-4 px-2">
         {{ $slot }}
     </main>
-    <footer class="w-full mt-10 bg-slate-50 py-10">
+    <footer class="block w-full mt-10 bg-slate-50 py-10">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="max-w-3xl mx-auto">
                 <a href="https://pagedone.io/" class="flex justify-center ">
@@ -228,6 +224,8 @@
             </div>
         </div>
     </footer>
-</body>
 
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
 </html>
