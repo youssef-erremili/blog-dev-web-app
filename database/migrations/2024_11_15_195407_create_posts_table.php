@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('tag3')->nullable();
             $table->string('tag4')->nullable();
             $table->string('tag5')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
