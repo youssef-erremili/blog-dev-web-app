@@ -59,15 +59,31 @@ fileInput.addEventListener('change', function (event) {
 
 
 
-document.getElementById("addLinkButton").addEventListener("click", function () {
-    const section = document.querySelector("#container");
-    // Create new input elements
-    const newInput1 = document.createElement("input");
-    newInput1.type = "text";
-    newInput1.name = "socialProfile";
-    newInput1.classList.add("block", "w-full", "h-11", "my-2","px-5", "py-2.5", "shadow-xs", "text-gray-900", "bg-transparent", "border-[1.3px]", "border-slate-300", "rounded-md", "placeholder-gray-400", "focus:outline-none", "focus:ring-2", "focus:border-white", "ring-blue-600", "placeholder:text-sm");
-    newInput1.placeholder = "Link to social profile";
+// document.getElementById("addLinkButton").addEventListener("click", function () {
+//     const section = document.querySelector("#container");
+//     // Create new input elements
+//     const newInput1 = document.createElement("input");
+//     newInput1.type = "text";
+//     newInput1.name = "socialProfile";
+//     newInput1.classList.add("block", "w-full", "h-11", "my-2", "px-5", "py-2.5", "shadow-xs", "text-gray-900", "bg-transparent", "border-[1.3px]", "border-slate-300", "rounded-md", "placeholder-gray-400", "focus:outline-none", "focus:ring-2", "focus:border-white", "ring-blue-600", "placeholder:text-sm");
+//     newInput1.placeholder = "Link to social profile";
 
-    // Append the new inputs to the section
-    section.appendChild(newInput1);
-});
+//     // Append the new inputs to the section
+//     section.appendChild(newInput1);
+// });
+
+
+let toggle_password = document.getElementById('toggle-password')
+let password = document.querySelectorAll('.password-show')
+
+if (toggle_password) {
+    toggle_password.addEventListener('click', () => {
+        password.forEach(pass => {
+            if (pass.type === "password") {
+                pass.type = "text"
+            } else {
+                pass.type = "password"
+            }
+        })
+    })
+}

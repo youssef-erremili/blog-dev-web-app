@@ -30,48 +30,44 @@ class PublishBlogController extends Controller
      */
     public function create()
     {
-        // 
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Post $post)
+    public function store(Request $request, Post $post, User $user)
     {
-        // validate user topic elements
-        if (Gate::allows('view', $post)) {
-            $request->validate([
-                'title' => ['required', 'min:10', 'max:5000'],
-                'content' => ['required', 'min:10'],
-                'status' => ['required', 'in:draft,published'],
-                'articale_cover' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-                'tag1' => ['required', 'string', 'nullable'],
-                'tag2' => ['required', 'string', 'nullable'],
-                'tag3' => ['required', 'string', 'nullable'],
-                'tag4' => ['required'],
-                'tag5' => ['required'],
-            ]);
+    // validate user topic elements
+        $request->validate([
+            'title' => ['required', 'min:10', 'max:5000'],
+            'content' => ['required', 'min:10'],
+            'status' => ['required', 'in:draft,published'],
+            'articale_cover' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:6048'],
+            'tag1' => ['required', 'string', 'nullable'],
+            'tag2' => ['required', 'string', 'nullable'],
+            'tag3' => ['required', 'string', 'nullable'],
+            'tag4' => ['required'],
+            'tag5' => ['required'],
+        ]);
 
-            // move image
-            $image = time() . '.' . $request->file('articale_cover')->extension();
-            $path = $request->file('articale_cover')->storeAs('articale_cover', $image, 'public');
+        // move image
+        $image = time() . '.' . $request->file('articale_cover')->extension();
+        $path = $request->file('articale_cover')->storeAs('articale_cover', $image, 'public');
 
-            // Save post data in DB
-            Auth::user()->posts()->create([
-                'title' => trim($request->input('title')),
-                'content' => trim($request->input('content')),
-                'status' => trim($request->input('status')),
-                'articale_cover' => $path,
-                'tag1' => trim($request->input('tag1')),
-                'tag2' => trim($request->input('tag2')),
-                'tag3' => trim($request->input('tag3')),
-                'tag4' => trim($request->input('tag4')),
-                'tag5' => trim($request->input('tag5')),
-            ]);
-            return redirect()->back();
-        } else {
-            return back()->route('home');
-        }
+        // Save post data in DB
+        Auth::user()->posts()->create([
+            'title' => trim($request->input('title')),
+            'content' => trim($request->input('content')),
+            'status' => trim($request->input('status')),
+            'articale_cover' => $path,
+            'tag1' => trim($request->input('tag1')),
+            'tag2' => trim($request->input('tag2')),
+            'tag3' => trim($request->input('tag3')),
+            'tag4' => trim($request->input('tag4')),
+            'tag5' => trim($request->input('tag5')),
+        ]);
+        return redirect()->back();
     }
 
     /**
@@ -111,7 +107,7 @@ class PublishBlogController extends Controller
             $request->validate([
                 'title' => ['required', 'min:10', 'max:80'],
                 'content' => ['required', 'min:10', 'max:10000'],
-                'status' => ['required', 'in:draft,published'],
+                'status' => ['in:draft,published'],
                 'articale_cover' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
                 'tag1' => ['required', 'string', 'nullable',],
                 'tag2' => ['required', 'string', 'nullable',],
@@ -147,7 +143,7 @@ class PublishBlogController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id, Post $post)
+    public function destroy(string $id)
     {
         Gate::allows('delete', $post);
         $post = Post::findOrFail($id);

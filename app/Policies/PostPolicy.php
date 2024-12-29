@@ -9,11 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class PostPolicy
 {
-    public function view(Post $post): bool
-    {
-        return Auth::user()->id === $post->user_id;
-    }
-
+    // public function view(User $user): bool
+    // {
+    //     return Auth::id() === $user->id;
+    //     // return Auth::check() && Auth::id() === $user->id;
+    // }
+// 
     /**
      * Determine whether the user can update the model.
      */
@@ -35,7 +36,7 @@ class PostPolicy
      */
     public function restore(User $user, Post $post): bool
     {
-        //
+        return $user->id === $post->user_id;
     }
 
     /**
@@ -43,6 +44,6 @@ class PostPolicy
      */
     public function forceDelete(User $user, Post $post): bool
     {
-        //
+        return $user->id === $post->user_id;
     }
 }

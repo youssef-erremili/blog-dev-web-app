@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PublishBlogController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,17 +32,33 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     // sidebar links
-    Route::view('/dashboard/insight', 'dashboard.insight')->name('insight');
-    Route::view('/dashboard/profile', 'dashboard.profile')->name('profile');
-    Route::view('/dashboard/chat', 'dashboard.chat')->name('chat');
-    
+    Route::view('/dashboard/{author}/insight', 'dashboard.insight')->name('insight');
+    Route::view('/dashboard/{author}/profile', 'dashboard.profile')->name('profile');
+    Route::get('/dashboard/{author}/article', [DashboardController::class, 'index'])->name('article');
+    Route::view('/dashboard/{author}/chat', 'dashboard.chat')->name('chat');
+
     // Route::get(/) and CRUD articles
     Route::get('/publish-articale', [PublishBlogController::class, 'index'])->name('publish-blog.create');
     Route::post('/publish-articale', [PublishBlogController::class, 'store'])->name('publish-blog.store');
     Route::get('/publish-articale/edit/{post}', [PublishBlogController::class, 'edit'])->name('publish-blog.edit');
     Route::put('/publish-articale/edit/{post}', [PublishBlogController::class, 'update'])->name('publish-blog.update');
     Route::delete('/publish-articale/delete/{post}', [PublishBlogController::class, 'destroy'])->name('publish-blog.delete');
-    
-    // dashboard controller to show post for writer 
-    Route::get('/dashboard/article', [DashboardController::class, 'index'])->name('article');
+});
+
+
+
+// Route for profile edit
+Route::middleware('auth')->group(function () {
+    // crud profile cover
+    Route::put('/dashboard/profile/handle-profile/{id}', [ProfileController::class, 'handleProfilePicture'])->name('handle-profile');
+    // save info's author
+    Route::put('/dashboard/profile/save-info/{id}', [ProfileController::class, 'saveInfo'])->name('save-info');
+    // update user password
+    Route::put('/dashboard/profile/update-password/{id}', [ProfileController::class, 'updatePassword'])->name('update-password');
+    // adding user social links
+    Route::put('/dashboard/profile/save-links/{id}', [ProfileController::class, 'addSocialLinks'])->name('save-links');
+    // change visibility of user account
+    Route::put('/dashboard/profile/change-visibility/{id}', [ProfileController::class, 'changeVisibility'])->name('change-visibility');
+    // delete account permanently
+    Route::delete('/dashboard/profile/delete-account/{id}', [ProfileController::class, 'destroyAccount'])->name('destroy-account');
 });

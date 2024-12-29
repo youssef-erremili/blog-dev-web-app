@@ -37,23 +37,15 @@
                                     <button @click="open = !open" type="button"
                                         class="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600">
                                         <span class="absolute -inset-1.5"></span>
-                                        <span class="sr-only">Open user menu</span>
-                                        <img class="h-10 w-10 rounded-full border-2 border-white" src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="profile">
+                                        @if (Auth::user()->profile_picture === null)
+                                            <h2 class="capitalize h-10 w-10 pt-1 rounded-full bg-indigo-500 text-lg font-medium text-white border-2 border-white">{{ Str::limit(Auth::user()->name, 1, '') }}</h2>
+                                        @else
+                                            <img class="rounded-full h-10 w-10 border-2 border-white" src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="profile">
+                                        @endif
                                     </button>
                                 </div>
                                 <!-- Dropdown menu -->
-                                <div x-show="open" @click.away="open = false" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none"
-                                    role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button">
-                                    <h1 class="px-4 py-2 text-base capitalize font-bold text-gray-700">{{ Auth::user()->name }}</h1>
-                                    <p class="block px-4 py-2 text-sm text-gray-700">{{ Auth::user()->email }}</p>
-                                    <a href="{{ route('profile') }}" class="block px-4 py-2 text-sm text-gray-700">Profile</a>
-                                    <a href="{{ route('publish-blog.create') }}" class="block px-4 py-2 text-sm text-gray-700">Publish Blog</a>
-                                    <x-form action="{{ route('logout') }}">
-                                        <button type="submit" class="block px-4 py-2 text-sm text-gray-700">
-                                            Sign out
-                                        </button>
-                                    </x-form>
-                                </div>
+                                <x-toggle-navbar></x-toggle-navbar>
                             </div>
                         </div>
                     </div>
@@ -67,26 +59,26 @@
                     <li class="mb-6">
                         <h3 class="font-medium text-indigo-600 text-2xl">Dashboard</h3>
                     </li>
-                    <li class="{{ Request::is('dashboard/insight') ? 'bg-gray-100 rounded-lg' : '' }}">
-                        <a href="{{ route('insight') }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
+                    <li class="{{ Request::is('dashboard/insight/youssef') ? 'bg-gray-100 rounded-lg' : '' }}">
+                        <a href="{{ route('insight', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
                             <img src="{{ asset('images/insight.svg') }}" class="w-4" alt="insight">
                             <span class="flex-1 ms-3 whitespace-nowrap">Insight</span>
                         </a>
                     </li>
                     <li class="{{ Request::is('dashboard/profile') ? 'bg-gray-100 rounded-lg' : '' }}">
-                        <a href="{{ route('profile') }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
+                        <a href="{{ route('profile', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
                             <img src="{{ asset('images/profile.svg') }}" class="w-4" alt="profile">
                             <span class="flex-1 ml-3 whitespace-nowrap">Profile</span>
                         </a>
                     </li>
                     <li class="{{ Request::is('dashboard/article') ? 'bg-gray-100 rounded-lg' : '' }}">
-                        <a href="{{ route('article') }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
+                        <a href="{{ route('article', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
                             <img class="w-4" src="{{ asset('images/article.svg') }}" alt="article">
                             <span class="flex-1 ms-3 whitespace-nowrap">Article</span>
                         </a>
                     </li>
                     <li class="{{ Request::is('dashboard/chat') ? 'bg-gray-100 rounded-lg' : '' }}">
-                        <a href="{{ route('chat') }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
+                        <a href="{{ route('chat', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
                             <img src="{{ asset('images/chat.svg') }}" class="w-4" alt="chat">
                             <span class="flex-1 ms-3 whitespace-nowrap">Message</span>
                         </a>

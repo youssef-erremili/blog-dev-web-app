@@ -42,7 +42,7 @@
                                         </button>
                                         <div x-show="open" @click.outside="open = false" x-transition class="bg-white border shadow-md rounded-md absolute z-50 top-6 -left-16">
                                             <ul>
-                                                @if ($post->status === "published") 
+                                                @if ($post->status === "published")
                                                     <li class="py-3 px-6 my-0.5">
                                                         <a class="flex items-center capitalize font-medium text-sm text-slate-500" href="{{ route('reader', ['id' => $post->id, 'writer' => str_replace(' ', '-', $post->user->name), 'title' => str_replace(' ', '-', $post->title)]) }}" target="_blank">
                                                             <ion-icon class="text-lg mr-3" name="reader-outline"></ion-icon>
@@ -56,13 +56,13 @@
                                                         update
                                                     </a>
                                                 </li>
-                                                <li class="py-3 px-6 my-0.5"> {{--  {{publish-blog.delete}} --}}
+                                                <li class="py-3 px-6 my-0.5">
                                                     <button type="button" @click="model = ! model" class="flex justify-center items-center capitalize font-medium text-sm text-red-600">
                                                         <ion-icon class="text-lg mr-3" name="trash-outline"></ion-icon>
                                                         delete
                                                     </button>
                                                 </li>
-                                            </ul> 
+                                            </ul>
                                         </div>
                                     </td>
                                 </tr>
@@ -80,7 +80,7 @@
         </div>
         @isset($post)
             <x-form action="{{ route('publish-blog.delete', ['post'=>$post->id]) }}">
-                @method('delete')
+                @method('DELETE')
                 <x-model></x-model>
             </x-form>
         @endisset

@@ -16,7 +16,7 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        //login user 
+        //login user
         $login = Auth::attempt($field);
 
         // try to login user
@@ -33,19 +33,22 @@ class AuthController extends Controller
     // login user
     public function register(Request $request)
     {
+        $path = null;
         $field = $request->validate([
             'name' => ['required', 'max:255', 'regex:/^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/'],
             'email' => ['required', 'email', 'unique:users'],
-            'profile_picture' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'profile_picture' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:9048'],
             'password' => ['required', 'confirmed']
         ], [
-            'name.regex' => 'The full name must contain at least two words.'
+            'name.regex' => 'The full name must contain two words.'
         ]);
 
         // upload picture
-        $image = time() . '.' . $request->file('profile_picture')->extension();
-        $path = $request->file('profile_picture')->storeAs('profile_picture', $image, 'public');
-        
+        if ($request->has('profile_picture')) {
+            $image = time() . '.' . $request->file('profile_picture')->extension();
+            $path = $request->file('profile_picture')->storeAs('profile_picture', $image, 'public');
+        }
+
         // save user to database
         $user = new User();
         $user->name = $request->input('name');

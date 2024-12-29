@@ -1,6 +1,6 @@
 <x-layout>
     <h1 class="text-3xl text-slate-700 font-bold capitalize my-2">Dashboard's {{ Auth::user()->name }}</h1>
-    <x-form action="{{ route('publish-blog.update', ['post'=>$post->id]) }}">
+    <x-form action="{{ route('publish-blog.update', ['post' => $post->id]) }}">
         @method('PUT')
         <div class="mt-10 border border-gray-300 rounded-lg py-4 px-10">
             <div class="mt-6">
