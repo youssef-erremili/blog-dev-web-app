@@ -1,7 +1,7 @@
 <x-dashboard>
     <div class="flex items-start justify-between relative">
         <section>
-            <h1 class="capitalize font-semibold text-2xl text-slate-800">article insights</h1>
+            <h1 class="capitalize font-semibold text-2xl text-slate-800">article overview</h1>
             <p class="text-sm text-gray-500 my-2">Manage your articles and articles settings.</p>
         </section>
         <section>

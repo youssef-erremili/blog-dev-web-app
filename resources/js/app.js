@@ -43,18 +43,20 @@
 const fileInput = document.getElementById('profile_picture');
 const imagePreview = document.getElementById('imagePreview');
 
-fileInput.addEventListener('change', function (event) {
-    const file = event.target.files[0];
+if (fileInput) {
+    fileInput.addEventListener('change', function (event) {
+        const file = event.target.files[0];
 
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            imagePreview.src = e.target.result;
-            // imagePreview.style.display = 'block';
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                imagePreview.src = e.target.result;
+                // imagePreview.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
         }
-        reader.readAsDataURL(file);
-    }
-});
+    });
+}
 
 
 

@@ -32,7 +32,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     // sidebar links
-    Route::view('/dashboard/{author}/insight', 'dashboard.insight')->name('insight');
+    Route::view('/dashboard/{author}/overview', 'dashboard.overview')->name('overview');
     Route::view('/dashboard/{author}/profile', 'dashboard.profile')->name('profile');
     Route::get('/dashboard/{author}/article', [DashboardController::class, 'index'])->name('article');
     Route::view('/dashboard/{author}/chat', 'dashboard.chat')->name('chat');

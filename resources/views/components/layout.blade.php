@@ -35,7 +35,7 @@
                         <div class="sm:ml-6 sm:block">
                             <div class="flex space-x-4">
                                 @auth
-                                    <a href="{{ route('insight', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}"  class="rounded-md bg-slate-900 px-3 py-2 text-[17px] font-medium text-white">Dashboard</a>
+                                    <a href="{{ route('overview', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}"  class="rounded-md bg-slate-900 px-3 py-2 text-[17px] font-medium text-white">Dashboard</a>
                                 @endauth
                                 <a href="#" class="rounded-md px-3 py-2 text-[17px] font-semibold text-slate-700 hover:bg-slate-100">Team</a>
                                 <a href="#" class="rounded-md px-3 py-2 text-[17px] font-semibold text-slate-700 hover:bg-slate-100">Projects</a>
@@ -91,7 +91,7 @@
             @auth
                 <div class="sm:hidden" id="mobile-menu">
                     <div class="space-y-1 px-2 pb-3 pt-2">
-                        <a href="{{ route('insight', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}"  class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white">Dashboard</a>
+                        <a href="{{ route('overview', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}"  class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white">Dashboard</a>
                         <a href="{{ route('profile', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Team</a>
                         <a href="{{ route('article', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Projects</a>
                         <a href="{{ route('chat', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Calendar</a>

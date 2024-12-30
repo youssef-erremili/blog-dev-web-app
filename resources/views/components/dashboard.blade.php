@@ -52,32 +52,31 @@
                 </div>
             </div>
         </nav>
-        <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0"
-            aria-label="Sidebar">
+        <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0">
             <div class="h-full px-3 pb-4 overflow-y-auto bg-white">
                 <ul class="space-y-2 font-medium py-2 px-4">
                     <li class="mb-6">
                         <h3 class="font-medium text-indigo-600 text-2xl">Dashboard</h3>
                     </li>
-                    <li class="{{ Request::is('dashboard/insight/youssef') ? 'bg-gray-100 rounded-lg' : '' }}">
-                        <a href="{{ route('insight', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
-                            <img src="{{ asset('images/insight.svg') }}" class="w-4" alt="insight">
-                            <span class="flex-1 ms-3 whitespace-nowrap">Insight</span>
+                    <li class="{{ Route::currentRouteName() === 'overview' ? 'bg-indigo-500 *:text-white rounded-lg' : '' }}">
+                        <a href="{{ route('overview', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
+                            <img src="{{ asset('images/overview.svg') }}" class="w-4" alt="overview">
+                            <span class="flex-1 ms-3 whitespace-nowrap">Overview</span>
                         </a>
                     </li>
-                    <li class="{{ Request::is('dashboard/profile') ? 'bg-gray-100 rounded-lg' : '' }}">
+                    <li class="{{ Route::currentRouteName() === 'profile' ? 'bg-indigo-500 *:text-white rounded-lg' : '' }}">
                         <a href="{{ route('profile', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
                             <img src="{{ asset('images/profile.svg') }}" class="w-4" alt="profile">
                             <span class="flex-1 ml-3 whitespace-nowrap">Profile</span>
                         </a>
                     </li>
-                    <li class="{{ Request::is('dashboard/article') ? 'bg-gray-100 rounded-lg' : '' }}">
+                    <li class="{{ Route::currentRouteName() === 'article' ? 'bg-indigo-500 *:text-white rounded-lg' : '' }}">
                         <a href="{{ route('article', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
                             <img class="w-4" src="{{ asset('images/article.svg') }}" alt="article">
                             <span class="flex-1 ms-3 whitespace-nowrap">Article</span>
                         </a>
                     </li>
-                    <li class="{{ Request::is('dashboard/chat') ? 'bg-gray-100 rounded-lg' : '' }}">
+                    <li class="{{ Route::currentRouteName() === 'chat' ? 'bg-indigo-500 *:text-white rounded-lg' : '' }}">
                         <a href="{{ route('chat', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
                             <img src="{{ asset('images/chat.svg') }}" class="w-4" alt="chat">
                             <span class="flex-1 ms-3 whitespace-nowrap">Message</span>

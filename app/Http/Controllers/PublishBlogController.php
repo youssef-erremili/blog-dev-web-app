@@ -143,7 +143,7 @@ class PublishBlogController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, Post $post)
     {
         Gate::allows('delete', $post);
         $post = Post::findOrFail($id);
