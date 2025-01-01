@@ -5,12 +5,10 @@
             <p class="text-sm text-gray-500 my-2">Manage your name, password and account settings.</p>
         </section>
     </div>
-    @if (session('success'))
-        <div class="flex mx-auto">
-            <div class="flex mx-auto">
-                <h4 class="rounded-md text-sm bg-green-500 text-center py-3 px-5 text-white">{{ session('success') }}</h4>
-            </div>
-        </div>
+    @if (session('editProfile'))
+        <x-alert-success action="success" message="{{ session('editProfile') }}"/>
+    @elseif (session('editProfileError'))
+        <x-alert-error action="error" message="{{ session('editProfileError') }}"/>
     @endif
     <div class="py-4 px-10">
         <div class="flex py-10 border-b-2">
@@ -21,8 +19,12 @@
                 <div class="flex flex-wrap items-center">
                     <div>
                         @if (Auth::user()->profile_picture !== null)
-                            <span class="border-2 overflow-hidden border-indigo-600 flex shrink-0  size-20 cursor-pointer rounded-full">
-                                <img class="rounded-full border-2" src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="profile">
+                            <span class="overflow-hidden">
+                                <img class="border-2 border-indigo-600 size-20 rounded-full" id="imagePreview" src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="profile">
+                            </span>
+                        @else
+                            <span class="overflow-hidden">
+                                <img class="rounded-full size-20 border-2 border-indigo-600" id="imagePreview">
                             </span>
                         @endif
                     </div>
@@ -35,9 +37,9 @@
                                     Upload photo
                                 </button>
                                 <input type="file" class="absolute z-40 opacity-0 cursor-pointer file:cursor-pointer w-32" name="profile_picture" id="profile_picture">
-                                <button type="submit" name="action" value="add" class="{{ Auth::user()->profile_picture !== null ? 'hidden': '' }} py-2 z-50 px-3 inline-flex items-center gap-x-2 text-xs font-semibold rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm">Add profile</button>
-                                <button type="submit" name="action" value="update" class="{{ Auth::user()->profile_picture !== null ? '': 'hidden' }} py-2 z-50 px-3 inline-flex items-center gap-x-2 text-xs font-semibold rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm">Update</button>
-                                <button type="submit" name="action" value="delete" class="{{ Auth::user()->profile_picture == null ? 'hidden': '' }} py-2 z-50 px-3 inline-flex items-center gap-x-2 text-xs font-semibold rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm">Delete</button>
+                                <button type="submit" name="action" value="add" class="{{ Auth::user()->profile_picture !== null ? 'hidden': '' }} py-2 px-3 inline-flex items-center gap-x-2 text-xs font-semibold rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm">Add profile</button>
+                                <button type="submit" name="action" value="update" class="{{ Auth::user()->profile_picture !== null ? '': 'hidden' }} py-2 px-3 inline-flex items-center gap-x-2 text-xs font-semibold rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm">Update</button>
+                                <button type="submit" name="action" value="delete" class="{{ Auth::user()->profile_picture == null ? 'hidden': '' }} py-2 px-3 inline-flex items-center gap-x-2 text-xs font-semibold rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm">Delete</button>
                             </div>
                         </x-form>
                         <div>
@@ -53,13 +55,6 @@
             @method('PUT')
             <div class="py-10 border-b-2">
                 <h2 class="text-slate-800 font-semibold">Personal info</h2>
-                @if (session('info'))
-                    <div class="flex mx-auto">
-                        <div class="flex mx-auto">
-                            <h4 class="rounded-md text-sm bg-green-500 text-center py-3 px-5 text-white">{{ session('info') }}</h4>
-                        </div>
-                    </div>
-                @endif
                 <div class="flex justify-between items-center w-2/3 mt-10">
                     <section class="w-2/4">
                         <label for="name" class="text-sm text-gray-500">full name</label>
@@ -115,20 +110,6 @@
             @method('PUT')
             <div class="py-10 border-b-2">
                 <h2 class="text-slate-800 font-semibold">change password</h2>
-                @if (session('isErrorPassword'))
-                    <div class="flex mx-auto">
-                        <div class="flex mx-auto">
-                            <h4 class="rounded-md text-sm bg-red-500 text-center py-3 px-5 text-white">{{ session('isErrorPassword') }}</h4>
-                        </div>
-                    </div>
-                @endif
-                @if (session('passwordSaved'))
-                    <div class="flex mx-auto">
-                        <div class="flex mx-auto">
-                            <h4 class="rounded-md text-sm bg-green-500 text-center py-3 px-5 text-white">{{ session('passwordSaved') }}</h4>
-                        </div>
-                    </div>
-                @endif
                 <div class="flex justify-between items-center w-2/3 mt-10">
                     <section class="w-2/4">
                         <label for="current_password" class="text-sm text-gray-500">Current password</label>
@@ -177,13 +158,6 @@
             @method('PUT')
             <div class="py-10 border-b-2">
                 <h2 class="text-slate-800 font-semibold">Social Media accounts</h2>
-                @if (session('linkSaved'))
-                    <div class="flex mx-auto">
-                        <div class="flex mx-auto">
-                            <h4 class="rounded-md text-sm bg-green-500 text-center py-3 px-5 text-white">{{ session('linkSaved') }}</h4>
-                        </div>
-                    </div>
-                @endif
                 <div class="flex justify-between w-2/3 mt-10">
                     <section class="w-2/4">
                         <label for="password" class="text-sm text-gray-500">social profile</label>
@@ -226,13 +200,6 @@
         </x-form>
         <div class="py-10">
             <h2 class="text-slate-800 font-semibold">Account Settings</h2>
-            @if (session('changedVisible'))
-                    <div class="flex mx-auto">
-                        <div class="flex mx-auto">
-                            <h4 class="rounded-md text-sm bg-green-500 text-center py-3 px-5 text-white">{{ session('changedVisible') }}</h4>
-                        </div>
-                    </div>
-                @endif
             <x-form action="{{ route('change-visibility', ['id'=>Auth::id()]) }}">
                 @method('PUT')
                 <div class="flex justify-between w-2/3 mt-10">

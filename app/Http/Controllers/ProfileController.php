@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +27,7 @@ class ProfileController extends Controller
                     // save profile in our records
                     $user->profile_picture = $path;
                     $user->save();
-                    return redirect()->back()->with('success', 'profile picture has been added successfully');
+                    return redirect()->back()->with('editProfile', 'profile picture has been added successfully');
                 }
                 break;
             // update profile
@@ -53,7 +52,7 @@ class ProfileController extends Controller
                 User::where('id', $id)->update([
                     'profile_picture' => $path
                 ]);
-                return redirect()->back()->with('success', 'profile picture has been updated successfully');
+                return redirect()->back()->with('editProfile', 'profile picture has been updated successfully');
                 break;
             // delete profile
             case 'delete':
@@ -65,9 +64,7 @@ class ProfileController extends Controller
                     User::where('id', $id)->update([
                         'profile_picture' => null
                     ]);
-                    return redirect()->back()->with('success', 'profile picture has been deleted successfully');
-                }else {
-                    dd('the picture is already deleted');
+                    return redirect()->back()->with('editProfile', 'profile picture has been deleted successfully');
                 }
                 break;
             default:
@@ -76,7 +73,7 @@ class ProfileController extends Controller
         }
     }
 
-    //update uer infomation
+    //update user infomation
     public function saveInfo(Request $request, string $id) {
         $data = $request->validate([
             'name' => ['required', 'max:50', 'regex:/^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/'],
@@ -86,7 +83,7 @@ class ProfileController extends Controller
         ]);
         // save updated values
         User::where('id', $id)->update($data);
-        return redirect()->back()->with('info', 'your information has been saved succesfully');
+        return redirect()->back()->with('editProfile', 'your information has been updated succesfully');
     }
 
     // update user password
@@ -100,19 +97,19 @@ class ProfileController extends Controller
 
         //check if the current password matches the stored hashed password
         if (!Hash::check($request->current_password, $user->password)) {
-            return redirect()->back()->with('isErrorPassword', 'The current password is not correct');
+            return redirect()->back()->with('editProfileError', 'The current password is not correct');
         }
 
         //check if new password as same as the old one
         if (Hash::check($request->input('password'), $user->password)) {
-            return redirect()->back()->with('isErrorPassword', 'The new password cannot be the same as the old one');
+            return redirect()->back()->with('editProfileError', 'The new password cannot be the same as the old one');
         }
 
         // save password
         $user->password = Hash::make($request->input('password'));
         $isUpdated =  $user->update();
         if ($isUpdated) {
-            return redirect()->back()->with('passwordSaved', 'Password updated successfully');
+            return redirect()->back()->with('editProfile', 'Password updated successfully');
         }
     }
 
@@ -128,9 +125,9 @@ class ProfileController extends Controller
         $isSaved = User::where('id', $id)->update($data);
         // check is saved successfully and return a alert message
         if ($isSaved) {
-            return redirect()->back()->with('linkSaved' , 'Your social media saved successfully');
+            return redirect()->back()->with('editProfile' , 'Your social media saved successfully');
         }else{
-            return redirect()->back()->with('linkSaved' , 'Please make sure everything is works fine');
+            return redirect()->back()->with('editProfileError' , 'Please make sure everything is works fine');
         }
     }
 
@@ -146,9 +143,9 @@ class ProfileController extends Controller
 
         // check if update was successfully proceeded and show alert message for user
         if ($isChanged) {
-            return redirect()->back()->with('changedVisible', 'You have changed your account visibility to ' . $visibility . ' successfully');
+            return redirect()->back()->with('editProfile', 'You have changed your account visibility to ' . $visibility . ' successfully');
         } else {
-            return redirect()->back()->with('changedVisible', 'Sorry we could not proceed thid account right now, Please try again');
+            return redirect()->back()->with('editProfileError', 'Sorry we could not proceed thid account right now, Please try again');
         }
 
     }

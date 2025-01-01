@@ -1,4 +1,9 @@
 <x-layout>
+    @if (session('artcilepublished'))
+        <x-alert-success action="success" message="{{ session('artcilepublished') }}"/>
+    @elseif (session('artcileNotpublished'))
+        <x-alert-error action="error" message="{{ session('artcileNotpublished') }}"/>
+    @endif
     <h1 class="text-3xl text-slate-700 font-bold capitalize my-2">Dashboard's {{ Auth::user()->name }}</h1>
     <x-form action="{{ route('publish-blog.store') }}">
         @method('POST')
@@ -33,7 +38,7 @@
             </div>
             <div class="mt-6">
                 <label for="status" class="block text-slate-800 font-medium my-1 text-[17px]">blog status :</label>
-                <select name="status" id="status" class="py-3 px-4 pe-9 block w-full border border-gray-200 rounded-lg text-sm outline-none focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                <select name="status" id="status" class="cursor-pointer capitalize font-medium font-sans py-3 px-4 pe-9 block w-full border border-gray-200 rounded-lg text-sm outline-none focus:border-blue-500 focus:ring-blue-500">
                     <option hidden selected>select status</option>
                     <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>draft</option>
                     <option value="published" {{ old('status') == 'published' ? 'selected' : '' }}>publish</option>
@@ -71,10 +76,9 @@
             </div>
         </div>
     </x-form>
-
     <div class="m-20 w-full mx-auto">
         <h1 class="text-2xl mb-6 inline-block text-slate-700 font-bold capitalize my-2 border-b-4 border-slate-700">latest posts</h1>
-        <div class="flex items-center justify-evenly">
+        <div class="flex items-center justify-between flex-wrap">
             @forelse ($posts as $post)
                 <x-card :post="$post" />
             @empty

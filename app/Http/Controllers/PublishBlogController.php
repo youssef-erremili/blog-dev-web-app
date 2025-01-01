@@ -20,19 +20,10 @@ class PublishBlogController extends Controller
         $posts = Post::where('status', 'published')
             ->where('user_id', Auth::user()->id)
             ->latest()
-            ->limit(3)
+            ->limit(6)
             ->get();
         return view('dashboard.publish-blog', compact('posts'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -44,11 +35,11 @@ class PublishBlogController extends Controller
             'content' => ['required', 'min:10'],
             'status' => ['required', 'in:draft,published'],
             'articale_cover' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:6048'],
-            'tag1' => ['required', 'string', 'nullable'],
-            'tag2' => ['required', 'string', 'nullable'],
-            'tag3' => ['required', 'string', 'nullable'],
-            'tag4' => ['required'],
-            'tag5' => ['required'],
+            'tag1' => ['required', 'string'],
+            'tag2' => ['required', 'string'],
+            'tag3' => ['required', 'string'],
+            'tag4' => ['required', 'string'],
+            'tag5' => ['required', 'string'],
         ]);
 
         // move image
@@ -56,7 +47,7 @@ class PublishBlogController extends Controller
         $path = $request->file('articale_cover')->storeAs('articale_cover', $image, 'public');
 
         // Save post data in DB
-        Auth::user()->posts()->create([
+        $isArticleSaved =  Auth::user()->posts()->create([
             'title' => trim($request->input('title')),
             'content' => trim($request->input('content')),
             'status' => trim($request->input('status')),
@@ -67,19 +58,25 @@ class PublishBlogController extends Controller
             'tag4' => trim($request->input('tag4')),
             'tag5' => trim($request->input('tag5')),
         ]);
-        return redirect()->back();
+        if ($isArticleSaved) {
+            return redirect()->back()->with('artcilepublished', 'your article has been published successfully');
+        } else {
+            return redirect()->back()->with('artcileNotpublished', 'something went wrong to publish your article');
+        }
+        
+        // return redirect()->back();
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id, Post $post)
+    public function show(string $id)
     {
+        $post = Post::where('status', 'published')->findOrFail($id);
         if ($post->status == 'draft') {
             return redirect()->route('home');
         }
 
-        $post = Post::where('status', 'published')->findOrFail($id);
         $reading_time = (new Bookworm())->estimate($post->content);
         return view('dashboard.read-article', compact(['post', 'reading_time']));
     }
@@ -105,15 +102,15 @@ class PublishBlogController extends Controller
             $old_articale_cover = $post->articale_cover;
             $path = null;
             $request->validate([
-                'title' => ['required', 'min:10', 'max:80'],
-                'content' => ['required', 'min:10', 'max:10000'],
+                'title' => ['required', 'min:30', 'max:150'],
+                'content' => ['required', 'min:10', 'max:20000'],
                 'status' => ['in:draft,published'],
                 'articale_cover' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-                'tag1' => ['required', 'string', 'nullable',],
-                'tag2' => ['required', 'string', 'nullable',],
-                'tag3' => ['string', 'nullable',],
-                'tag4' => ['string', 'nullable',],
-                'tag5' => ['string', 'nullable',],
+                'tag1' => ['required', 'string'],
+                'tag2' => ['required', 'string'],
+                'tag3' => ['string', 'nullable'],
+                'tag4' => ['string', 'nullable'],
+                'tag5' => ['string', 'nullable'],
             ]);
             if ($request->hasFile('articale_cover')) {
                 $image = time() . '.' . $request->file('articale_cover')->extension();
@@ -122,7 +119,7 @@ class PublishBlogController extends Controller
                 $path = $old_articale_cover;
             }
 
-            Post::where('id', $post->id)->update([
+            $isArticleUpdated = Post::where('id', $post->id)->update([
                 'title' => $request->title,
                 'content' => $request->content,
                 'status' => $request->status,
@@ -134,7 +131,12 @@ class PublishBlogController extends Controller
                 'tag5' => $request->tag5,
             ]);
 
-            return redirect()->back();
+            if ($isArticleUpdated) {
+                return redirect()->back()->with('artcilepublished', 'your article has been updated successfully');
+            } else {
+                return redirect()->back()->with('artcileNotpublished', 'something went wrong to publish your article');
+            }
+            
         } else {
             return back()->route('home');
         }

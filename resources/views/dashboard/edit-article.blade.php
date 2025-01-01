@@ -1,4 +1,9 @@
 <x-layout>
+    @if (session('artcilepublished'))
+        <x-alert-success action="success" message="{{ session('artcilepublished') }}"/>
+    @elseif (session('artcileNotpublished'))
+        <x-alert-error action="error" message="{{ session('artcileNotpublished') }}"/>
+    @endif
     <h1 class="text-3xl text-slate-700 font-bold capitalize my-2">Dashboard's {{ Auth::user()->name }}</h1>
     <x-form action="{{ route('publish-blog.update', ['post' => $post->id]) }}">
         @method('PUT')
@@ -41,7 +46,7 @@
             </div>
             <div class="mt-6">
                 <label for="status" class="block text-slate-800 font-medium my-1 text-[17px] capitalize">blog status :</label>
-                <select name="status" id="status" class="capitalize font-medium font-sans py-3 px-4 pe-9 block w-full border border-gray-200 rounded-lg text-sm outline-none focus:border-blue-500 focus:ring-blue-500">
+                <select name="status" id="status" class="cursor-pointer capitalize font-medium font-sans py-3 px-4 pe-9 block w-full border border-gray-200 rounded-lg text-sm outline-none focus:border-blue-500 focus:ring-blue-500">
                     <option hidden selected>select status</option>
                     <option value="draft" {{ $post->status == 'draft' ? 'selected' : '' }}>draft</option>
                     <option value="published" {{ $post->status == 'published' ? 'selected' : '' }}>publish</option>

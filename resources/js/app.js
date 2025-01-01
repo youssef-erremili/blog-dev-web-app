@@ -51,7 +51,6 @@ if (fileInput) {
             const reader = new FileReader();
             reader.onload = function (e) {
                 imagePreview.src = e.target.result;
-                // imagePreview.style.display = 'block';
             }
             reader.readAsDataURL(file);
         }
