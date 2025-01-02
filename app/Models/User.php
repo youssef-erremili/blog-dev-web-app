@@ -3,10 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -54,5 +54,20 @@ class User extends Authenticatable
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+
+
+
+    
+    public function saves(): HasMany
+    {
+        return $this->hasMany(Save::class);
+    }
+
+    // to fetch user saved articles
+    public function savedarticles(): BelongsToMany
+    {
+        return $this->BelongsToMany(Post::class, 'saves');
     }
 }

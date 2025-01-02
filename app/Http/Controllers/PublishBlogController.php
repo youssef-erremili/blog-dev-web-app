@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Save;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +28,7 @@ class PublishBlogController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Post $post, User $user)
+    public function store(Request $request)
     {
     // validate user topic elements
         $request->validate([
@@ -47,7 +48,7 @@ class PublishBlogController extends Controller
         $path = $request->file('articale_cover')->storeAs('articale_cover', $image, 'public');
 
         // Save post data in DB
-        $isArticleSaved =  Auth::user()->posts()->create([
+        $isArticleSaved =  Auth::user()->posts->create([
             'title' => trim($request->input('title')),
             'content' => trim($request->input('content')),
             'status' => trim($request->input('status')),
@@ -72,13 +73,19 @@ class PublishBlogController extends Controller
      */
     public function show(string $id)
     {
+        $article = $article = Post::findOrfail($id);
         $post = Post::where('status', 'published')->findOrFail($id);
         if ($post->status == 'draft') {
             return redirect()->route('home');
         }
 
+        // Check if the article is already saved by the user
+        $alreadySaved = Save::where('user_id', Auth::id())
+            ->where('post_id', $article->id)
+            ->first();    
+
         $reading_time = (new Bookworm())->estimate($post->content);
-        return view('dashboard.read-article', compact(['post', 'reading_time']));
+        return view('dashboard.read-article', compact(['post', 'reading_time', 'alreadySaved']));
     }
 
     /**

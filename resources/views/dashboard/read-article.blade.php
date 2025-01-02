@@ -1,4 +1,11 @@
 <x-layout>
+    @if (session('articleSaved'))
+        <x-alert-success action="success" message="{{ session('articleSaved') }}"/>
+    @elseif (session('alreadySaved'))
+        <x-alert-info action="info" message="{{ session('alreadySaved') }}"/>
+    @elseif (session('articleNotsaved'))
+        <x-alert-error action="error" message="{{ session('articleNotsaved') }}"/>
+    @endif
     <div class="w-2/3 h- my-10 py-10 mx-auto">
         <div class="header">
             <h1 class="capitalize text-4xl text-slate-950 font-bold">{{ $post->title }}</h1>
@@ -13,7 +20,7 @@
                     </span>
                     <span class="flex">
                         <p class="text-sm text-slate-500 font-medium">{{ $reading_time }}</p>
-                        <p class="text-sm text-slate-500 capitalize ml-1 font-medium">- {{ $post->updated_at->diffForHumans() }}</p>
+                        <p class="text-sm text-slate-500 capitalize ml-1 font-medium">- {{ $post->created_at->diffForHumans() }}</p>
                     </span>
                 </section>
             </div>
@@ -27,9 +34,21 @@
                     </a>
                 </section>
                 <section class="flex items-center">
-                    <a href="#">
-                        <ion-icon class="text-[23.5px] text-slate-900" name="bookmark-outline"></ion-icon>
-                    </a>
+                    @if ($alreadySaved)
+                        <x-form action="{{ route('delete-article', ['id'=> $alreadySaved->id]) }}">
+                            @method('DELETE')
+                            <button type="submit">
+                                <img src="{{ asset('images/save.svg') }}" class="w-6" alt="image">
+                            </button>
+                        </x-form>
+                    @else
+                        <x-form action="{{ route('saved-article', ['id' => $post->id]) }}">
+                            @method('PUT')
+                            <button type="submit">
+                                <ion-icon class="text-[23.5px] text-slate-900" name="bookmark-outline"></ion-icon>
+                            </button>
+                        </x-form>
+                    @endif
                     <a href="#">
                         <ion-icon class="text-[23.5px] ml-3 text-slate-900" name="arrow-redo-outline"></ion-icon>
                     </a>

@@ -13,7 +13,7 @@
     </div>
     <div class="mt-14 w-full">
         <h1 class="capitalize font-bold text-3xl text-slate-800">Overview</h1>
-        <div class="flex items-center justify-items-center place-items-center flex-wrap w-full overflow-hidden"> 
+        <div class="flex items-center justify-around flex-wrap w-full overflow-hidden"> 
             <div class="flex items-center rounded-3xl w-[31%] my-4 py-5 px-6 border-2 border-indigo-800 bg-white">
                 <div class="block bg-indigo-900 rounded-xl mr-6 py-3 px-3 size-16">
                     <img src="{{ asset('images/eye-outline.svg') }}" alt="icon">
@@ -71,11 +71,11 @@
             </select>
         </div>
         <div class="my-6">
-            <x-top-article article_id="01"></x-top-article>
+            {{-- <x-top-article article_id="01"></x-top-article>
             <x-top-article article_id="02"></x-top-article>
             <x-top-article article_id="03"></x-top-article>
             <x-top-article article_id="04"></x-top-article>
-            <x-top-article article_id="05"></x-top-article>
+            <x-top-article article_id="05"></x-top-article> --}}
         </div>
     </div>
 </x-dashboard>

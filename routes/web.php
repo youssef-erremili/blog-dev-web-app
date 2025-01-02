@@ -62,3 +62,13 @@ Route::middleware('auth')->group(function () {
     // delete account permanently
     Route::delete('/dashboard/profile/delete-account/{id}', [ProfileController::class, 'destroyAccount'])->name('destroy-account');
 });
+
+
+
+// route for saving articles
+Route::middleware('auth')->group(function () {
+    // save article in DB
+    Route::put('reader/save-article/{id}', [DashboardController::class, 'savedArticle'])->name('saved-article');
+    // delete saved articale from DB
+    Route::delete('reader/delete-article/{id}', [DashboardController::class, 'deleteArticle'])->name('delete-article');
+});

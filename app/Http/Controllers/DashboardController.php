@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Save;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,55 +15,43 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $posts = Post::where('user_id', Auth::user()->id)->latest()->get();
-        return view('dashboard.article', compact('posts'));
+        // get author article
+        $posts = Post::where('user_id', Auth::user()->id)->latest()->paginate('4');
+        // get user saved article
+        $saves = Save::with(['savers', 'article'])->where('user_id', Auth::id())->get();
+        return view('dashboard.article', compact('posts', 'saves'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    // this function is for saving id's of users and id's of post in saves table
+    public function savedArticle(string $id)
     {
-        //
+        //Save the article in DB
+        $article = Post::findOrfail($id);
+        $saved = Save::create([
+            'user_id' => Auth::id(),
+            'post_id' => $article->id
+        ]);
+        if ($saved) {
+            return redirect()->back()->with('articleSaved', 'article has been saved successfully');
+        } else {
+            return redirect()->back()->with('articleNotsaved', 'article has not saved successfully');
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    // delete article
+
+    public function deleteArticle(string $id)
     {
-        //
+        // get id of saving article
+        $saved_item = Save::findOrfail($id);
+        $is_saved_item = $saved_item->delete();
+        if ($is_saved_item) {
+            return redirect()->back()->with('deleted', 'saved article deleted successfully');
+        } else {
+            return redirect()->back()->with('notDeleted', 'saved article is not deleted successfully');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    
 }
