@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Follow;
 use App\Models\Post;
 use App\Models\Save;
 use App\Models\User;
@@ -13,7 +14,16 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function overview()
+    {
+        // get follower and following
+        $users = User::with(['following.author', 'followers.follower'])->find(Auth::id());
+        $posts = Post::where('status', 'published')->where('user_id', Auth::id())->get();
+        $pending = Post::where('status', 'draft')->where('user_id', Auth::id())->get();
+        return view('dashboard.overview', compact('users', 'posts', 'pending'));
+    }
+
+    public function article()
     {
         // get author article
         $posts = Post::where('user_id', Auth::user()->id)->latest()->paginate('4');
@@ -24,7 +34,7 @@ class DashboardController extends Controller
 
 
     // this function is for saving id's of users and id's of post in saves table
-    public function savedArticle(string $id)
+    public function saveArticle(string $id)
     {
         //Save the article in DB
         $article = Post::findOrfail($id);
@@ -33,9 +43,9 @@ class DashboardController extends Controller
             'post_id' => $article->id
         ]);
         if ($saved) {
-            return redirect()->back()->with('articleSaved', 'article has been saved successfully');
+            return redirect()->back()->with('successMsg', 'article has been saved successfully');
         } else {
-            return redirect()->back()->with('articleNotsaved', 'article has not saved successfully');
+            return redirect()->back()->with('errorMsg', 'article has not saved successfully');
         }
     }
 
@@ -47,11 +57,38 @@ class DashboardController extends Controller
         $saved_item = Save::findOrfail($id);
         $is_saved_item = $saved_item->delete();
         if ($is_saved_item) {
-            return redirect()->back()->with('deleted', 'saved article deleted successfully');
+            return redirect()->back()->with('successMsg', 'saved article deleted successfully');
         } else {
-            return redirect()->back()->with('notDeleted', 'saved article is not deleted successfully');
+            return redirect()->back()->with('errorMsg', 'saved article is not deleted successfully');
         }
     }
 
-    
+    // add follow
+    public function follow($authorId)
+    {
+        // $following = $user->following;
+        // $followers = $user->followers;
+        // foreach ($following as $follow) {
+        //     dd($follow->author->name);
+        // }
+        // foreach ($followers as $follow) {
+        //     dd($follow->follower->name);
+        // }
+        $followed = User::findOrfail($authorId);
+        $isFollowed = Follow::create([
+            'author_id' => $followed->id,
+            'follower_id' => Auth::id()
+        ]);
+        if ($isFollowed) {
+            return redirect()->back()->with('successMsg', 'you are now follow ');
+        } else {
+            return redirect()->back()->with('errorMsg', 'article has not saved successfully');
+        }
+    }
 }
+
+
+// Check if the user is trying to follow themselves
+// if ($user->id === $author_id) {
+//     return response()->json(['message' => 'You cannot follow yourself.']);
+// }

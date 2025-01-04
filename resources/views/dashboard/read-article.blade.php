@@ -1,10 +1,8 @@
 <x-layout>
-    @if (session('articleSaved'))
-        <x-alert-success action="success" message="{{ session('articleSaved') }}"/>
-    @elseif (session('alreadySaved'))
-        <x-alert-info action="info" message="{{ session('alreadySaved') }}"/>
-    @elseif (session('articleNotsaved'))
-        <x-alert-error action="error" message="{{ session('articleNotsaved') }}"/>
+    @if (session('successMsg'))
+        <x-alert-success action="success" message="{{ session('successMsg') }}"/>
+    @elseif (session('errorMsg'))
+        <x-alert-error action="error" message="{{ session('errorMsg') }}"/>
     @endif
     <div class="w-2/3 h- my-10 py-10 mx-auto">
         <div class="header">
@@ -16,7 +14,10 @@
                 <section class="mx-3">
                     <span class="flex"> 
                         <a href="#" class="text-slate-700 capitalize font-medium text-base mr-1">{{ $post->user->name }} -</a>
-                        <a href="#" class="text-emerald-500 font-medium text-base">Follow</a>
+                        <x-form action="{{ route('follow', ['authorId' => $post->user->id]) }}">
+                            @method('PUT')
+                            <button type="submit" class="text-emerald-500 font-medium text-base border-none outline-none capitalize">follow</button>
+                        </x-form>
                     </span>
                     <span class="flex">
                         <p class="text-sm text-slate-500 font-medium">{{ $reading_time }}</p>
@@ -42,7 +43,7 @@
                             </button>
                         </x-form>
                     @else
-                        <x-form action="{{ route('saved-article', ['id' => $post->id]) }}">
+                        <x-form action="{{ route('save-article', ['id' => $post->id]) }}">
                             @method('PUT')
                             <button type="submit">
                                 <ion-icon class="text-[23.5px] text-slate-900" name="bookmark-outline"></ion-icon>

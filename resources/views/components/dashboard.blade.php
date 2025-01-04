@@ -52,7 +52,7 @@
                 </div>
             </div>
         </nav>
-        <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0">
+        <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-52 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0">
             <div class="h-full px-3 pb-4 overflow-y-auto bg-white">
                 <ul class="space-y-2 font-medium py-2 px-4">
                     <li class="mb-6">
@@ -86,8 +86,8 @@
             </div>
         </aside>
 
-        <div class="p-6 sm:ml-64 mt-2">
-            <div class="py-8 px-8 border border-slate-200 capitalize rounded-lg mt-14">
+        <div class="p-6 sm:ml-52 mt-2">
+            <div class="py-8 px-6 border border-slate-200 capitalize rounded-lg mt-14">
                 {{ $slot }}
             </div>
         </div>

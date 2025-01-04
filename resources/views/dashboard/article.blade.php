@@ -115,4 +115,13 @@
             @endforelse
         </div>
     </div>
+    <div class="border-2 border-slate-200 my-10 mx-1-">
+        <p>people that i am following</p>
+        {{-- {{ $users->following->count() }}
+        @foreach ($users->following as $follow)
+            <li>{{ $follow->author->name }}</li>
+        @endforeach --}}
+        <p>people that following me</p>
+        
+    </div>
 </x-dashboard>

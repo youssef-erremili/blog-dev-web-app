@@ -55,10 +55,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
-
-
-
-
     
     public function saves(): HasMany
     {
@@ -70,4 +66,16 @@ class User extends Authenticatable
     {
         return $this->BelongsToMany(Post::class, 'saves');
     }
+
+    // Relationship to get the users this user is following
+    public function following(): HasMany
+    {
+        return $this->hasMany(Follow::class, 'follower_id');
+    }
+
+    // Relationship to get the users following this user
+    public function followers(): HasMany
+    {
+        return $this->hasMany(Follow::class, 'author_id');
+    }    
 }

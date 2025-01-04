@@ -48,7 +48,7 @@ class PublishBlogController extends Controller
         $path = $request->file('articale_cover')->storeAs('articale_cover', $image, 'public');
 
         // Save post data in DB
-        $isArticleSaved =  Auth::user()->posts->create([
+        $isArticleSaved =  Auth::user()->posts()->create([
             'title' => trim($request->input('title')),
             'content' => trim($request->input('content')),
             'status' => trim($request->input('status')),

@@ -32,9 +32,10 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     // sidebar links
-    Route::view('/dashboard/{author}/overview', 'dashboard.overview')->name('overview');
+    Route::get('/dashboard/{author}/overview', [DashboardController::class, 'overview'])->name('overview');
+    Route::get('/dashboard/{author}/article', [DashboardController::class, 'article'])->name('article');
+    // Route::view('/dashboard/{author}/overview', 'dashboard.overview')->name('overview');
     Route::view('/dashboard/{author}/profile', 'dashboard.profile')->name('profile');
-    Route::get('/dashboard/{author}/article', [DashboardController::class, 'index'])->name('article');
     Route::view('/dashboard/{author}/chat', 'dashboard.chat')->name('chat');
 
     // Route::get(/) and CRUD articles
@@ -68,7 +69,15 @@ Route::middleware('auth')->group(function () {
 // route for saving articles
 Route::middleware('auth')->group(function () {
     // save article in DB
-    Route::put('reader/save-article/{id}', [DashboardController::class, 'savedArticle'])->name('saved-article');
+    Route::put('reader/save-article/{id}', [DashboardController::class, 'saveArticle'])->name('save-article');
     // delete saved articale from DB
     Route::delete('reader/delete-article/{id}', [DashboardController::class, 'deleteArticle'])->name('delete-article');
+});
+
+// route for followers
+Route::middleware('auth')->group(function () {
+    // save article in DB
+    Route::put('reader/follow/{authorId}', [DashboardController::class, 'follow'])->name('follow');
+    // delete saved articale from DB
+    Route::delete('reader/unfollow/{authorId}', [DashboardController::class, 'unFollow'])->name('unfollow');
 });
