@@ -1,6 +1,6 @@
 <x-dashboard>
     <div class="flex justify-between">
-        <div class="w-[65%] bg-custom bg-green-500 rounded-2xl py-10 px-12 inline-block text-white">
+        <div class="w-[70%] bg-custom bg-green-500 rounded-2xl py-10 px-12 inline-block text-white">
             <h2 class="font-bold text-4xl">welcome, {{ Auth::user()->name }}!</h2>
             <p class="text-sm font-normal my-2 first-letter:capitalize lowercase text-wrap">Everything you want know about
                 you overviews and your result in weeks is showen here </p>
@@ -24,7 +24,9 @@
                             <img src="{{ asset('images/eye-outline.svg') }}" alt="icon">
                         </div>
                         <div>
-                            <h2 class="font-bold text-2xl">1390</h2>
+                            @isset($counter_views)
+                                <h2 class="font-bold text-2xl">{{ $counter_views }}</h2>
+                            @endisset
                             <p class="font-medium text-sm text-gray-600">total views</p>
                         </div>
                     </div>

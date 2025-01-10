@@ -11,11 +11,17 @@ Route::get('/', function () {
 })->name('home');
 
 
+Route::get('/users/@youssef-erremili', function () {
+    return view('dashboard.author');
+})->name('author');
+
+
 
 // Route::get('/', [SingleActionController::class, 'index'])->name('home');
 
 // Route::view('read-article', 'dashboard.read-article')
 Route::get('/reader/{id}/{writer}/{title}', [PublishBlogController::class, 'show'])->name('reader');
+// Route::get('/users/@youssef-erremili', [PublishBlogController::class, 'show'])->name('reader');
 
 
 
@@ -79,5 +85,5 @@ Route::middleware('auth')->group(function () {
     // save article in DB
     Route::put('reader/follow/{authorId}', [DashboardController::class, 'follow'])->name('follow');
     // delete saved articale from DB
-    Route::delete('reader/unfollow/{authorId}', [DashboardController::class, 'unFollow'])->name('unfollow');
+    Route::delete('reader/unfollow/{followId}', [DashboardController::class, 'unFollow'])->name('unfollow');
 });

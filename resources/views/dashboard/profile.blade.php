@@ -1,15 +1,18 @@
 <x-dashboard>
-    <div class="flex items-start justify-between relative">
-        <section>
-            <h1 class="capitalize font-semibold text-2xl text-slate-800">Profile</h1>
-            <p class="text-sm text-gray-500 my-2">Manage your name, password and account settings.</p>
-        </section>
-    </div>
     @if (session('editProfile'))
         <x-alert-success action="success" message="{{ session('editProfile') }}"/>
     @elseif (session('editProfileError'))
         <x-alert-error action="error" message="{{ session('editProfileError') }}"/>
     @endif
+    <div class="flex items-center justify-between relative">
+        <div>
+            <h1 class="capitalize font-semibold text-2xl text-slate-800">Profile</h1>
+            <p class="text-sm text-gray-500 my-2">Manage your name, password and account settings.</p>
+        </div>
+        <div class="my-8 inline-block">
+            <a href="{{ route('author') }}" class=" capitalize rounded-md bg-gray-800 text-white py-2 px-4" target="_blank">view public profile</a>
+        </div>
+    </div>
     <div class="py-4 px-10">
         <div class="flex py-10 border-b-2">
             <div class="w-1/3">
@@ -99,10 +102,8 @@
                         @enderror
                     </section>
                 </div>
-                <div>
-                    <button type="submit" class="py-1.5 px-4 capitalize mt-12 block rounded-md bg-indigo-600 transition-all duration-200 text-white text-sm font-normal leading-7">
-                        save info
-                    </button>
+                <div class="mt-12">
+                    <x-button-primary>save info</x-button-primary>
                 </div>
             </div>
         </x-form>
@@ -144,9 +145,7 @@
                     </section>
                 </div>
                 <div class="flex items-center mt-12">
-                    <button type="submit" class="py-1.5 px-3 capitalize block rounded-md bg-indigo-600 text-white text-sm font-normal leading-7">
-                        change password
-                    </button>
+                    <x-button-primary>change password</x-button-primary>
                     <div class="flex items-center ml-5">
                         <input id="toggle-password" type="checkbox" class="size-5">
                         <label for="toggle-password" class="text-sm text-gray-500 cursor-pointer ms-3 select-none">Show password</label>
@@ -191,10 +190,8 @@
                         </div>
                     </div>
                 </div>
-                <div>
-                    <button type="submit" class="py-1.5 px-4 capitalize mt-12 block rounded-md bg-indigo-600 transition-all duration-200 text-white text-sm font-normal leading-7">
-                        save links
-                    </button>
+                <div class="mt-12">
+                    <x-button-primary>save links</x-button-primary>
                 </div>
             </div>
         </x-form>
@@ -212,9 +209,7 @@
                             <option value="private" {{ Auth::user()->visibility == 'private' ? 'selected' : '' }}>private</option>
                         </select>
                         <p class="text-sm text-gray-500 my-3 lowercase">This action will permanently hide all your data from our visitors. but you change it anytime.</p>
-                        <button type="submit" class="py-1.5 px-4 capitalize mt-2 block rounded-md bg-indigo-600 transition-all duration-200 text-white text-sm font-normal leading-7">
-                            change visibility
-                        </button>
+                        <x-button-primary>change visibility</x-button-primary>
                     </section>
                 </div>
             </x-form>

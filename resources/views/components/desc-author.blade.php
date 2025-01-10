@@ -1,0 +1,1 @@
+<p class="mt-2 py-4 text-slate-600 font-normal text-wrap">{{ $slot }}</p>

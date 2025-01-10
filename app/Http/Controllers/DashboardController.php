@@ -20,13 +20,15 @@ class DashboardController extends Controller
         $users = User::with(['following.author', 'followers.follower'])->find(Auth::id());
         $posts = Post::where('status', 'published')->where('user_id', Auth::id())->get();
         $pending = Post::where('status', 'draft')->where('user_id', Auth::id())->get();
+        // $counter_views = Post::popularAllTime()->where('user_id', Auth::id())->first()->visit_count_total;
+        // return view('dashboard.overview', compact('users', 'posts', 'pending', 'counter_views'));
         return view('dashboard.overview', compact('users', 'posts', 'pending'));
     }
 
     public function article()
     {
         // get author article
-        $posts = Post::where('user_id', Auth::user()->id)->latest()->paginate('4');
+        $posts = Post::where('user_id', Auth::user()->id)->latest()->paginate('10');
         // get user saved article
         $saves = Save::with(['savers', 'article'])->where('user_id', Auth::id())->get();
         return view('dashboard.article', compact('posts', 'saves'));
@@ -37,10 +39,11 @@ class DashboardController extends Controller
     public function saveArticle(string $id)
     {
         //Save the article in DB
-        $article = Post::findOrfail($id);
+        $post = Post::findOrfail($id);
+        $post->visit()->withUser(); // Track the visit
         $saved = Save::create([
             'user_id' => Auth::id(),
-            'post_id' => $article->id
+            'post_id' => $post->id
         ]);
         if ($saved) {
             return redirect()->back()->with('successMsg', 'article has been saved successfully');
@@ -66,24 +69,25 @@ class DashboardController extends Controller
     // add follow
     public function follow($authorId)
     {
-        // $following = $user->following;
-        // $followers = $user->followers;
-        // foreach ($following as $follow) {
-        //     dd($follow->author->name);
-        // }
-        // foreach ($followers as $follow) {
-        //     dd($follow->follower->name);
-        // }
         $followed = User::findOrfail($authorId);
         $isFollowed = Follow::create([
             'author_id' => $followed->id,
             'follower_id' => Auth::id()
         ]);
         if ($isFollowed) {
-            return redirect()->back()->with('successMsg', 'you are now follow ');
+            return redirect()->back()->with('successMsg', 'you are now follow ' . $followed->name);
         } else {
             return redirect()->back()->with('errorMsg', 'article has not saved successfully');
         }
+    }
+
+    // unfollow 
+    public function unFollow($followId){
+        $follow = Follow::findOrfail($followId);
+        $is_follow = $follow->delete();
+        if ($is_follow) {
+            return redirect()->back()->with('successMsg', 'you remove your follow');
+        } 
     }
 }
 

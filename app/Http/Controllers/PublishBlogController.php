@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Follow;
 use App\Models\Post;
 use App\Models\Save;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Storage;
 use SHTayeb\Bookworm\Bookworm;
 
 class PublishBlogController extends Controller
@@ -30,7 +29,7 @@ class PublishBlogController extends Controller
      */
     public function store(Request $request)
     {
-    // validate user topic elements
+        // validate user topic elements
         $request->validate([
             'title' => ['required', 'min:10', 'max:5000'],
             'content' => ['required', 'min:10'],
@@ -64,8 +63,6 @@ class PublishBlogController extends Controller
         } else {
             return redirect()->back()->with('artcileNotpublished', 'something went wrong to publish your article');
         }
-        
-        // return redirect()->back();
     }
 
     /**
@@ -73,19 +70,33 @@ class PublishBlogController extends Controller
      */
     public function show(string $id)
     {
-        $article = $article = Post::findOrfail($id);
         $post = Post::where('status', 'published')->findOrFail($id);
+
+        $preventfollow = false;
+        $author_id = $post->user->id;
+        
         if ($post->status == 'draft') {
             return redirect()->route('home');
         }
 
         // Check if the article is already saved by the user
         $alreadySaved = Save::where('user_id', Auth::id())
-            ->where('post_id', $article->id)
-            ->first();    
+                            ->where('post_id', $post->id)
+                            ->first();
+
+        //Check if the user already follow this author
+        $alreadyFollowing = Follow::where('follower_id', Auth::id())
+                                    ->where('author_id', $author_id)
+                                    ->first();     
+        if ($alreadyFollowing) {
+            $preventfollow = true;
+        }
+
+        // add views counter for each article
+        $post->visit()->withUser();
 
         $reading_time = (new Bookworm())->estimate($post->content);
-        return view('dashboard.read-article', compact(['post', 'reading_time', 'alreadySaved']));
+        return view('dashboard.read-article', compact(['post', 'reading_time', 'alreadySaved', 'preventfollow', 'alreadyFollowing']));
     }
 
     /**
@@ -143,7 +154,6 @@ class PublishBlogController extends Controller
             } else {
                 return redirect()->back()->with('artcileNotpublished', 'something went wrong to publish your article');
             }
-            
         } else {
             return back()->route('home');
         }

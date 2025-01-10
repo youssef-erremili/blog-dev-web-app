@@ -13,14 +13,25 @@
                 </section>
                 <section class="mx-3">
                     <span class="flex"> 
-                        <a href="#" class="text-slate-700 capitalize font-medium text-base mr-1">{{ $post->user->name }} -</a>
-                        <x-form action="{{ route('follow', ['authorId' => $post->user->id]) }}">
-                            @method('PUT')
-                            <button type="submit" class="text-emerald-500 font-medium text-base border-none outline-none capitalize">follow</button>
-                        </x-form>
+                        <a href="#" class="text-slate-700 capitalize font-medium text-base mr-1">{{ $post->user->name }}</a>
+                        @auth
+                            @if ($post->user->id !== Auth::user()->id)
+                                @if ($preventfollow === false)
+                                    <x-form action="{{ route('follow', ['authorId' => $post->user->id]) }}">
+                                        @method('PUT')
+                                        <button type="submit" class="text-green-500 font-medium text-base border-none outline-none capitalize">- follow</button>
+                                    </x-form>
+                                @elseif ($preventfollow === true)
+                                    <x-form action="{{ route('unfollow', ['followId' => $alreadyFollowing->id]) }}">
+                                        @method('DELETE')
+                                        <button type="submit" class="text-blue-500 font-medium text-base border-none outline-none capitalize">- following</button>
+                                    </x-form>
+                                @endif
+                            @endif
+                        @endauth
                     </span>
                     <span class="flex">
-                        <p class="text-sm text-slate-500 font-medium">{{ $reading_time }}</p>
+                        <p class="text-sm text-slate-500 font-medium">{{ $reading_time }} to read</p>
                         <p class="text-sm text-slate-500 capitalize ml-1 font-medium">- {{ $post->created_at->diffForHumans() }}</p>
                     </span>
                 </section>
