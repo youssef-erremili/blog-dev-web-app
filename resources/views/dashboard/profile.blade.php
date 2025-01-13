@@ -10,7 +10,7 @@
             <p class="text-sm text-gray-500 my-2">Manage your name, password and account settings.</p>
         </div>
         <div class="my-8 inline-block">
-            <a href="{{ route('author') }}" class=" capitalize rounded-md bg-gray-800 text-white py-2 px-4" target="_blank">view public profile</a>
+            <a href="{{ route('show-profile-public', ['id' => Auth::id(), 'author' =>  str_replace(' ', '-', Auth::user()->name)]) }}" class="rounded-md bg-gray-800 text-white py-2 inline-block text-sm px-4" target="_blank">View public profile</a>
         </div>
     </div>
     <div class="py-4 px-10">
@@ -103,7 +103,7 @@
                     </section>
                 </div>
                 <div class="mt-12">
-                    <x-button-primary>save info</x-button-primary>
+                    <x-button-primary class="rounded-md">save info</x-button-primary>
                 </div>
             </div>
         </x-form>
@@ -145,7 +145,7 @@
                     </section>
                 </div>
                 <div class="flex items-center mt-12">
-                    <x-button-primary>change password</x-button-primary>
+                    <x-button-primary class="rounded-md">change password</x-button-primary>
                     <div class="flex items-center ml-5">
                         <input id="toggle-password" type="checkbox" class="size-5">
                         <label for="toggle-password" class="text-sm text-gray-500 cursor-pointer ms-3 select-none">Show password</label>
@@ -191,7 +191,7 @@
                     </div>
                 </div>
                 <div class="mt-12">
-                    <x-button-primary>save links</x-button-primary>
+                    <x-button-primary class="rounded-md">save links</x-button-primary>
                 </div>
             </div>
         </x-form>
@@ -209,7 +209,7 @@
                             <option value="private" {{ Auth::user()->visibility == 'private' ? 'selected' : '' }}>private</option>
                         </select>
                         <p class="text-sm text-gray-500 my-3 lowercase">This action will permanently hide all your data from our visitors. but you change it anytime.</p>
-                        <x-button-primary>change visibility</x-button-primary>
+                        <x-button-primary class="rounded-md">change visibility</x-button-primary>
                     </section>
                 </div>
             </x-form>

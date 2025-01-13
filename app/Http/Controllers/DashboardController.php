@@ -20,9 +20,10 @@ class DashboardController extends Controller
         $users = User::with(['following.author', 'followers.follower'])->find(Auth::id());
         $posts = Post::where('status', 'published')->where('user_id', Auth::id())->get();
         $pending = Post::where('status', 'draft')->where('user_id', Auth::id())->get();
-        // $counter_views = Post::popularAllTime()->where('user_id', Auth::id())->first()->visit_count_total;
-        // return view('dashboard.overview', compact('users', 'posts', 'pending', 'counter_views'));
-        return view('dashboard.overview', compact('users', 'posts', 'pending'));
+        $counter_views = Post::withTotalVisitCount()->where('user_id', Auth::id())->get();
+        // $counter_views = Post::popularAllTime()->get()->visit_count_total;
+        // dd($counter_views->visit_count_total);
+        return view('dashboard.overview', compact('users', 'posts', 'pending', 'counter_views'));
     }
 
     public function article()
@@ -40,7 +41,6 @@ class DashboardController extends Controller
     {
         //Save the article in DB
         $post = Post::findOrfail($id);
-        $post->visit()->withUser(); // Track the visit
         $saved = Save::create([
             'user_id' => Auth::id(),
             'post_id' => $post->id
@@ -83,9 +83,8 @@ class DashboardController extends Controller
 
     // unfollow 
     public function unFollow($followId){
-        $follow = Follow::findOrfail($followId);
-        $is_follow = $follow->delete();
-        if ($is_follow) {
+        $is_follow_removed = Follow::findOrfail($followId)->delete();
+        if ($is_follow_removed) {
             return redirect()->back()->with('successMsg', 'you remove your follow');
         } 
     }

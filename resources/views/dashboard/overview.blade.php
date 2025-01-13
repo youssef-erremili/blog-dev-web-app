@@ -12,7 +12,9 @@
                 </a>
             </section>
         </div>
-        <x-followers :users="$users"></x-followers>
+        <div class="ml-4 h-fit w-[40%] bg-white py-4 px-4 rounded-2xl border border-gray-200">
+            <x-followers width="50px" :users="$users"></x-followers>
+        </div>
     </div>
     <div class="mt-14 border border-gray-200 py-4 px-4 rounded-2xl">
         <h1 class="capitalize font-bold text-3xl text-slate-800">Overview</h1>
@@ -24,9 +26,7 @@
                             <img src="{{ asset('images/eye-outline.svg') }}" alt="icon">
                         </div>
                         <div>
-                            @isset($counter_views)
-                                <h2 class="font-bold text-2xl">{{ $counter_views }}</h2>
-                            @endisset
+                            <h2 class="font-bold text-2xl">{{ $counter_views->count() }}</h2>
                             <p class="font-medium text-sm text-gray-600">total views</p>
                         </div>
                     </div>
@@ -77,7 +77,9 @@
                     </div>
                 </div>
             </div>
-            <x-following :users="$users"></x-following>
+            <div class="ml-4 h-fit w-[40%] bg-white py-4 px-4 rounded-2xl border border-gray-200">
+                <x-following :users="$users"></x-following>
+            </div>
         </div>
     </div>
     <div class="bg-slate-100 rounded-lg py-6 px-7 mt-10">

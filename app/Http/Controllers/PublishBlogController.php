@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Follow;
 use App\Models\Post;
 use App\Models\Save;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -71,6 +72,7 @@ class PublishBlogController extends Controller
     public function show(string $id)
     {
         $post = Post::where('status', 'published')->findOrFail($id);
+        $user = User::findOrFail($post->user->id);
 
         $preventfollow = false;
         $author_id = $post->user->id;
@@ -92,8 +94,8 @@ class PublishBlogController extends Controller
             $preventfollow = true;
         }
 
-        // add views counter for each article
-        $post->visit()->withUser();
+        // Track the visit
+        $user->visit()->withUser();
 
         $reading_time = (new Bookworm())->estimate($post->content);
         return view('dashboard.read-article', compact(['post', 'reading_time', 'alreadySaved', 'preventfollow', 'alreadyFollowing']));

@@ -1,0 +1,1 @@
+<a href="" class="text-gray-800 bg-gray-50 shadow text-sm capitalize font-medium py-1 px-3 rounded-2xl mx-1 my-2">{{ $slot }}</a>

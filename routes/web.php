@@ -6,24 +6,49 @@ use App\Http\Controllers\PublishBlogController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+
+
+
+// Route::get('', function () {
+//     return view('dashboard.author');
+// })
+// Route::get('/', [SingleActionController::class, 'index'])->name('home');
+// Route::get('/users/@youssef-erremili', [PublishBlogController::class, 'show'])->name('reader');
+// Route::view('read-article', 'dashboard.read-article')
+
+
 Route::get('/', function () {
-    return view('home');
+    return view('index');
 })->name('home');
 
+Route::get('/web-development', function () {
+    return view('index');
+})->name('web-development');
 
-Route::get('/users/@youssef-erremili', function () {
-    return view('dashboard.author');
-})->name('author');
+Route::get('/productivity', function () {
+    return view('index');
+})->name('productivity');
+
+Route::get('/history', function () {
+    return view('index');
+})->name('history');
+
+Route::get('/creativity', function () {
+    return view('index');
+})->name('creativity');
+
+Route::get('/artificial-intelligence', function () {
+    return view('index');
+})->name('artificial-intelligence');
+
+Route::get('/education', function () {
+    return view('index');
+})->name('education');
 
 
 
-// Route::get('/', [SingleActionController::class, 'index'])->name('home');
-
-// Route::view('read-article', 'dashboard.read-article')
+Route::get('/author/{id}/@{author}', [ProfileController::class, 'author'])->name('show-profile-public');
 Route::get('/reader/{id}/{writer}/{title}', [PublishBlogController::class, 'show'])->name('reader');
-// Route::get('/users/@youssef-erremili', [PublishBlogController::class, 'show'])->name('reader');
-
-
 
 Route::middleware('guest')->group(function () {
     // sign-up

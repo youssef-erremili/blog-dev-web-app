@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -162,8 +163,15 @@ class ProfileController extends Controller
         } else {
             return redirect()->back();
         }
-
     }
 
 
+    // display user profile to public and audience
+    public function author(string $id)
+    {
+        $user = User::with(['following.author'])->findOrFail($id);
+        $posts = Post::where('user_id', $id)->where('status', 'published')->latest()->simplePaginate('5');
+        $total = Post::where('user_id', $id)->where('status', 'published')->count();
+        return view('dashboard.author', compact('user', 'posts', 'total'));
+    }
 }

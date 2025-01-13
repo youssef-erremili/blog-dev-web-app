@@ -41,7 +41,7 @@
                                         {{ Str::limit($post->title, 25, '') }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                        {{ Str::limit($post->content, 30, '...') }}
+                                        {{ Str::limit($post->content, 25, '...') }}
                                     </td>
                                     <td class="text-white px-6 py-4 whitespace-nowrap text-sm font-normal">
                                         <span class="{{ $post->status == 'draft' ? 'bg-red-500' : 'bg-indigo-600' }} rounded-full py-[1.4px] px-[12px]">{{ $post->status }}</span>
