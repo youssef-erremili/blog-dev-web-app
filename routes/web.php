@@ -65,7 +65,6 @@ Route::middleware('auth')->group(function () {
     // sidebar links
     Route::get('/dashboard/{author}/overview', [DashboardController::class, 'overview'])->name('overview');
     Route::get('/dashboard/{author}/article', [DashboardController::class, 'article'])->name('article');
-    // Route::view('/dashboard/{author}/overview', 'dashboard.overview')->name('overview');
     Route::view('/dashboard/{author}/profile', 'dashboard.profile')->name('profile');
     Route::view('/dashboard/{author}/chat', 'dashboard.chat')->name('chat');
 

@@ -18,7 +18,7 @@
             <div class="px-3 py-3">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center justify-start">
-                        <button type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                        <button type="button" class="mr-2 inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
                             <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path clip-rule="evenodd" fill-rule="evenodd"
@@ -26,29 +26,9 @@
                                 </path>
                             </svg>
                         </button>
-                        <a href="{{ route('home') }}" class="flex ms-2 md:me-24">
-                            <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap">Medium blog</span>
-                        </a>
+                        <x-logo></x-logo>
                     </div>
-                    <div class="flex items-center">
-                        <div class="flex items-center mr-4">
-                            <div class="relative ml-3" x-data="{ open: false }">
-                                <div>
-                                    <button @click="open = !open" type="button"
-                                        class="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600">
-                                        <span class="absolute -inset-1.5"></span>
-                                        @if (Auth::user()->profile_picture === null)
-                                            <h2 class="capitalize h-10 w-10 pt-1 rounded-full bg-indigo-500 text-lg font-medium text-white border-2 border-white">{{ Str::limit(Auth::user()->name, 1, '') }}</h2>
-                                        @else
-                                            <img class="rounded-full h-10 w-10 border-2 border-white" src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="profile">
-                                        @endif
-                                    </button>
-                                </div>
-                                <!-- Dropdown menu -->
-                                <x-toggle-navbar></x-toggle-navbar>
-                            </div>
-                        </div>
-                    </div>
+                    <x-auth-user></x-auth-user>
                 </div>
             </div>
         </nav>
@@ -58,30 +38,10 @@
                     <li class="mb-6">
                         <h3 class="font-medium text-indigo-600 text-2xl">Dashboard</h3>
                     </li>
-                    <li class="{{ Route::currentRouteName() === 'overview' ? 'bg-indigo-500 *:text-white rounded-lg' : '' }}">
-                        <a href="{{ route('overview', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
-                            <img src="{{ asset('images/overview.svg') }}" class="w-4" alt="overview">
-                            <span class="flex-1 ms-3 whitespace-nowrap">Overview</span>
-                        </a>
-                    </li>
-                    <li class="{{ Route::currentRouteName() === 'profile' ? 'bg-indigo-500 *:text-white rounded-lg' : '' }}">
-                        <a href="{{ route('profile', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
-                            <img src="{{ asset('images/profile.svg') }}" class="w-4" alt="profile">
-                            <span class="flex-1 ml-3 whitespace-nowrap">Profile</span>
-                        </a>
-                    </li>
-                    <li class="{{ Route::currentRouteName() === 'article' ? 'bg-indigo-500 *:text-white rounded-lg' : '' }}">
-                        <a href="{{ route('article', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
-                            <img class="w-4" src="{{ asset('images/article.svg') }}" alt="article">
-                            <span class="flex-1 ms-3 whitespace-nowrap">Article</span>
-                        </a>
-                    </li>
-                    <li class="{{ Route::currentRouteName() === 'chat' ? 'bg-indigo-500 *:text-white rounded-lg' : '' }}">
-                        <a href="{{ route('chat', ['author' => str_replace(' ', '-', Auth::user()->name)]) }}" class="flex items-center font-medium text-sm py-3 px-5 text-gray-600">
-                            <img src="{{ asset('images/chat.svg') }}" class="w-4" alt="chat">
-                            <span class="flex-1 ms-3 whitespace-nowrap">Message</span>
-                        </a>
-                    </li>
+                    <x-side-nav-link url="overview">overview</x-side-nav-link>
+                    <x-side-nav-link url="article">article</x-side-nav-link>
+                    <x-side-nav-link url="profile">Profile</x-side-nav-link>
+                    <x-side-nav-link url="chat">chat</x-side-nav-link>
                 </ul>
             </div>
         </aside>

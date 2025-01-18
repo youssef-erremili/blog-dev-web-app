@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('bio')->nullable();
             $table->string('location')->nullable();
             $table->string('profile_picture')->nullable();
+            $table->string('visibility')->default('public');
+            $table->integer('views')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

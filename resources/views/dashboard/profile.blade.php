@@ -27,6 +27,9 @@
                             </span>
                         @else
                             <span class="overflow-hidden">
+                                <h2 class="capitalize size-20 pt-5 text-center rounded-full bg-indigo-500 text-3xl font-medium text-white border-2 border-white">
+                                    {{ Str::limit(Auth::user()->name, 1, '') }}
+                                </h2>
                                 <img class="rounded-full size-20 border-2 border-indigo-600" id="imagePreview">
                             </span>
                         @endif

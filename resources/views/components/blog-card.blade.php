@@ -19,9 +19,3 @@
         </a>
     </div>
 </article>
-
-{{-- <div class="mt-5 sm:mt-auto">
-    <p class="text-xs text-gray-500">
-        Last updated 5 mins ago
-    </p>
-</div> --}}

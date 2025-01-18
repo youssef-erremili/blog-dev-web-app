@@ -172,6 +172,7 @@ class ProfileController extends Controller
         $user = User::with(['following.author'])->findOrFail($id);
         $posts = Post::where('user_id', $id)->where('status', 'published')->latest()->simplePaginate('5');
         $total = Post::where('user_id', $id)->where('status', 'published')->count();
+        $user->views();
         return view('dashboard.author', compact('user', 'posts', 'total'));
     }
 }

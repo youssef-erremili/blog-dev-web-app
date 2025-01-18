@@ -72,7 +72,7 @@ class PublishBlogController extends Controller
     public function show(string $id)
     {
         $post = Post::where('status', 'published')->findOrFail($id);
-        $user = User::findOrFail($post->user->id);
+        $author = User::findOrFail($post->user->id);
 
         $preventfollow = false;
         $author_id = $post->user->id;
@@ -95,7 +95,7 @@ class PublishBlogController extends Controller
         }
 
         // Track the visit
-        $user->visit()->withUser();
+        
 
         $reading_time = (new Bookworm())->estimate($post->content);
         return view('dashboard.read-article', compact(['post', 'reading_time', 'alreadySaved', 'preventfollow', 'alreadyFollowing']));

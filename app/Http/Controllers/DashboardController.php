@@ -18,12 +18,9 @@ class DashboardController extends Controller
     {
         // get follower and following
         $users = User::with(['following.author', 'followers.follower'])->find(Auth::id());
-        $posts = Post::where('status', 'published')->where('user_id', Auth::id())->get();
-        $pending = Post::where('status', 'draft')->where('user_id', Auth::id())->get();
-        $counter_views = Post::withTotalVisitCount()->where('user_id', Auth::id())->get();
-        // $counter_views = Post::popularAllTime()->get()->visit_count_total;
-        // dd($counter_views->visit_count_total);
-        return view('dashboard.overview', compact('users', 'posts', 'pending', 'counter_views'));
+        $posts = Post::where('status', 'published')->where('user_id', Auth::id())->count();
+        $pending = Post::where('status', 'draft')->where('user_id', Auth::id())->count();
+        return view('dashboard.overview', compact('users', 'posts', 'pending'));
     }
 
     public function article()

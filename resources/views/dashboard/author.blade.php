@@ -1,5 +1,5 @@
-<x-layout>
-    <div class="flex mx-auto mt-14">
+<x-index-layout>
+    <div class="flex mx-auto mt-14 px-16">
         <div class="overflow-hidden w-[70%]">
             <div class="relative pt-40 pb-24 border rounded-xl overflow-hidden border-gray-200 m-2">
                 <img src="https://pagedone.io/asset/uploads/1705473378.png" alt="cover-image" class="w-full absolute top-0 left-0 z-0 h-60 object-cover">
@@ -108,4 +108,4 @@
             </div>
         </div>
     </div>
-</x-layout>
+</x-index-layout>

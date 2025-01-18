@@ -1,1 +1,1 @@
-<h1 class="capitalize font-bold text-3xl text-gray-800 mt-10">{{ $slot }}</h1>
+<h1 class="capitalize font-bold text-3xl text-gray-900 mt-10">{{ $slot }}</h1>

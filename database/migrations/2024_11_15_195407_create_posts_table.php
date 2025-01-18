@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->longText('content');
             $table->enum('status', ['draft', 'published'])->default('draft');
+            $table->enum('visibility', ['public', 'private'])->nullable()->default('public');
             $table->string('category')->nullable();
             $table->string('articale_cover')->nullable();
             $table->string('tag1')->nullable();
@@ -24,6 +25,12 @@ return new class extends Migration
             $table->string('tag3')->nullable();
             $table->string('tag4')->nullable();
             $table->string('tag5')->nullable();
+            $table->string('profile')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('website')->nullable();
+            $table->string('featured')->nullable();
+            $table->string('views')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

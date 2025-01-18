@@ -19,7 +19,7 @@ class PostFactory extends Factory
     {
         return [
             'user_id' => fake()->randomElement(['1', '2', '3', '4', '5']),
-            'title' => fake()->jobTitle(),
+            'title' => fake()->realText(),
             'content' => fake()->realTextBetween('900', '1700'),
             'status' => fake()->randomElement(['draft', 'published']),
             'articale_cover' => 'articale_cover/1736011213.jpg',

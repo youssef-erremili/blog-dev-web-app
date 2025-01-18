@@ -1,4 +1,4 @@
-<x-layout>
+<x-index-layout>
     @if (session('successMsg'))
         <x-alert-success action="success" message="{{ session('successMsg') }}"/>
     @elseif (session('errorMsg'))
@@ -6,10 +6,16 @@
     @endif
     <div class="w-2/3 h- my-10 py-10 mx-auto">
         <div class="header">
-            <h1 class="capitalize text-4xl text-slate-950 font-bold">{{ $post->title }}</h1>
+            <h1 class="capitalize text-3xl text-gray-800 font-bold">{{ $post->title }}</h1>
             <div class="author flex items-center my-10">
                 <section>
-                    <img class="size-11 rounded-full" src="{{ asset('storage/' . $post->user->profile_picture ) }}" alt="profile">
+                    @if ($post->user->profile_picture === null)
+                        <h2 class="capitalize text-center h-11 w-11 pt-1.5 rounded-full bg-gray-800 text-lg font-medium text-white border-2 border-white">
+                            {{ Str::limit($post->user->name, 1, '') }}
+                        </h2>
+                    @else
+                        <img class="size-11 rounded-full" src="{{ asset('storage/' . $post->user->profile_picture) }}" alt="{{ $post->user->name }}">
+                    @endif
                 </section>
                 <section class="mx-3">
                     <span class="flex"> 
@@ -83,4 +89,4 @@
             </div>
         </div>
     </div>
-</x-layout>
+</x-index-layout>

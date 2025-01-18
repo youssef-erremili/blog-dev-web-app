@@ -23,9 +23,9 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead>
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">article</th>
+                                <th scope="col" class="px-2 py-3 text-start text-xs font-medium text-gray-500 uppercase">article</th>
                                 <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">title</th>
-                                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">content</th>
+                                <th scope="col" class="px-2 py-3 text-start text-xs font-medium text-gray-500 uppercase">content</th>
                                 <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">status</th>
                                 <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">cover</th>
                                 <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Action</th>
@@ -34,17 +34,17 @@
                         <tbody class="divide-y divide-gray-200">
                             @forelse ($posts as $post)
                                 <tr x-data="{ open: false }">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                    <td class="px-2 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                         {{ $loop->iteration }}
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                        {{ Str::limit($post->title, 25, '') }}
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-700">
+                                        {{ Str::limit($post->title, 25, '...') }}
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                        {{ Str::limit($post->content, 25, '...') }}
+                                    <td class="px-2 py-4 whitespace-nowrap text-sm font-medium text-gray-700">
+                                        {{ Str::limit($post->content, 45, '...') }}
                                     </td>
-                                    <td class="text-white px-6 py-4 whitespace-nowrap text-sm font-normal">
-                                        <span class="{{ $post->status == 'draft' ? 'bg-red-500' : 'bg-indigo-600' }} rounded-full py-[1.4px] px-[12px]">{{ $post->status }}</span>
+                                    <td class="text-gray-800 px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <span class="{{ $post->status == 'draft' ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600' }} rounded-3xl lowercase py-1 px-3.5">{{ $post->status }}</span>
                                     </td>
                                     <td class="px-6 py-4"><img class="w-8 h-8 rounded-full" src="{{ asset('storage/' . $post->articale_cover) }}" alt="{{ $post->title }}"></td>
                                     <td class="py-4 whitespace-nowrap text-center text-sm font-medium relative">
@@ -55,8 +55,7 @@
                                             <ul>
                                                 @if ($post->status === 'published')
                                                     <li class="py-3 px-6 my-0.5">
-                                                        <a class="flex items-center capitalize font-medium text-sm text-slate-500"
-                                                            href="{{ route('reader', ['id' => $post->id, 'writer' => str_replace(' ', '-', $post->user->name), 'title' => str_replace(' ', '-', $post->title)]) }}" target="_blank">
+                                                        <a class="flex items-center capitalize font-medium text-sm text-slate-500" href="{{ route('reader', ['id' => $post->id, 'writer' => str_replace(' ', '-', $post->user->name), 'title' => str_replace(' ', '-', $post->title)]) }}" target="_blank">
                                                             <ion-icon class="text-lg mr-3" name="reader-outline"></ion-icon>
                                                             read
                                                         </a>
@@ -66,8 +65,7 @@
                                                     <a class="flex justify-center items-center capitalize font-medium text-sm text-slate-500"
                                                         href="{{ route('publish-blog.edit', ['post' => $post->id]) }}"
                                                         target="_blank">
-                                                        <ion-icon class="text-lg mr-3"
-                                                            name="refresh-outline"></ion-icon>
+                                                        <ion-icon class="text-lg mr-3" name="refresh-outline"></ion-icon>
                                                         update
                                                     </a>
                                                 </li>
@@ -114,14 +112,5 @@
                 <p class="text-lg text-slate-500 font-medium capitalize text-center mt-10">No articles saved yet</p>
             @endforelse
         </div>
-    </div>
-    <div class="border-2 border-slate-200 my-10 mx-1-">
-        <p>people that i am following</p>
-        {{-- {{ $users->following->count() }}
-        @foreach ($users->following as $follow)
-            <li>{{ $follow->author->name }}</li>
-        @endforeach --}}
-        <p>people that following me</p>
-        
     </div>
 </x-dashboard>

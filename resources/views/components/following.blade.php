@@ -9,7 +9,7 @@
         <div class="flex justify-around items-center py-3 my-1 mx-auto">
             <section class="flex items-center w-[55%]">
                 @if ($follow->author->profile_picture === null)
-                    <h2 class="capitalize h-10 w-10 pt-1 rounded-full bg-indigo-500 text-lg font-medium text-white border-2 border-white">
+                    <h2 class="capitalize h-10 w-10 text-center pt-1.5 rounded-full bg-gray-800 text-lg font-medium text-white">
                         {{ Str::limit($follow->author->name, 1, '') }}
                     </h2>
                 @else
@@ -21,3 +21,4 @@
         </div>
     @endforeach
 </div>
+

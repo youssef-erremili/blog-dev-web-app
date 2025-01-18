@@ -4,18 +4,16 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use Coderflex\Laravisit\Concerns\CanVisit;
-use Coderflex\Laravisit\Concerns\HasVisits;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements CanVisit
+class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasVisits;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -28,7 +26,8 @@ class User extends Authenticatable implements CanVisit
         'profile_picture',
         'password',
         'location',
-        'bio'
+        'bio',
+        'views'
     ];
 
     /**
@@ -80,5 +79,20 @@ class User extends Authenticatable implements CanVisit
     public function followers(): HasMany
     {
         return $this->hasMany(Follow::class, 'author_id');
-    }    
+    } 
+
+    public function views()
+    {
+        $sessionKey = "is_user_{{$this->id}}_viewed";
+        if (! session()->get($sessionKey)) {
+            self::withoutTimestamps( function(){
+                $this->increment('views');
+            });
+            session()->put($sessionKey, true);
+        }
+
+        return $this->views;
+    } 
+    
+    
 }
