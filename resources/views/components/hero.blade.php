@@ -1,4 +1,4 @@
-<div class="mt-5 flex justify-between items-center overflow-hidden bg-white py-20">
+<div class="flex justify-between items-center overflow-hidden bg-gray-50/90 py-24">
     <div class="w-[25%] overflow-hidden">
         <div class="flex items-end -ml-5">
             <img src="{{ asset('images/header/balon.jpg') }}" class="w-28 h-28 rounded-lg object-cover" alt="image">
@@ -11,7 +11,7 @@
             <img src="{{ asset('images/header/website.jpg') }}" class="w-16 h-16 rounded-lg object-cover" alt="image">
         </div>
     </div>
-    <div class="flex-1 z-50 bg-white">
+    <div class="flex-1">
         <div class="text-center ">
             <h1 class="font-bold text-3xl align-bottom text-nowrap text-gray-900 capitalize">inside <img src="{{ asset('images/logo.png') }}" class="mr-3 h-10 inline-block" alt="errehub Logo"/>: Real Stories, Inspiring Voices</h1>
             <p class="font-normal mt-1 inline-block text-slate-500 lowercase text-wrap w-3/4">A platform where stories and interviews reveal authentic experiences and valuable insights</p>

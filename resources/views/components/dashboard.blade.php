@@ -47,7 +47,7 @@
         </aside>
 
         <div class="p-6 sm:ml-52 mt-2">
-            <div class="py-8 px-6 border border-slate-200 capitalize rounded-lg mt-14">
+            <div class="py-8 px-6 border border-slate-200 rounded-lg mt-14">
                 {{ $slot }}
             </div>
         </div>

@@ -1,44 +1,3 @@
-// import './bootstrap';
-
-// let tag_input = document.getElementById('tag-input')
-// let tag_container = document.getElementById('tag-container')
-// let alertMsg = document.getElementById('msg')
-// let tagname = 1
-
-// if (tag_input) {
-//     tag_input.addEventListener('keypress', (event) => {
-//         if (event.key === 'Enter') {
-//             event.preventDefault()
-//             let value = tag_input.value.trim() //== "" ? tag_input.value.trim() : ''
-//             let tag = document.createElement('input')
-//             tag.value = `#${value}`
-//             tag.type = "text"
-//             tag.name = `tag${tagname++}`
-//             tag.classList.add('removetag', 'text-slate-950', 'py-1', 'mx-1', 'px-1', 'w-[5.5rem]', 'inline-block', 'outline-none', 'cursor-pointer', 'select-none', 'rounded-md', 'font-medium', 'capitalize', 'text-center', 'text-sm', 'bg-yellow-400')
-//             tag.setAttribute('readonly', 'true')
-//             tag_input.value = ""
-//             tag_container.appendChild(tag)
-//             if (tag_container.childElementCount === 5) {
-//                 tag_input.setAttribute('disabled', 'true')
-//                 tag_input.setAttribute('placeholder', '')
-//                 alertMsg.textContent = "You've reached the maximum allowed tags per topic."
-//             }
-//             let removetag = document.querySelectorAll('.removetag')
-//             removetag.forEach(element => {
-//                 element.addEventListener('dblclick', () => {
-//                     element.remove()
-//                     let count = tag_container.childElementCount
-//                     if (count < 5) {
-//                         tag_input.removeAttribute('disabled')
-//                         tag_input.setAttribute('placeholder', 'Type Your Blog Tags')
-//                         alertMsg.textContent = "Each topic can have up to five tags. Get creative!"
-//                     }
-//                 })
-//             });
-//         }
-//     })
-// }
-
 // Get references to the input element and the image tag
 const fileInput = document.getElementById('profile_picture');
 const imagePreview = document.getElementById('imagePreview');
@@ -87,4 +46,54 @@ if (toggle_password) {
             }
         })
     })
+}
+
+const categories = {
+    "categories": [
+        { "name": "Technology" },
+        { "name": "Health" },
+        { "name": "Business" },
+        { "name": "Lifestyle" },
+        { "name": "Personal Development" },
+        { "name": "Art" },
+        { "name": "Travel" },
+        { "name": "Education" },
+        { "name": "Finance" },
+        { "name": "Food" },
+        { "name": "Politics" },
+        { "name": "Science" },
+        { "name": "Entertainment" },
+        { "name": "Sports" },
+        { "name": "Culture" },
+        { "name": "Design" },
+    ]
+};
+
+function populateCategories() {
+    const dropdown = document.getElementById('category');
+    if (dropdown) {
+        categories.categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category.name;
+            option.textContent = category.name;
+            dropdown.appendChild(option);
+        });
+    }
+}
+// Populate categories when the page loads
+window.onload = populateCategories;
+
+
+// hide alert message onclick
+
+let hideBtn = document.querySelectorAll('.hide')
+let alerts = document.querySelectorAll('.animate')
+if (hideBtn) {
+    hideBtn.forEach(hide => {
+        hide.addEventListener('click' ,() => { 
+            alerts.forEach(alert => {
+                alert.classList.add('hidden')
+            })
+        })
+    });
 }

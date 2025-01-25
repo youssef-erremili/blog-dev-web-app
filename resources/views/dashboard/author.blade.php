@@ -2,7 +2,7 @@
     <div class="flex mx-auto mt-14 px-16">
         <div class="overflow-hidden w-[70%]">
             <div class="relative pt-40 pb-24 border rounded-xl overflow-hidden border-gray-200 m-2">
-                <img src="https://pagedone.io/asset/uploads/1705473378.png" alt="cover-image" class="w-full absolute top-0 left-0 z-0 h-60 object-cover">
+                <img src="{{ asset('images/header/nature.jpg') }}" alt="cover-image" class="w-full absolute top-0 left-0 z-0 h-60 object-cover">
                 <div class="w-full max-w-7xl mx-auto px-6 md:px-8">
                     <div class=" overflow-hidden sm:justify-start relative z-10">
                         @if ($user->profile_picture === null)
@@ -56,8 +56,8 @@
                 <div class="mt-5 border rounded-xl border-gray-200 py-2 px-4">
                     <h3 class="capitalize text-base pt-4 font-semibold text-slate-700">latest articles</h3>
                     <x-desc-author>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus soluta nam laudantium, aliquid ducimus adipisci</x-desc-author>
-                    @foreach ($posts as $post)
-                        <x-blog-card :$post></x-blog-card>
+                    @foreach ($posts as $index => $post)
+                        <x-blog-card :$post :reading="$reading_time[$index]"/>
                     @endforeach
                     <div class="my-7">
                         {{ $posts->links() }}
@@ -102,7 +102,7 @@
                     </section>
                     <section class="ml-2">
                         <p class="font-medium uppercase text-sm text-gray-400">join date</p>
-                        <span class="text-gray-700 font-medium">{{ $user->created_at->DiffForhumans() }}</span>
+                        <span class="text-gray-700 font-medium">{{ $user->created_at->toFormattedDateString() }}</span>
                     </section>
                 </div>
             </div>

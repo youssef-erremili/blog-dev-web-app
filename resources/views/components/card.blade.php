@@ -1,28 +1,46 @@
-@props(['post'])
+@props(['post', 'reading'])
 
 <div class="w-[30%] mt-7 py-5 overflow-hidden shadow border bg-white border-gray-100 rounded-3xl shadow-slate-200">
     <div class="px-1 relative">
-    <img class="rounded-lg block mx-auto h-44 w-11/12 object-cover" src="{{ asset('storage/' . $post->articale_cover) }}" alt="{{ $post->title }}" />
-        <span class="absolute bottom-2 left-7 text-sm text-white rounded-lg py-1 px-2 capitalize font-normal inline-block bg-gray-800">
-            technology
+    <img class="rounded-2xl block mx-auto h-44 w-11/12 object-cover" src="{{ asset('storage/' . $post->articale_cover) }}" alt="{{ $post->title }}" />
+        <span class="absolute bottom-2 left-7 text-sm text-white rounded-lg py-1 px-2 capitalize font-normal inline-block bg-gray-950/50">
+            {{ $post->category }}
         </span>
     </div>
     <div class="bg-white rounded-b px-5 py-3 flex flex-col justify-between leading-normal">
         @php
-            $title = Str::length($post->title) < 64 ? $post->title : Str::limit($post->title, 65, '...');
+            $title = Str::length($post->title) < 64 ? $post->title : Str::limit($post->title, 50, '...');
         @endphp
         <div class="mb-2">
-            <a class="lowercase" href="{{ Str::lower(url('reader', ['id' => $post->id, 'writer' => str_replace(' ', '-', $post->user->name), 'title' => str_replace(' ', '-', $post->title)])) }}" target="_blank">
+            <div class="flex">
+                <span class="text-gray-400 text-sm font-medium flex items-center">
+                    <img src="{{ asset('images/history.svg') }}" class="size-5 mr-1" alt="icon">
+                    {{ $reading }}
+                </span>
+                <span class="text-gray-400 text-sm font-medium flex items-center ml-4">
+                    <img src="{{ asset('images/eye-dark.svg') }}" class="size-5 mr-1" alt="icon">
+                    {{ $post->views }}
+                </span>
+            </div>
+            <x-url-reader :$post>
                 <h1 class="h-16 text-slate-800/90 font-semibold text-[17px] capitalize text-wrap py-2">{{ $title }}</h1>
-            </a>
-            <p class="text-slate-600 lowercase text-sm">{{ Str::limit($post->content, 90, '.') }}</p>
+            </x-url-reader>
+            <p class="text-slate-600 lowercase text-sm">{{ Str::limit($post->content, 100, '...') }}</p>
         </div>
         <div class="flex items-center justify-between mt-4">
             <div class="flex items-center">
-                <img class="w-10 h-10 rounded-full mr-4 ring-2 ring-blue-600" src="{{ asset('storage/' . Auth::user()->profile_picture ) }}" alt="{{ Auth::user()->name }}">
-                <div class="text-sm">
-                    <p class="text-gray-900 leading-none capitalize font-medium">{{ Auth::user()->name }}</p>
-                    <p class="text-gray-500 text-sm capitalize">{{ $post->created_at->toFormattedDateString() }}</p>
+                <div class="mr-1">
+                    @if (Auth::user()->profile_picture === null)
+                        <h2 class="capitalize h-11 text-center w-11 pt-1.5 rounded-full bg-gray-800 text-lg font-medium text-white border-2 border-white">
+                            {{ Str::limit(Auth::user()->name, 1, '') }}
+                        </h2>
+                    @else
+                        <img class="rounded-full h-12 w-12 border-2 border-white" src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="{{ Auth::user()->name }}">
+                    @endif
+                </div>
+                <div class="text-sm capitalize mt-1">
+                    <p class="text-gray-800 leading-none font-medium">{{ Auth::user()->name }}</p>
+                    <p class="text-gray-500">{{ $post->created_at->toFormattedDateString() }}</p>
                 </div>
             </div>
         </div>

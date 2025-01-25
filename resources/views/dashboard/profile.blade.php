@@ -4,13 +4,14 @@
     @elseif (session('editProfileError'))
         <x-alert-error action="error" message="{{ session('editProfileError') }}"/>
     @endif
+    <x-breadcrumb />
     <div class="flex items-center justify-between relative">
         <div>
             <h1 class="capitalize font-semibold text-2xl text-slate-800">Profile</h1>
             <p class="text-sm text-gray-500 my-2">Manage your name, password and account settings.</p>
         </div>
         <div class="my-8 inline-block">
-            <a href="{{ route('show-profile-public', ['id' => Auth::id(), 'author' =>  str_replace(' ', '-', Auth::user()->name)]) }}" class="rounded-md bg-gray-800 text-white py-2 inline-block text-sm px-4" target="_blank">View public profile</a>
+            <a href="{{ route('author', ['id' => Auth::user()->id, 'author' =>  Str::slug(Auth::user()->name)]) }}" class="rounded-md bg-gray-800 text-white py-2 inline-block text-sm px-4" target="_blank">View public profile</a>
         </div>
     </div>
     <div class="py-4 px-10">
@@ -27,10 +28,7 @@
                             </span>
                         @else
                             <span class="overflow-hidden">
-                                <h2 class="capitalize size-20 pt-5 text-center rounded-full bg-indigo-500 text-3xl font-medium text-white border-2 border-white">
-                                    {{ Str::limit(Auth::user()->name, 1, '') }}
-                                </h2>
-                                <img class="rounded-full size-20 border-2 border-indigo-600" id="imagePreview">
+                                <img class="rounded-full border-4 border-white size-20" id="imagePreview">
                             </span>
                         @endif
                     </div>

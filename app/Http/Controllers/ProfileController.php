@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use SHTayeb\Bookworm\Bookworm;
 
 class ProfileController extends Controller
 {
@@ -173,6 +174,10 @@ class ProfileController extends Controller
         $posts = Post::where('user_id', $id)->where('status', 'published')->latest()->simplePaginate('5');
         $total = Post::where('user_id', $id)->where('status', 'published')->count();
         $user->views();
-        return view('dashboard.author', compact('user', 'posts', 'total'));
+        $reading_time = [];
+        foreach ($posts as $post) {
+            $reading_time[] = (new Bookworm())->estimate($post->content);
+        }
+        return view('dashboard.author', compact('user', 'posts', 'total', 'reading_time'));
     }
 }

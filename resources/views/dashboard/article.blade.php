@@ -1,9 +1,10 @@
 <x-dashboard>
-    @if (session('deleted'))
-        <x-alert-success action="success" message="{{ session('deleted') }}"/>
-    @elseif (session('notDeleted'))
-        <x-alert-error action="error" message="{{ session('notDeleted') }}"/>
+    @if (session('artcilepublished'))
+        <x-alert-success action="success" message="{{ session('artcilepublished') }}"/>
+    @elseif (session('artcileNotpublished'))
+        <x-alert-error action="error" message="{{ session('artcileNotpublished') }}"/>
     @endif
+    <x-breadcrumb />
     <div class="flex items-start justify-between relative">
         <section>
             <h1 class="capitalize font-semibold text-2xl text-slate-800">article overview</h1>
@@ -27,6 +28,7 @@
                                 <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">title</th>
                                 <th scope="col" class="px-2 py-3 text-start text-xs font-medium text-gray-500 uppercase">content</th>
                                 <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">status</th>
+                                <th scope="col" class="px-3 py-3 text-start text-xs font-medium text-gray-500 uppercase">views</th>
                                 <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">cover</th>
                                 <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Action</th>
                             </tr>
@@ -34,7 +36,7 @@
                         <tbody class="divide-y divide-gray-200">
                             @forelse ($posts as $post)
                                 <tr x-data="{ open: false }">
-                                    <td class="px-2 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                    <td class="px-2 py-4 whitespace-nowrap text-sm font-medium text-gray-700">
                                         {{ $loop->iteration }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-700">
@@ -46,19 +48,23 @@
                                     <td class="text-gray-800 px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <span class="{{ $post->status == 'draft' ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600' }} rounded-3xl lowercase py-1 px-3.5">{{ $post->status }}</span>
                                     </td>
+                                    <td class="flex items-center text-gray-600 px-3 py-4 whitespace-nowrap text-sm font-medium">
+                                        {{ $post->views }}
+                                        <img src="{{ asset('images/eye-dark.svg') }}" class="size-4 ml-1" alt="icon">
+                                    </td>
                                     <td class="px-6 py-4"><img class="w-8 h-8 rounded-full" src="{{ asset('storage/' . $post->articale_cover) }}" alt="{{ $post->title }}"></td>
                                     <td class="py-4 whitespace-nowrap text-center text-sm font-medium relative">
-                                        <button type="button" @click="open = ! open" class="w-7">
+                                        <button type="button" @click="open = ! open" class="w-7 border border-gray-300 rounded-md p-1">
                                             <img src="{{ asset('images/dots.svg') }}" alt="dots svg">
                                         </button>
                                         <div x-show="open" @click.outside="open = false" x-transition class="bg-white border shadow-md rounded-md absolute z-50 top-6 -left-16">
                                             <ul>
                                                 @if ($post->status === 'published')
                                                     <li class="py-3 px-6 my-0.5">
-                                                        <a class="flex items-center capitalize font-medium text-sm text-slate-500" href="{{ route('reader', ['id' => $post->id, 'writer' => str_replace(' ', '-', $post->user->name), 'title' => str_replace(' ', '-', $post->title)]) }}" target="_blank">
+                                                        <x-url-reader :$post class="flex items-center capitalize font-medium text-sm text-slate-500">
                                                             <ion-icon class="text-lg mr-3" name="reader-outline"></ion-icon>
                                                             read
-                                                        </a>
+                                                        </x-url-reader>
                                                     </li>
                                                 @endif
                                                 <li class="py-3 px-6 my-0.5">
@@ -102,12 +108,14 @@
             </x-form>
         @endisset
     </div>
-    <div class="bg-slate-50 rounded-lg py-6 px-7 mt-15">
-        <h1 class="capitalize mt-3 mb-7 font-medium text-2xl text-slate-800">saved articles</h1>
+    <div class="py-6 px-7 mt-20 border rounded-md">
+        <div class="flex justify-between">
+            <h1 class="font-medium text-2xl first-letter:capitalize text-gray-700">Articles you saved</h1>
+            <h3 class="text-gray-700 font-medium">Saved items : {{ $saves->count() }}</h3>
+        </div>
         <div class="my-10">
-            <h3>Total Posts: {{ $saves->count() }}</h3>
             @forelse ($saves as $save)
-                <x-top-article save_id="{{ $save->id }}" article_id="{{ $loop->iteration }}" date="{{ $save->created_at->diffForHumans() }}" posts="{{ false }}" image="{{ $save->article->articale_cover }}" title="{{ $save->article->title }}"></x-top-article>
+                <x-save-article :save="$save" :loop="$loop->iteration" />
             @empty
                 <p class="text-lg text-slate-500 font-medium capitalize text-center mt-10">No articles saved yet</p>
             @endforelse

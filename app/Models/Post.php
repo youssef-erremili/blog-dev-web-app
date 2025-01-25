@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasViewCount;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,12 +14,14 @@ class Post extends Model
 {
 
     use HasFactory, SoftDeletes;
+    use HasViewCount;
 
     protected $fillable = [
         'title',
         'content',
         'status',
         'articale_cover',
+        'category',
         'tag1',
         'tag2',
         'tag3',
@@ -31,18 +34,14 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-
-
     public function saves(): HasMany
     {
         return $this->hasMany(Save::class);
     }
 
-
     public function whosaves(): BelongsToMany
     {
         return $this->BelongsToMany(User::class, 'saves');
     }
-
 
 }

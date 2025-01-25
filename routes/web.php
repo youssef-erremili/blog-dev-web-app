@@ -25,30 +25,10 @@ Route::get('/web-development', function () {
     return view('index');
 })->name('web-development');
 
-Route::get('/productivity', function () {
-    return view('index');
-})->name('productivity');
-
-Route::get('/history', function () {
-    return view('index');
-})->name('history');
-
-Route::get('/creativity', function () {
-    return view('index');
-})->name('creativity');
-
-Route::get('/artificial-intelligence', function () {
-    return view('index');
-})->name('artificial-intelligence');
-
-Route::get('/education', function () {
-    return view('index');
-})->name('education');
-
-
-
-Route::get('/author/{id}/@{author}', [ProfileController::class, 'author'])->name('show-profile-public');
+Route::get('/author/{id}/@{author}', [ProfileController::class, 'author'])->name('author');
 Route::get('/reader/{id}/{writer}/{title}', [PublishBlogController::class, 'show'])->name('reader');
+
+
 
 Route::middleware('guest')->group(function () {
     // sign-up

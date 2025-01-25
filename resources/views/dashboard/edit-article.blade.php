@@ -54,6 +54,12 @@
                     </select>
                 </div>
                 <div class="mt-6">
+                    <label for="category" class="block text-slate-800 font-medium my-1 text-[17px] capitalize">select category :</label>
+                    <select name="category" id="category" class="cursor-pointer capitalize font-medium font-sans py-3 px-4 pe-9 block w-full border border-gray-200 rounded-lg text-sm outline-none focus:border-blue-500 focus:ring-blue-500">
+                        <option value="{{ $post->category }} selected">{{ $post->category }}</option>
+                    </select>
+                </div>
+                <div class="mt-6">
                     <label for="tag-container" class="block text-slate-800 font-medium my-1 text-[17px] capitalize">article tags :</label>
                     <div class="inline-block" id="tag-container">
                         <input type="text" value="{{ $post->tag1 }}" class="text-slate-800 py-2 text-center mx-1 px-2.5 w-[6rem] outline-none select-none rounded-md font-medium capitalize border text-sm bg-white focus:border-none ring-2 ring-indigo-600 " placeholder="tag" name="tag1">

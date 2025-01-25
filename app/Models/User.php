@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Traits\HasViewCount;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,6 +15,7 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    use HasViewCount;
 
     /**
      * The attributes that are mass assignable.
@@ -57,7 +59,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
-    
+
     public function saves(): HasMany
     {
         return $this->hasMany(Save::class);
@@ -79,20 +81,5 @@ class User extends Authenticatable
     public function followers(): HasMany
     {
         return $this->hasMany(Follow::class, 'author_id');
-    } 
-
-    public function views()
-    {
-        $sessionKey = "is_user_{{$this->id}}_viewed";
-        if (! session()->get($sessionKey)) {
-            self::withoutTimestamps( function(){
-                $this->increment('views');
-            });
-            session()->put($sessionKey, true);
-        }
-
-        return $this->views;
-    } 
-    
-    
+    }
 }

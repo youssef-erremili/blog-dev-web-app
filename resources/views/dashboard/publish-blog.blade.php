@@ -49,6 +49,15 @@
                     @enderror
                 </div>
                 <div class="mt-6">
+                    <label for="category" class="block text-slate-800 font-medium my-1 text-[17px] capitalize">select category :</label>
+                    <select name="category" id="category" class="cursor-pointer capitalize font-medium font-sans py-3 px-4 pe-9 block w-full border border-gray-200 rounded-lg text-sm outline-none focus:border-blue-500 focus:ring-blue-500">
+                        <option hidden selected>select category</option>
+                    </select>
+                    @error('category')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="mt-6">
                     <label for="tag-container" class="block text-slate-800 font-medium my-1 text-[17px]">blog tags :</label>
                     <div class="inline-block" id="tag-container">
                         <input type="text" class="text-slate-800 py-2 text-center mx-1 px-2.5 w-[6rem] outline-none select-none rounded-md font-medium capitalize border text-sm bg-white focus:border-none ring-2 ring-indigo-600 " placeholder="tag" name="tag1">
@@ -80,8 +89,8 @@
         <div class="m-20 w-full mx-auto">
             <h1 class="text-2xl mb-6 inline-block text-slate-700 font-bold capitalize my-2 border-b-4 border-slate-700">latest posts</h1>
             <div class="flex items-center justify-between flex-wrap">
-                @forelse ($posts as $post)
-                    <x-card :post="$post" />
+                @forelse ($posts as $index => $post)
+                    <x-card :$post :reading="$reading_time[$index]" />
                 @empty
                     <p class="text-lg text-slate-800 font-medium capitalize text-center mt-10">No articles yet</p>
                 @endforelse

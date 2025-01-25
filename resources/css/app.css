@@ -4,9 +4,29 @@
 
 
 
-.bg-custom{
+.bg-custom {
     background-image: url('/public/images/bg-cover.png');
     background-repeat: no-repeat;
     background-size: contain;
     background-position: 90%;
+}
+
+
+
+.animate {
+    animation-name: fadeIn;
+    animation-duration: 2000ms;
+    animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+    animation-direction: alternate;
+    animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+    0% {
+        right: -50rem;
+    }
+
+    100% {
+        /* display: none; */
+    }
 }

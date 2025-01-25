@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use SHTayeb\Bookworm\Bookworm;
 
 class PublishBlogController extends Controller
@@ -23,7 +24,13 @@ class PublishBlogController extends Controller
             ->latest()
             ->limit(6)
             ->get();
-        return view('dashboard.publish-blog', compact('posts'));
+
+        $reading_time = [];
+        foreach ($posts as $post) {
+            $reading_time[] = (new Bookworm())->estimate($post->content);
+        }
+
+        return view('dashboard.publish-blog', compact('posts', 'reading_time'));
     }
     /**
      * Store a newly created resource in storage.
@@ -34,7 +41,8 @@ class PublishBlogController extends Controller
         $request->validate([
             'title' => ['required', 'min:10', 'max:5000'],
             'content' => ['required', 'min:10'],
-            'status' => ['required', 'in:draft,published'],
+            'status' => ['in:draft,published'],
+            'category' => ['required'],
             'articale_cover' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:6048'],
             'tag1' => ['required', 'string'],
             'tag2' => ['required', 'string'],
@@ -48,10 +56,12 @@ class PublishBlogController extends Controller
         $path = $request->file('articale_cover')->storeAs('articale_cover', $image, 'public');
 
         // Save post data in DB
-        $isArticleSaved =  Auth::user()->posts()->create([
+        $user = User::find(Auth::user()->id);
+        $isArticleSaved =  $user->posts()->create([
             'title' => trim($request->input('title')),
             'content' => trim($request->input('content')),
             'status' => trim($request->input('status')),
+            'category' => trim($request->input('category')),
             'articale_cover' => $path,
             'tag1' => trim($request->input('tag1')),
             'tag2' => trim($request->input('tag2')),
@@ -76,26 +86,26 @@ class PublishBlogController extends Controller
 
         $preventfollow = false;
         $author_id = $post->user->id;
-        
+
         if ($post->status == 'draft') {
             return redirect()->route('home');
         }
 
         // Check if the article is already saved by the user
         $alreadySaved = Save::where('user_id', Auth::id())
-                            ->where('post_id', $post->id)
-                            ->first();
+            ->where('post_id', $post->id)
+            ->first();
 
         //Check if the user already follow this author
         $alreadyFollowing = Follow::where('follower_id', Auth::id())
-                                    ->where('author_id', $author_id)
-                                    ->first();     
+            ->where('author_id', $author_id)
+            ->first();
         if ($alreadyFollowing) {
             $preventfollow = true;
         }
 
         // Track the visit
-        
+        $post->views();
 
         $reading_time = (new Bookworm())->estimate($post->content);
         return view('dashboard.read-article', compact(['post', 'reading_time', 'alreadySaved', 'preventfollow', 'alreadyFollowing']));
@@ -125,6 +135,7 @@ class PublishBlogController extends Controller
                 'title' => ['required', 'min:30', 'max:150'],
                 'content' => ['required', 'min:10', 'max:20000'],
                 'status' => ['in:draft,published'],
+                'category' => ['required'],
                 'articale_cover' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
                 'tag1' => ['required', 'string'],
                 'tag2' => ['required', 'string'],
@@ -132,7 +143,10 @@ class PublishBlogController extends Controller
                 'tag4' => ['string', 'nullable'],
                 'tag5' => ['string', 'nullable'],
             ]);
+
             if ($request->hasFile('articale_cover')) {
+                // delete first image then update
+                Storage::disk('public')->delete($old_articale_cover);
                 $image = time() . '.' . $request->file('articale_cover')->extension();
                 $path = $request->file('articale_cover')->storeAs('articale_cover', $image, 'public');
             } else {
@@ -143,6 +157,7 @@ class PublishBlogController extends Controller
                 'title' => $request->title,
                 'content' => $request->content,
                 'status' => $request->status,
+                'category' => $request->category,
                 'articale_cover' => $path,
                 'tag1' => $request->tag1,
                 'tag2' => $request->tag2,
@@ -164,14 +179,15 @@ class PublishBlogController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id, Post $post)
+    public function destroy(string $id)
     {
-        Gate::allows('delete', $post);
         $post = Post::findOrFail($id);
+        Gate::allows('delete', $post);
         if ($post) {
             $post->delete();
+            return redirect()->back()->with('artcilepublished', 'your article has been deleted successfully');
         } else {
-            dd('not delete');
+            return redirect()->back()->with('artcileNotpublished', 'omething went wrong to delete your article');
         }
     }
 }

@@ -16,7 +16,7 @@
 <body>
     <x-navbar></x-navbar>
     
-    <main class="h-auto">
+    <main class="h-auto mx-auto">
         {{ $slot }}
     </main>
 

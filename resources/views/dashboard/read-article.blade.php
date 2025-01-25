@@ -19,7 +19,7 @@
                 </section>
                 <section class="mx-3">
                     <span class="flex"> 
-                        <a href="#" class="text-slate-700 capitalize font-medium text-base mr-1">{{ $post->user->name }}</a>
+                        <a href="{{ route('author', ['id' => $post->user->id, 'author' =>  Str::slug($post->user->name)]) }}" class="text-gray-700 capitalize font-medium text-base mr-1">{{ $post->user->name }}</a>
                         @auth
                             @if ($post->user->id !== Auth::user()->id)
                                 @if ($preventfollow === false)
