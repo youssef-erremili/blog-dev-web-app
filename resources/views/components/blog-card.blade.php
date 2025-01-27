@@ -2,7 +2,7 @@
 
 <article class="my-10 bg-white border border-slate-100 shadow shadow-gray-200 h-72 group grid w-full rounded-2xl grid-cols-1 md:grid-cols-8 overflow-hidden">
     <div class="col-span-3 h-48 mt-12 overflow-hidden rounded-2xl ml-7">
-        <img src="{{ asset('storage/' . $post->articale_cover) }}"
+        <img src="{{ asset('storage/' . $post->article_cover) }}"
             class="h-full w-3/4 rounded-2xl object-cover transition duration-700 ease-out group-hover:scale-105"
             alt="{{ $post->title }}" />
     </div>

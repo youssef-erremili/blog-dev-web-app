@@ -2,8 +2,8 @@
 
 <div class="w-[30%] mt-7 py-5 overflow-hidden shadow border bg-white border-gray-100 rounded-3xl shadow-slate-200">
     <div class="px-1 relative">
-    <img class="rounded-2xl block mx-auto h-44 w-11/12 object-cover" src="{{ asset('storage/' . $post->articale_cover) }}" alt="{{ $post->title }}" />
-        <span class="absolute bottom-2 left-7 text-sm text-white rounded-lg py-1 px-2 capitalize font-normal inline-block bg-gray-950/50">
+    <img class="rounded-2xl block mx-auto h-44 w-11/12 object-cover" src="{{ asset('storage/' . $post->article_cover) }}" alt="{{ $post->title }}" />
+        <span class="category absolute bottom-2 left-7 text-sm text-white rounded-lg py-1 px-2 capitalize font-normal inline-block">
             {{ $post->category }}
         </span>
     </div>
@@ -30,16 +30,18 @@
         <div class="flex items-center justify-between mt-4">
             <div class="flex items-center">
                 <div class="mr-1">
-                    @if (Auth::user()->profile_picture === null)
+                    @if ($post->user->profile_picture === null)
                         <h2 class="capitalize h-11 text-center w-11 pt-1.5 rounded-full bg-gray-800 text-lg font-medium text-white border-2 border-white">
-                            {{ Str::limit(Auth::user()->name, 1, '') }}
+                            {{ Str::limit($post->user->name, 1, '') }}
                         </h2>
                     @else
                         <img class="rounded-full h-12 w-12 border-2 border-white" src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="{{ Auth::user()->name }}">
                     @endif
                 </div>
                 <div class="text-sm capitalize mt-1">
-                    <p class="text-gray-800 leading-none font-medium">{{ Auth::user()->name }}</p>
+                    <a href="{{ route('author', ['id' => $post->user->id, 'author' =>  Str::slug($post->user->name)]) }}" target="_blank">
+                        <p class="text-gray-800 leading-none font-medium">{{ $post->user->name }}</p>
+                    </a>
                     <p class="text-gray-500">{{ $post->created_at->toFormattedDateString() }}</p>
                 </div>
             </div>

@@ -43,7 +43,7 @@ class PublishBlogController extends Controller
             'content' => ['required', 'min:10'],
             'status' => ['in:draft,published'],
             'category' => ['required'],
-            'articale_cover' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:6048'],
+            'article_cover' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:6048'],
             'tag1' => ['required', 'string'],
             'tag2' => ['required', 'string'],
             'tag3' => ['required', 'string'],
@@ -52,8 +52,8 @@ class PublishBlogController extends Controller
         ]);
 
         // move image
-        $image = time() . '.' . $request->file('articale_cover')->extension();
-        $path = $request->file('articale_cover')->storeAs('articale_cover', $image, 'public');
+        $image = time() . '.' . $request->file('article_cover')->extension();
+        $path = $request->file('article_cover')->storeAs('article_cover', $image, 'public');
 
         // Save post data in DB
         $user = User::find(Auth::user()->id);
@@ -62,7 +62,7 @@ class PublishBlogController extends Controller
             'content' => trim($request->input('content')),
             'status' => trim($request->input('status')),
             'category' => trim($request->input('category')),
-            'articale_cover' => $path,
+            'article_cover' => $path,
             'tag1' => trim($request->input('tag1')),
             'tag2' => trim($request->input('tag2')),
             'tag3' => trim($request->input('tag3')),
@@ -83,6 +83,11 @@ class PublishBlogController extends Controller
     {
         $post = Post::where('status', 'published')->findOrFail($id);
         $author = User::findOrFail($post->user->id);
+        if ($post->views >= 30) {
+            $feature = new Post;
+            $feature->featured = true;
+            $feature->update();
+        }
 
         $preventfollow = false;
         $author_id = $post->user->id;
@@ -129,14 +134,14 @@ class PublishBlogController extends Controller
     public function update(Request $request, Post $post)
     {
         if (Gate::allows('update', $post)) {
-            $old_articale_cover = $post->articale_cover;
+            $old_article_cover = $post->article_cover;
             $path = null;
             $request->validate([
                 'title' => ['required', 'min:30', 'max:150'],
                 'content' => ['required', 'min:10', 'max:20000'],
                 'status' => ['in:draft,published'],
                 'category' => ['required'],
-                'articale_cover' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+                'article_cover' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
                 'tag1' => ['required', 'string'],
                 'tag2' => ['required', 'string'],
                 'tag3' => ['string', 'nullable'],
@@ -144,13 +149,13 @@ class PublishBlogController extends Controller
                 'tag5' => ['string', 'nullable'],
             ]);
 
-            if ($request->hasFile('articale_cover')) {
+            if ($request->hasFile('article_cover')) {
                 // delete first image then update
-                Storage::disk('public')->delete($old_articale_cover);
-                $image = time() . '.' . $request->file('articale_cover')->extension();
-                $path = $request->file('articale_cover')->storeAs('articale_cover', $image, 'public');
+                Storage::disk('public')->delete($old_article_cover);
+                $image = time() . '.' . $request->file('article_cover')->extension();
+                $path = $request->file('article_cover')->storeAs('article_cover', $image, 'public');
             } else {
-                $path = $old_articale_cover;
+                $path = $old_article_cover;
             }
 
             $isArticleUpdated = Post::where('id', $post->id)->update([
@@ -158,7 +163,7 @@ class PublishBlogController extends Controller
                 'content' => $request->content,
                 'status' => $request->status,
                 'category' => $request->category,
-                'articale_cover' => $path,
+                'article_cover' => $path,
                 'tag1' => $request->tag1,
                 'tag2' => $request->tag2,
                 'tag3' => $request->tag3,

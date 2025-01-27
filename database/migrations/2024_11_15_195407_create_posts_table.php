@@ -18,13 +18,14 @@ return new class extends Migration
             $table->longText('content');
             $table->enum('status', ['draft', 'published'])->default('draft');
             $table->string('category')->nullable();
-            $table->string('articale_cover')->nullable();
+            $table->string('article_cover')->nullable();
             $table->string('tag1')->nullable();
             $table->string('tag2')->nullable();
             $table->string('tag3')->nullable();
             $table->string('tag4')->nullable();
             $table->string('tag5')->nullable();
-            $table->string('views')->default(0);
+            $table->bigInteger('views')->default(0);
+            $table->enum('featured', ['false', 'true'])->default('false');
             $table->softDeletes();
             $table->timestamps();
         });

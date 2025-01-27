@@ -16,11 +16,25 @@ class Post extends Model
     use HasFactory, SoftDeletes;
     use HasViewCount;
 
+    // Define the views threshold
+    public function checkAndFeaturePost()
+    {
+        $views = 30;
+        $featuredposts = Post::where('views', '>=', $views)
+                                ->limit(5)
+                                ->get();
+
+        foreach ($featuredposts as $post) {
+            $post->featured = 'true';
+            $post->save(); 
+        }
+    }
+
     protected $fillable = [
         'title',
         'content',
         'status',
-        'articale_cover',
+        'article_cover',
         'category',
         'tag1',
         'tag2',
@@ -29,7 +43,7 @@ class Post extends Model
         'tag5',
     ];
 
-    public function user() : BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -43,5 +57,4 @@ class Post extends Model
     {
         return $this->BelongsToMany(User::class, 'saves');
     }
-
 }

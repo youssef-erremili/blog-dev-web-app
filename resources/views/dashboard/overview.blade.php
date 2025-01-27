@@ -2,7 +2,7 @@
     <x-breadcrumb />
     <div class="flex justify-between">
         <div class="w-[70%] bg-custom bg-green-500 rounded-2xl py-10 px-12 inline-block text-white">
-            <h2 class="font-bold text-4xl">welcome, {{ Auth::user()->name }}!</h2>
+            <h2 class="font-bold text-4xl capitalize">welcome, {{ Auth::user()->name }}!</h2>
             <p class="text-sm font-normal my-2 first-letter:capitalize lowercase text-wrap">Everything you want know about
                 you overviews and your result in weeks is showen here </p>
             <section>
@@ -14,13 +14,13 @@
             </section>
         </div>
         <div class="ml-4 h-fit w-[40%] bg-white py-4 px-4 rounded-2xl border border-gray-200">
-            <x-followers width="50px" :users="$users"></x-followers>
+            <x-followers :users="$users"></x-followers>
         </div>
     </div>
     <div class="mt-14 border border-gray-200 py-4 px-4 rounded-2xl">
         <x-title-author class="text-2xl ml-7 mt-0 pt-4">Overview</x-title-author>
         <div class="flex justify-around w-full mt-6">
-            <div class="flex flex-wrap justify-around items-center w-[64%] overflow-hidden"> 
+            <div class="flex flex-wrap justify-around items-center capitalize overflow-hidden"> 
                 <div class="flex items-center rounded-3xl w-[40%] py-5 px-6 border-2 border-indigo-800 bg-white">
                     <div class="block bg-indigo-900 rounded-xl mr-6 py-3 px-3 size-16">
                         <img src="{{ asset('images/eye-outline.svg') }}" alt="icon">
@@ -76,16 +76,14 @@
                     </div>
                 </div>
             </div>
-            @if ($users->following->count() !== 0)
-                <div class="ml-3 h-fit w-[36%] bg-white py-4 px-4 rounded-2xl border border-gray-200">
-                    <x-following :users="$users"></x-following>
-                </div>
-            @endif
+            <div class="ml-3 h-fit w-[65%] bg-white py-4 px-4 rounded-2xl border border-gray-200">
+                <x-following :users="$users"></x-following>
+            </div>
         </div>
     </div>
     <div class="mt-14 border border-gray-200 py-4 px-4 rounded-2xl">
         <div class="flex justify-between">
-            <x-title-author class="text-2xl mt-0.5 ml-7 pt-3">top articles</x-title-author>
+            <h1 class="font-medium text-2xl first-letter:capitalize text-gray-700">top articles</h1>
             <select name="" id="" class="bg-transparent outline-none cursor-pointer">
                 <option value="">Month</option>
                 <option value="">motnhs</option>
@@ -93,11 +91,11 @@
             </select>
         </div>
         <div class="my-6">
-            {{-- <x-save-article article_id="01"></x-save-article>
-            <x-save-article article_id="02"></x-save-article>
-            <x-save-article article_id="03"></x-save-article>
-            <x-save-article article_id="04"></x-save-article>
-            <x-save-article article_id="05"></x-save-article> --}}
+            @forelse ($topArticle as $article)
+                <x-top-article :$article :loop="$loop->iteration" />
+            @empty
+                <p class="text-base text-slate-600 font-medium text-center mt-10">Start making big success</p>
+            @endforelse          
         </div>
     </div>
 </x-dashboard>

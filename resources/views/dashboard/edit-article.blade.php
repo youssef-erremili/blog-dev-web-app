@@ -18,12 +18,12 @@
                     <textarea name="content" id="content" placeholder="bring all your ideas to this blog" class="resize-none py-3 px-4 w-full outline-none border rounded-md focus:ring-1 placeholder:capitalize focus:border-indigo-500 focus:ring-indigo-500" cols="30" rows="10">{{ $post->content }}</textarea>
                 </div>
                 <div class="mt-6">
-                    <label for="articale_cover" class="block text-slate-800 font-medium my-1 text-[17px] capitalize">article cover :</label>
+                    <label for="article_cover" class="block text-slate-800 font-medium my-1 text-[17px] capitalize">article cover :</label>
                     <div class="flex justify-between">
                         <div class="flex flex-wrap items-center">
                             <div class="">
                                 <span class="overflow-hidden rounded-md flex shrink-0 w-48 h-32 cursor-pointer">
-                                    <img class="rounded-lg object-cover" id="imagePreview" src="{{ asset('storage/' . $post->articale_cover) }}" alt="articale cover">
+                                    <img class="rounded-lg object-cover" id="imagePreview" src="{{ asset('storage/' . $post->article_cover) }}" alt="articale cover">
                                 </span>
                             </div>
                             <div class="mx-2">
@@ -38,7 +38,7 @@
                                         </svg>
                                         Upload photo
                                     </button>
-                                    <input type="file" class="absolute z-40 opacity-0 cursor-pointer file:cursor-pointer w-32" name="articale_cover" id="profile_picture">
+                                    <input type="file" class="absolute z-40 opacity-0 cursor-pointer file:cursor-pointer w-32" name="article_cover" id="profile_picture">
                                     <button type="button" class="py-2 z-50 px-3 inline-flex items-center gap-x-2 text-xs font-semibold rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm">Delete</button>
                                 </div>
                             </div>

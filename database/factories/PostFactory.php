@@ -21,7 +21,7 @@ class PostFactory extends Factory
             'title' => fake()->text(90),
             'content' => fake()->realTextBetween('4000', '8000'),
             'status' => fake()->randomElement(['published', 'draft']),
-            'articale_cover' => 'articale_cover/1737244137.jpg',
+            'article_cover' => 'article_cover/1737244137.jpg',
             'category' => fake()->randomElement(['Technology', 'Health', 'Business', 'Lifestyle', 'Personal Development', 'Art', 'Travel', 'Education', 'Finance', 'Food', 'Politics', 'Science', 'Entertainment', 'Sports', 'Culture', 'Design']),
             'tag1' => fake()->randomElement(['AI', 'tech', 'bussiness', 'world', 'days']),
             'tag2' => fake()->randomElement(['AI', 'tech', 'bussiness', 'world', 'days']),

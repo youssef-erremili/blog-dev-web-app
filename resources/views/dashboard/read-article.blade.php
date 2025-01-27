@@ -75,7 +75,7 @@
         </div>
         <div class="content">
             <div class="w-full">
-                <img class="rounded-md h-2/4 object-cover block my-4 mx-auto" src="{{ asset('storage/' . $post->articale_cover) }}" alt="{{ $post->title }}">
+                <img class="rounded-md h-2/4 object-cover block my-4 mx-auto" src="{{ asset('storage/' . $post->article_cover) }}" alt="{{ $post->title }}">
             </div>
             <article class="text-gray-700 leading-[32px] text-lg font-normal my-7">
                 {{ $post->content }}

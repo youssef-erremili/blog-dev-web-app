@@ -1,11 +1,11 @@
 @props(['users'])
 
-<div class="flex justify-between items-center">
+<div class="flex justify-between items-center mt-2">
     <h1 class="text-lg font-bold leading-none text-gray-800 capitalize">followers</h1>
     <button type="button" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">View all</button>
 </div>
 <div>
-    @foreach ($users->followers as $follow)
+    @forelse ($users->followers as $follow)
         <div class="flex justify-between items-center py-3 my-1 mx-auto">
             <section class="flex items-center w-[65%]">
                 @if ($follow->follower->profile_picture === null)
@@ -21,5 +21,7 @@
             </section>
             <x-button-primary class="rounded-full py-[3px]">follower</x-button-primary>
         </div>
-    @endforeach
+    @empty
+        <p class="text-base text-slate-500 font-medium text-center my-4">Start connect with poeple</p>
+    @endforelse
 </div>

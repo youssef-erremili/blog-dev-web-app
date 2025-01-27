@@ -4,11 +4,11 @@
     <div class="flex">
         <h2 class="font-medium text-slate-700 text-xl text-center mx-2 basis-10">{{ $loop }}</h2>
         <div class="flex">
-            <img src="{{ asset('storage/' . $save->article->articale_cover) }}" alt="article cover"
+            <img src="{{ asset('storage/' . $save->article->article_cover) }}" alt="article cover"
                 class="size-20 mx-5 rounded-md">
-            <section class="basis-full ">
+            <section class="basis-full">
                 <p class="text-pretty font-medium text-slate-700 block">{{ $save->article->title }}</p>
-                <span class="text-gray-400 font-normal lowercase text-sm mt-1.5 inline-flex">
+                <span class="text-gray-400 font-normal text-sm mt-1.5 inline-flex">
                     by <p class="text-gray-500 font-medium capitalize px-1">{{ $save->article->user->name }}</p>
                     saved for {{ $save->created_at->diffForHumans() }}
                 </span>

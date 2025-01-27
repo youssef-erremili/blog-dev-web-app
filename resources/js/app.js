@@ -90,10 +90,70 @@ let hideBtn = document.querySelectorAll('.hide')
 let alerts = document.querySelectorAll('.animate')
 if (hideBtn) {
     hideBtn.forEach(hide => {
-        hide.addEventListener('click' ,() => { 
+        hide.addEventListener('click', () => {
             alerts.forEach(alert => {
                 alert.classList.add('hidden')
             })
         })
     });
 }
+
+
+const category = ["Technology", 
+                "Health", 
+                "Business", 
+                "Lifestyle", 
+                "Personal Development", 
+                "Art", 
+                "Travel", 
+                "Education", 
+                "Finance", 
+                "Food", 
+                "Politics", 
+                "Science", 
+                "Entertainment", 
+                "Sports", 
+                "Culture", 
+                "Design"
+            ]
+
+const BgColor = ["red", 
+                "green", 
+                "#344CB7", 
+                "#16C47F", 
+                "#344CB7", 
+                "#22c55e", 
+                "#09122C", 
+                "yellow", 
+                "#4635B1", 
+                "#2973B2", 
+                "#344CB7", 
+                "#F14A00", 
+                "#F93827", 
+                "#FF9D23", 
+                "lightsalmon", 
+                "chartreuse"
+            ]
+
+const categoryColorMap = {};
+
+// Populate the categoryColorMap
+category.forEach((cat, index) => {
+    categoryColorMap[cat] = BgColor[index];
+});
+
+// Function to apply background color to spans based on their category
+function applyCategoryColors() {
+    let spans = document.querySelectorAll('.category');
+
+    spans.forEach(span => {
+        const categoryName = span.textContent.trim();  // Get the category name from the span's text
+        if (categoryColorMap[categoryName]) {
+            span.style.backgroundColor = categoryColorMap[categoryName];  // Apply the corresponding color
+        }
+    });
+}
+
+// Call the function to apply the background colors
+applyCategoryColors();
+console.log(categoryColorMap)

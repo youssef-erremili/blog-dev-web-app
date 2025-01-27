@@ -24,16 +24,16 @@
                     @enderror
                 </div>
                 <div class="mt-6">
-                    <label for="articale_cover" class="block text-slate-800 font-medium my-1 text-[17px]">blog cover :</label>
+                    <label for="article_cover" class="block text-slate-800 font-medium my-1 text-[17px]">blog cover :</label>
                     <span class="sr-only cursor-pointer">Choose profile photo</span>
-                    <input type="file" id="articale_cover" name="articale_cover" value="{{ old('articale_cover') }}" class="block w-full text-sm text-gray-500 border cursor-pointer border-gray-200 rounded-xl
+                    <input type="file" id="article_cover" name="article_cover" value="{{ old('article_cover') }}" class="block w-full text-sm text-gray-500 border cursor-pointer border-gray-200 rounded-xl
                         file:me-4 file:py-3 file:px-4
                         file:rounded-s-md file:border-0
                         file:text-sm file:font-semibold
                         file:bg-blue-600 file:text-white
                         hover:file:bg-blue-700
                         file:disabled:opacity-50 file:disabled:pointer-events-none">
-                    @error('articale_cover')
+                    @error('article_cover')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
                 </div>

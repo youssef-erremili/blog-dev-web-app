@@ -46,13 +46,13 @@
                                         {{ Str::limit($post->content, 45, '...') }}
                                     </td>
                                     <td class="text-gray-800 px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <span class="{{ $post->status == 'draft' ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600' }} rounded-3xl lowercase py-1 px-3.5">{{ $post->status }}</span>
+                                        <span class="{{ $post->status == 'draft' ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600' }} rounded-3xl capitalize py-1 px-3.5">{{ $post->status }}</span>
                                     </td>
                                     <td class="flex items-center text-gray-600 px-3 py-4 whitespace-nowrap text-sm font-medium">
+                                        <img src="{{ asset('images/eye-dark.svg') }}" class="size-4 mr-1" alt="icon">
                                         {{ $post->views }}
-                                        <img src="{{ asset('images/eye-dark.svg') }}" class="size-4 ml-1" alt="icon">
                                     </td>
-                                    <td class="px-6 py-4"><img class="w-8 h-8 rounded-full" src="{{ asset('storage/' . $post->articale_cover) }}" alt="{{ $post->title }}"></td>
+                                    <td class="px-6 py-4"><img class="w-8 h-8 rounded-full" src="{{ asset('storage/' . $post->article_cover) }}" alt="{{ $post->title }}"></td>
                                     <td class="py-4 whitespace-nowrap text-center text-sm font-medium relative">
                                         <button type="button" @click="open = ! open" class="w-7 border border-gray-300 rounded-md p-1">
                                             <img src="{{ asset('images/dots.svg') }}" alt="dots svg">
@@ -117,7 +117,7 @@
             @forelse ($saves as $save)
                 <x-save-article :save="$save" :loop="$loop->iteration" />
             @empty
-                <p class="text-lg text-slate-500 font-medium capitalize text-center mt-10">No articles saved yet</p>
+                <p class="text-base text-slate-600 font-medium text-center mt-10">No articles saved yet</p>
             @endforelse
         </div>
     </div>

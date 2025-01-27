@@ -19,13 +19,13 @@ return new class extends Migration
             $table->string('bio')->nullable();
             $table->string('location')->nullable();
             $table->string('profile_picture')->nullable();
-            $table->enum('visibility', ['public', 'private'])->nullable()->default('public');
+            $table->enum('visibility', ['public', 'private'])->default('public');
             $table->string('profile')->nullable();
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
             $table->string('website')->nullable();
-            $table->string('featured')->nullable();
-            $table->integer('views')->default(0);
+            $table->bigInteger('views')->default(0);
+            $table->enum('featured', ['false', 'true'])->default('false');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
