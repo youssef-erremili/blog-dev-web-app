@@ -14,6 +14,7 @@
 </head>
 
 <body>
+    @include('alert::alerts.alert')
     <x-navbar></x-navbar>
     
     <main class="h-auto mx-auto">

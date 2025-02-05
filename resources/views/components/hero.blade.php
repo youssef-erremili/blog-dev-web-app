@@ -17,7 +17,8 @@
             <p class="font-normal mt-1 inline-block text-slate-500 lowercase text-wrap w-3/4">A platform where stories and interviews reveal authentic experiences and valuable insights</p>
         </div>
         <div class="mt-4">
-            <form action="#" method="get">
+            <x-form action="{{ route('search') }}">
+                @method('POST')
                 <div class="relative w-full">
                     <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3.5">
                         <svg class="shrink-0 size-4 text-gray-400 dark:text-white/60"
@@ -28,12 +29,12 @@
                             <path d="m21 21-4.3-4.3" />
                         </svg>
                     </div>
-                    <input type="text" class="ps-10 pe-16 py-3 block w-full bg-white border border-gray-200 rounded-full text-sm focus:outline-none" placeholder="Search">
+                    <input type="search" name="search" class="ps-10 pe-16 py-3 block w-full bg-white border border-gray-200 rounded-full text-sm focus:outline-none" placeholder="Search">
                     <div class="absolute inset-y-0 end-0 flex items-center pe-1">
                         <x-button-primary class="rounded-3xl">search</x-button-primary>
                     </div>
                 </div>
-            </form>
+            </x-form>
             <div class="flex items-center justify-center flex-wrap my-5">
                 <x-category href="/dd">coding</x-category>
                 <x-category href="/dd">desgin</x-category>

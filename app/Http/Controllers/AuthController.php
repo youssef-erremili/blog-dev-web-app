@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Errehub\LaravelAlert\AlertFacade as Notifier;
 
 class AuthController extends Controller
 {
@@ -21,11 +22,10 @@ class AuthController extends Controller
 
         // try to login user
         if ($login) {
-            return redirect()->intended()->with('success', 'you log in');
+            Notifier::success('Welcome back Mr ' . Auth::user()->name . '!');
+            return redirect()->intended();
         } else {
-            return back()->withErrors([
-                'failed' => 'Your credentials do not match our records.'
-            ]);
+            return redirect()->route('home');
         }
     }
 

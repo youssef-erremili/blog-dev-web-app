@@ -6,6 +6,12 @@ use Illuminate\Support\Str;
 
 trait HasViewCount
 {
+    /**
+     * Increment view count for the model, only if the current session hasn't already viewed it.
+     *
+     * @return int
+     */
+    
     public function views(): int
     {
         $modelName = Str::singular(Str::of($this->getTable()));

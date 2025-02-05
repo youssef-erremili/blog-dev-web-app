@@ -35,7 +35,7 @@
                             {{ Str::limit($post->user->name, 1, '') }}
                         </h2>
                     @else
-                        <img class="rounded-full h-12 w-12 border-2 border-white" src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="{{ Auth::user()->name }}">
+                        <img class="rounded-full h-12 w-12 border-2 border-white" src="{{ asset('storage/' . $post->user->profile_picture) }}" alt="{{ $post->user->name }}">
                     @endif
                 </div>
                 <div class="text-sm capitalize mt-1">

@@ -6,8 +6,8 @@ use App\Models\Follow;
 use App\Models\Post;
 use App\Models\Save;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Errehub\LaravelAlert\AlertFacade as Notifier;
 
 class DashboardController extends Controller
 {
@@ -20,7 +20,7 @@ class DashboardController extends Controller
         $users = User::with(['following.author', 'followers.follower'])->find(Auth::id());
         $posts = Post::where('status', 'published')->where('user_id', Auth::id())->count();
         $pending = Post::where('status', 'draft')->where('user_id', Auth::id())->count();
-        $topArticle = Post::where('status', 'published')->where('user_id', Auth::id())->where('views', '>', 0)->orderBy('views', 'desc')->limit(10)->get();
+        $topArticle = Post::where('status', 'published')->where('user_id', Auth::id())->where('views', '>', 0)->orderBy('views', 'desc')->take(10)->get();
         return view('dashboard.overview', compact('users', 'posts', 'pending', 'topArticle'));
     }
 
@@ -44,9 +44,11 @@ class DashboardController extends Controller
             'post_id' => $post->id
         ]);
         if ($saved) {
-            return redirect()->back()->with('successMsg', 'article has been saved successfully');
+            Notifier::success('Article has been saved successfully');
+            return redirect()->back();
         } else {
-            return redirect()->back()->with('errorMsg', 'article has not saved successfully');
+            Notifier::warning('Article has not saved successfully');
+            return redirect()->back();
         }
     }
 
@@ -58,9 +60,11 @@ class DashboardController extends Controller
         $saved_item = Save::findOrfail($id);
         $is_saved_item = $saved_item->delete();
         if ($is_saved_item) {
-            return redirect()->back()->with('successMsg', 'saved article deleted successfully');
+            Notifier::info('Article unsaved successfully');
+            return redirect()->back();
         } else {
-            return redirect()->back()->with('errorMsg', 'saved article is not deleted successfully');
+            Notifier::warning('Saved article is not deleted');
+            return redirect()->back();
         }
     }
 
@@ -73,9 +77,11 @@ class DashboardController extends Controller
             'follower_id' => Auth::id()
         ]);
         if ($isFollowed) {
-            return redirect()->back()->with('successMsg', 'you are now follow ' . $followed->name);
+            Notifier::success('You start following ' . $followed->name);
+            return redirect()->back();
         } else {
-            return redirect()->back()->with('errorMsg', 'article has not saved successfully');
+            Notifier::warning('Something went wrong, Please try again later');
+            return redirect()->back();
         }
     }
 
@@ -83,7 +89,8 @@ class DashboardController extends Controller
     public function unFollow($followId){
         $is_follow_removed = Follow::findOrfail($followId)->delete();
         if ($is_follow_removed) {
-            return redirect()->back()->with('successMsg', 'you remove your follow');
+            Notifier::info('Follow has been removed');
+            return redirect()->back();
         } 
     }
 }

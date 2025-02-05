@@ -13,17 +13,17 @@
 
 
 
-.animate {
+/* .animate {
     animation-name: fadeIn;
     animation-duration: 2000ms;
     animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
     animation-direction: alternate;
     animation-fill-mode: both;
-}
+} */
 
 @keyframes fadeIn {
     0% {
-        right: -50rem;
+        /* right: -50rem; */
     }
 
     100% {

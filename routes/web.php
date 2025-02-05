@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 Route::get('/web-development', function () {
     return view('index');
@@ -29,13 +30,13 @@ Route::get('/reader/{id}/{writer}/{title}', [PublishBlogController::class, 'show
 
 
 
-Route::middleware('guest')->group(function () {
+Route::middleware('guest')->prefix('authorisation')->group(function () {
     // sign-up
-    Route::view('/authorisation/sign-up', 'auth.sign-up')->name('sign-up');
-    Route::post('/authorisation/sign-up', [AuthController::class, 'register']);
+    Route::view('/sign-up', 'auth.sign-up')->name('sign-up');
+    Route::post('/sign-up', [AuthController::class, 'register']);
     // login
-    Route::view('/authorisation/login', 'auth.login')->name('login');
-    Route::post('/authorisation/login', [AuthController::class, 'login']);
+    Route::view('/login', 'auth.login')->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
 });
 
 

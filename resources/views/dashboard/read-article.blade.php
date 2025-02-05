@@ -1,9 +1,4 @@
 <x-index-layout>
-    @if (session('successMsg'))
-        <x-alert-success action="success" message="{{ session('successMsg') }}"/>
-    @elseif (session('errorMsg'))
-        <x-alert-error action="error" message="{{ session('errorMsg') }}"/>
-    @endif
     <div class="w-2/3 h- my-10 py-10 mx-auto">
         <div class="header">
             <h1 class="capitalize text-3xl text-gray-800 font-bold">{{ $post->title }}</h1>

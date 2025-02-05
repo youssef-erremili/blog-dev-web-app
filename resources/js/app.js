@@ -84,21 +84,6 @@ function populateCategories() {
 window.onload = populateCategories;
 
 
-// hide alert message onclick
-
-let hideBtn = document.querySelectorAll('.hide')
-let alerts = document.querySelectorAll('.animate')
-if (hideBtn) {
-    hideBtn.forEach(hide => {
-        hide.addEventListener('click', () => {
-            alerts.forEach(alert => {
-                alert.classList.add('hidden')
-            })
-        })
-    });
-}
-
-
 const category = ["Technology", 
                 "Health", 
                 "Business", 
@@ -156,4 +141,3 @@ function applyCategoryColors() {
 
 // Call the function to apply the background colors
 applyCategoryColors();
-console.log(categoryColorMap)
