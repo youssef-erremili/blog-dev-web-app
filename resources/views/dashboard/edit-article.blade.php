@@ -1,4 +1,4 @@
-<x-index-layout>
+<x-app-layout>
     @if (session('artcilepublished'))
         <x-alert-success action="success" message="{{ session('artcilepublished') }}"/>
     @elseif (session('artcileNotpublished'))
@@ -86,4 +86,4 @@
             </div>
         </x-form>
     </div>
-</x-index-layout>
+</x-app-layout>

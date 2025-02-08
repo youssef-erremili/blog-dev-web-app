@@ -21,12 +21,12 @@ class Post extends Model
     {
         $views = 30;
         $featuredposts = Post::where('views', '>=', $views)
-                                ->limit(5)
-                                ->get();
+            ->limit(5)
+            ->get();
 
         foreach ($featuredposts as $post) {
             $post->featured = 'true';
-            $post->save(); 
+            $post->save();
         }
     }
 

@@ -1,6 +1,6 @@
-@props(['action'])
+@props(['action', 'method' => 'post'])
 
-<form action="{{ $action }}" method="post" enctype="multipart/form-data">
+<form action="{{ $action }}" method="{{ $method }}" enctype="multipart/form-data">
     @csrf
     {{ $slot }}
 </form>

@@ -16,32 +16,46 @@ class HomeController extends Controller
     public function index()
     {
         $topArticle = Post::where('status', 'published')
-            ->where('views', '>', 0)
-            ->orderBy('views', 'desc')
-            ->take(5)
-            ->get();
+                            ->where('views', '>', 0)
+                            ->orderBy('views', 'desc')
+                            ->take(5)
+                            ->get();
 
         $lastPost = Post::where('status', 'published')
-            ->where('views', '>', 0)
-            ->orderBy('views', 'desc')
-            ->latest()
-            ->paginate(9);
+                            ->where('views', '>', 0)
+                            ->orderBy('views', 'desc')
+                            ->latest()
+                            ->paginate(9);
 
         $reading_time = [];
         foreach ($lastPost as $post) {
             $reading_time[] = (new Bookworm())->estimate($post->content);
         }
-        
+
         return view('index', compact('topArticle', 'lastPost', 'reading_time'));
     }
 
     // search method in DB
-
     public function search(Request $request)
     {
-        $result = 'jjdjjd';
         $query = $request->search;
-        return view('index', compact('result'));
-        dd($query);
+        if ($query === null) {
+            Notifier::warning('Make sure to fill in the search field!');
+            return redirect()->back();
+        }
+
+        $lastPost = Post::where('status', 'published')
+                            ->where('views', '>', 0)
+                            ->orderBy('views', 'desc')
+                            ->latest()
+                            ->paginate(6);
+
+        $reading_time = [];
+        foreach ($lastPost as $post) {
+            $reading_time[] = (new Bookworm())->estimate($post->content);
+        }
+
+
+        return view('search', compact('query', 'lastPost', 'reading_time'));
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
@@ -9,13 +10,6 @@ use Illuminate\Support\Facades\Route;
 
 
 
-
-// Route::get('', function () {
-//     return view('dashboard.author');
-// })
-// Route::get('/', [SingleActionController::class, 'index'])->name('home');
-// Route::get('/users/@youssef-erremili', [PublishBlogController::class, 'show'])->name('reader');
-// Route::view('read-article', 'dashboard.read-article')
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -79,15 +73,23 @@ Route::middleware('auth')->group(function () {
 // route for saving articles
 Route::middleware('auth')->group(function () {
     // save article in DB
-    Route::put('reader/save-article/{id}', [DashboardController::class, 'saveArticle'])->name('save-article');
+    Route::put('reader/save-article/{id}', [ArticleController::class, 'saveArticle'])->name('save-article');
     // delete saved articale from DB
-    Route::delete('reader/delete-article/{id}', [DashboardController::class, 'deleteArticle'])->name('delete-article');
+    Route::delete('reader/delete-article/{id}', [ArticleController::class, 'deleteArticle'])->name('delete-article');
 });
 
 // route for followers
 Route::middleware('auth')->group(function () {
     // save article in DB
-    Route::put('reader/follow/{authorId}', [DashboardController::class, 'follow'])->name('follow');
+    Route::put('reader/follow/{authorId}', [ArticleController::class, 'Follow'])->name('follow');
     // delete saved articale from DB
-    Route::delete('reader/unfollow/{followId}', [DashboardController::class, 'unFollow'])->name('unfollow');
+    Route::delete('reader/unfollow/{followId}', [ArticleController::class, 'unFollow'])->name('unfollow');
+});
+
+// route for like and dislike
+Route::middleware('auth')->group(function () {
+    // save like in DB
+    Route::put('reader/like/{postId}', [ArticleController::class, 'Like'])->name('like');
+    // dislike from DB
+    Route::delete('reader/dislike/{dislikeId}', [ArticleController::class, 'Dislike'])->name('dislike');
 });

@@ -1,4 +1,4 @@
-<x-index-layout>
+<x-app-layout>
     <x-form action="{{ route('login') }}">
         @method('POST')
         <div class="border bg-slate-50 bg-opacity-20 w-2/4 py-10 px-12 mx-auto my-10 rounded-lg shadow-md shadow-gray-100">
@@ -32,4 +32,4 @@
             </button>
         </div>
     </x-form>
-</x-index-layout>
+</x-app-layout>

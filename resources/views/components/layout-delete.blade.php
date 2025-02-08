@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Medium blog</title>
+    <title>Medium blog hhhhlayout</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -15,6 +15,7 @@
 <body>
     <header>
         <nav class="bg-white py-1.5 shadow-md">
+            ljksdnflknsdflkns
             <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 <div class="relative flex h-16 items-center justify-between">
                     <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -91,7 +92,7 @@
         </nav>
     </header>
     <main class="w-[90%] min-h-screen mx-auto py-4 px-2">
-        {{ $slot }}
+        {{-- {{ $slot }} --}}
     </main>
     <x-footer></x-footer>
 

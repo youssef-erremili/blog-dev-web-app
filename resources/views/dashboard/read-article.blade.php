@@ -1,4 +1,4 @@
-<x-index-layout>
+<x-app-layout>
     <div class="w-2/3 h- my-10 py-10 mx-auto">
         <div class="header">
             <h1 class="capitalize text-3xl text-gray-800 font-bold">{{ $post->title }}</h1>
@@ -37,16 +37,29 @@
                     </span>
                 </section>
             </div>
-            <div class="attractive flex items-center justify-between py-2.5 border-t-2 border-b-2">
-                <section class="flex items-center">
-                    <a href="#" >
-                        <ion-icon class="text-[23.5px] mr-3 text-slate-900" name="heart-outline"></ion-icon>
-                    </a>
+            <div class="flex items-center justify-between py-2.5 border-t-2 border-b-2">
+                <div class="flex items-center">
+                    {{-- {{ $preventlike }} --}}
+                    @if (!$preventlike)
+                        <x-form action="{{ route('like', ['postId' => $post->id]) }}">
+                            @method('PUT')
+                            <button type="submit">
+                                <img src="{{ asset('images/like.svg') }}" class="w-6 align-baseline inline-block mr-3" alt="icon">
+                            </button>
+                        </x-form>
+                    @else
+                        <x-form action="{{ route('dislike', ['dislikeId' => $post->id]) }}">
+                            @method('DELETE')
+                            <button type="submit">
+                                <img src="{{ asset('images/liked.svg') }}" class="w-6 align-baseline inline-block mr-3" alt="icon">
+                            </button>
+                        </x-form>
+                    @endif
                     <a href="#">
-                        <ion-icon class="text-[23.5px] text-slate-900" name="chatbox-outline"></ion-icon>
+                        <ion-icon class="text-[22.5px] text-slate-900" name="chatbox-outline"></ion-icon>
                     </a>
-                </section>
-                <section class="flex items-center">
+                </div>
+                <div class="flex items-center">
                     @if ($alreadySaved)
                         <x-form action="{{ route('delete-article', ['id'=> $alreadySaved->id]) }}">
                             @method('DELETE')
@@ -65,7 +78,7 @@
                     <a href="#">
                         <ion-icon class="text-[23.5px] ml-3 text-slate-900" name="arrow-redo-outline"></ion-icon>
                     </a>
-                </section>
+                </div>
             </div>
         </div>
         <div class="content">
@@ -84,4 +97,4 @@
             </div>
         </div>
     </div>
-</x-index-layout>
+</x-app-layout>

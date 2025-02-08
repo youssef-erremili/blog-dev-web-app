@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Follow;
+use App\Models\Like;
 use App\Models\Post;
 use App\Models\Save;
 use App\Models\User;
@@ -90,6 +91,7 @@ class PublishBlogController extends Controller
         }
 
         $preventfollow = false;
+        $preventlike = false;
         $author_id = $post->user->id;
 
         if ($post->status == 'draft') {
@@ -109,11 +111,19 @@ class PublishBlogController extends Controller
             $preventfollow = true;
         }
 
+        //Check if the user already like this post
+        $alreadyLike = Like::where('user_id', Auth::id())
+            ->where('post_id', $post->id)
+            ->first();
+        if ($alreadyLike) {
+            $preventlike = true;
+        }
+
         // Track the visit
         $post->views();
 
         $reading_time = (new Bookworm())->estimate($post->content);
-        return view('dashboard.read-article', compact(['post', 'reading_time', 'alreadySaved', 'preventfollow', 'alreadyFollowing']));
+        return view('dashboard.read-article', compact(['post', 'reading_time', 'alreadySaved', 'preventfollow', 'alreadyFollowing', 'alreadyLike', 'preventlike']));
     }
 
     /**

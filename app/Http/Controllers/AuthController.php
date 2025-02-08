@@ -25,7 +25,8 @@ class AuthController extends Controller
             Notifier::success('Welcome back Mr ' . Auth::user()->name . '!');
             return redirect()->intended();
         } else {
-            return redirect()->route('home');
+            Notifier::error('Email address or Password are wrong');
+            return redirect()->back();
         }
     }
 

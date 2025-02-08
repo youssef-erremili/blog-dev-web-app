@@ -1,4 +1,4 @@
-<x-index-layout>
+<x-app-layout>
     <div class="flex mx-auto mt-14 px-16">
         <div class="overflow-hidden w-[70%]">
             <div class="relative pt-40 pb-24 border rounded-xl overflow-hidden border-gray-200 m-2">
@@ -108,4 +108,4 @@
             </div>
         </div>
     </div>
-</x-index-layout>
+</x-app-layout>

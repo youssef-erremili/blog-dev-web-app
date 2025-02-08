@@ -1,4 +1,4 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<!-- <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
 <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
@@ -63,4 +63,44 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT). -->
+
+
+## Blog Project
+
+A simple blog platform built with Laravel, Tailwind CSS, and Alpine.js.
+
+## Features
+- Publish and manage blog posts
+- User-friendly interface with Tailwind CSS
+- Interactive components with Alpine.js
+- Alerts and notifications with Laravel-Alert
+- Estimated reading time calculation with Reading Time package
+
+## Requirements
+- PHP 8.x
+- Laravel 11
+- Composer
+- Node.js (for Tailwind CSS and Alpine.js)
+
+## Installation
+1. Clone the repository: git clone https://github.com/youssef-erremili/blog-dev.git
+2. Install dependencies: composer install
+3. Install Node.js dependencies: npm install
+4. Run migrations: php artisan migrate
+5. Run seeders (optional): php artisan db:seed
+
+## Usage
+1. Start the development server: php artisan serve
+2. Access the blog platform: http://localhost:8000
+3. Login as an administrator: http://localhost:8000/login
+4. Create and manage blog posts: http://localhost:8000/posts
+
+## Credits
+- https://tailwindcss.com/
+- https://alpinejs.dev/
+- https://github.com/Errehub/laravel-alert
+- https://github.com/SHTayeb/Bookworm
+
+## License
+This project is licensed under the MIT License. See LICENSE.md for details.

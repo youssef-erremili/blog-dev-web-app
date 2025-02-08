@@ -22,7 +22,7 @@
             </section>
             <section class="inline-flex items-center ml-3">
                 <img src="{{ asset('images/like.svg') }}" class="size-5" alt="icon">
-                <span class="font-medium text-gray-700 ml-1 text-lg">{{ $article->views }}</span>
+                <span class="font-medium text-gray-700 ml-1 text-lg">{{ $article->likes->count() }}</span>
             </section>
         </div>
         <div class="mx-3.5">

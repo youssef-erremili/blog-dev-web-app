@@ -17,8 +17,7 @@
             <p class="font-normal mt-1 inline-block text-slate-500 lowercase text-wrap w-3/4">A platform where stories and interviews reveal authentic experiences and valuable insights</p>
         </div>
         <div class="mt-4">
-            <x-form action="{{ route('search') }}">
-                @method('POST')
+            <x-form action="{{ route('search') }}" method="get">
                 <div class="relative w-full">
                     <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3.5">
                         <svg class="shrink-0 size-4 text-gray-400 dark:text-white/60"

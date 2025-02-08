@@ -1,9 +1,7 @@
 <x-app-layout>
-    <x-hero></x-hero>
     <div class="w-[94%] mx-auto">
-        <div class="mt-12">
-            <h1 class="text-3xl font-bold text-gray-700 capitalize mb-5">editor's choice</h1>
-            <x-featured :article="$topArticle"></x-featured>
+        <div class="bg-red-500 p-10">
+            {{ $query }}
         </div>
         <div class="mt-20 mb-10 h-auto w-full">
             <section>
