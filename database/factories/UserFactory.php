@@ -29,7 +29,7 @@ class UserFactory extends Factory
             'location' => fake()->country(),
             'bio' => fake()->text(),
             'email_verified_at' => now(),
-            'password' => "123",
+            'password' => "admin",
             'remember_token' => Str::random(10),
         ];
     }

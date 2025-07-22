@@ -1,37 +1,73 @@
 @props(['post', 'reading'])
 
-<article class="my-10 bg-white border border-slate-100 shadow shadow-gray-200 h-72 group grid w-full rounded-2xl grid-cols-1 md:grid-cols-8 overflow-hidden">
-    <div class="col-span-3 h-48 mt-12 overflow-hidden rounded-2xl ml-7">
-        <img src="{{ asset('storage/' . $post->article_cover) }}"
-            class="h-full w-3/4 rounded-2xl object-cover transition duration-700 ease-out group-hover:scale-105"
-            alt="{{ $post->title }}" />
-    </div>
-    <div class="flex flex-col justify-center p-2 col-span-5">
-        @php
-            $title = Str::length($post->title) < 64 ? $post->title : Str::limit($post->title, 64, '..');
-        @endphp
-        <div class="flex items-center mb-3">
-            <small class="font-medium text-indigo-600 bg-indigo-700/20 rounded-md px-2 py-1 w-fit">{{ $post->category }}</small>
-            <div class="flex ml-4">
-                <span class="text-gray-400 text-sm font-medium flex items-center">
-                    <img src="{{ asset('images/history.svg') }}" class="size-5 mr-1" alt="icon">
-                    {{ $reading }}
-                </span>
-                <span class="text-gray-400 text-sm font-medium flex items-center ml-4">
-                    <img src="{{ asset('images/eye-dark.svg') }}" class="size-5 mr-1" alt="icon">
-                    {{ $post->views }}
-                </span>
+<article
+    class="group bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:border-gray-300">
+    <div class="flex flex-col sm:flex-row">
+        <!-- Image Section -->
+        <div class="sm:w-80 h-48 sm:h-auto overflow-hidden bg-gray-100 flex-shrink-0">
+            <img src="{{ asset('storage/' . $post->article_cover) }}"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                alt="{{ $post->title }}" />
+        </div>
+
+        <!-- Content Section -->
+        <div class="flex-1 p-6 flex flex-col justify-between">
+            <div class="space-y-4">
+                <!-- Meta Information -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <span
+                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
+                            {{ $post->category }}
+                        </span>
+                        <div class="flex items-center text-xs text-gray-500 gap-4">
+                            <span class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                {{ $reading }}
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                                {{ $post->views }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Title -->
+                @php
+                    $title = Str::length($post->title) < 80 ? $post->title : Str::limit($post->title, 80, '...');
+                @endphp
+                <h3
+                    class="text-lg font-semibold text-gray-900 line-clamp-2 group-hover:text-gray-700 transition-colors">
+                    {{ $title }}
+                </h3>
+
+                <!-- Description -->
+                <p class="text-sm text-gray-600 line-clamp-3 leading-relaxed">
+                    {{ Str::limit(strip_tags($post->content), 160, '...') }}
+                </p>
+            </div>
+
+            <!-- Read More Button -->
+            <div class="mt-6">
+                <x-url-reader :$post
+                    class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors duration-200 group/link">
+                    <span>Read article</span>
+                    <svg class="w-4 h-4 transition-transform group-hover/link:translate-x-0.5" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
+                </x-url-reader>
             </div>
         </div>
-        <h3 class="text-balance text-xl font-bold text-gray-800 lg:text-2xl">{{ $title }}</h3>
-        <p id="articleDescription" class="my-4 max-w-lg text-pretty text-gray-700 text-sm">
-            {{ Str::limit($post->content, 140, '...') }}</p>
-        <x-url-reader :$post class="bg-gray-800 rounded-lg text-white py-2 px-5 inline-block w-fit">
-            Read article
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none"
-                stroke-width="2.5" aria-hidden="true" class="inline size-4">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-            </svg>
-        </x-url-reader>
     </div>
 </article>
