@@ -12,9 +12,8 @@
                     <ul class="flex space-x-1">
                         <li><x-nav-link href="{{ route('home') }}">Home</x-nav-link></li>
                         <li><x-nav-link href="{{ route('explore') }}">Explore</x-nav-link></li>
-                        @auth
-                            <li><x-nav-link href="{{ route('publish-blog.create') }}">Write</x-nav-link></li>
-                        @endauth
+                        <li><x-nav-link href="{{ route('publish-blog.create') }}">Write</x-nav-link></li>
+                        <li><x-nav-link href="{{ route('vision') }}">Vision</x-nav-link></li>
                     </ul>
                 </div>
 
@@ -68,9 +67,8 @@
                 <div class="pt-4 pb-3 space-y-1">
                     <x-nav-link href="{{ route('home') }}" class="block">Home</x-nav-link>
                     <x-nav-link href="{{ route('explore') }}" class="block">Explore</x-nav-link>
-                    @auth
-                        <x-nav-link href="{{ route('publish-blog.create') }}" class="block">Write</x-nav-link>
-                    @endauth
+                    <x-nav-link href="{{ route('publish-blog.create') }}" class="block">Write</x-nav-link>
+                    <x-nav-link href="{{ route('vision') }}" class="block">Vision</x-nav-link>
                 </div>
 
                 <!-- Mobile Auth Section -->

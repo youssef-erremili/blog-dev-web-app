@@ -45,7 +45,7 @@ class AuthController extends Controller
         ]);
 
         // upload picture
-        if ($request->has('profile_picture')) {
+        if ($request->hasFile('profile_picture')) {
             $image = time() . '.' . $request->file('profile_picture')->extension();
             $path = $request->file('profile_picture')->storeAs('profile_picture', $image, 'public');
         }
@@ -54,7 +54,7 @@ class AuthController extends Controller
         $user = new User();
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        $user->password = $request->input('password');
+        $user->password = bcrypt($request->input('password'));
         $user->profile_picture = $path;
         $user->save();
 
