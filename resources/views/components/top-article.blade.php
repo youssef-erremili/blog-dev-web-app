@@ -4,7 +4,7 @@
     <div class="flex">
         <h2 class="font-medium text-slate-700 text-xl text-center mx-2 basis-10">{{ $loop }}</h2>
         <div class="flex">
-            <img src="{{ asset('storage/' . $article->article_cover) }}" alt="article cover"
+            <img src="{{ $article->cover_url }}" alt="article cover"
                 class="size-20 mx-5 rounded-md">
             <section class="basis-full">
                 <p class="font-medium text-slate-700 block">{{ $article->title }}</p>

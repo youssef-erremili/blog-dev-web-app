@@ -56,7 +56,7 @@
                                 <div class="flex items-center space-x-4">
                                     <div class="flex-shrink-0 w-12 h-12">
                                         <img class="w-12 h-12 rounded-lg object-cover border border-gray-200" 
-                                             src="{{ asset('storage/' . $post->article_cover) }}" 
+                                             src="{{ $post->cover_url }}" 
                                              alt="{{ $post->title }}">
                                     </div>
                                     <div class="min-w-0 flex-1">
@@ -171,7 +171,7 @@
                     <div class="flex items-start space-x-4">
                         <div class="flex-shrink-0">
                             <img class="w-16 h-16 rounded-lg object-cover border border-gray-200" 
-                                 src="{{ asset('storage/' . $post->article_cover) }}" 
+                                 src="{{ $post->cover_url }}" 
                                  alt="{{ $post->title }}">
                         </div>
                         <div class="min-w-0 flex-1">

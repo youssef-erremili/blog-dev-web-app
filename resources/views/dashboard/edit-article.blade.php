@@ -114,7 +114,7 @@
                                     <div class="relative">
                                         <img 
                                             id="imagePreview" 
-                                            src="{{ asset('storage/' . $post->article_cover) }}" 
+                                            src="{{ $post->cover_url }}" 
                                             alt="Article cover"
                                             class="w-48 h-32 object-cover rounded-lg border-2 border-gray-200 shadow-sm"
                                         >

@@ -1,5 +1,5 @@
-<header>
-    <nav class="bg-white border-b border-gray-200 px-4 sm:px-6 lg:px-8 py-4 dark:bg-gray-800 dark:border-gray-700">
+<header x-data="{ mobileOpen: false }">
+    <nav class="bg-white border-b border-gray-200 px-4 sm:px-6 lg:px-8 py-4">
         <div class="max-w-7xl mx-auto">
             <div class="flex justify-between items-center">
                 <!-- Logo -->
@@ -10,10 +10,11 @@
                 <!-- Desktop Navigation -->
                 <div class="hidden md:block">
                     <ul class="flex space-x-1">
-                        <li><x-nav-link href="/">home</x-nav-link></li>
-                        <li><x-nav-link href="/hd">explore</x-nav-link></li>
-                        <li><x-nav-link href="/hd">write</x-nav-link></li>
-                        <li><x-nav-link href="/hd">vision</x-nav-link></li>
+                        <li><x-nav-link href="{{ route('home') }}">Home</x-nav-link></li>
+                        <li><x-nav-link href="{{ route('explore') }}">Explore</x-nav-link></li>
+                        @auth
+                            <li><x-nav-link href="{{ route('publish-blog.create') }}">Write</x-nav-link></li>
+                        @endauth
                     </ul>
                 </div>
 
@@ -37,34 +38,39 @@
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden">
                     <button type="button"
+                        @click="mobileOpen = !mobileOpen"
+                        :aria-expanded="mobileOpen.toString()"
                         class="text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-300 p-2 rounded-lg transition-colors duration-200"
-                        aria-controls="mobile-menu" aria-expanded="false" x-data="{ open: false }" @click="open = !open"
-                        :aria-expanded="open.toString()">
+                        aria-controls="mobile-menu">
                         <span class="sr-only">Open main menu</span>
-                        <!-- Menu icon -->
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16"></path>
+                        <svg x-show="!mobileOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                        <svg x-show="mobileOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
                 </div>
             </div>
 
             <!-- Mobile Navigation -->
-            <div class="md:hidden mt-4 pb-4 border-t border-gray-200" x-data="{ open: false }" x-show="open"
+            <div id="mobile-menu"
+                x-show="mobileOpen"
                 x-transition:enter="transition ease-out duration-200"
-                x-transition:enter-start="opacity-0 transform scale-95"
-                x-transition:enter-end="opacity-100 transform scale-100"
+                x-transition:enter-start="opacity-0 -translate-y-2"
+                x-transition:enter-end="opacity-100 translate-y-0"
                 x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 transform scale-100"
-                x-transition:leave-end="opacity-0 transform scale-95" id="mobile-menu">
+                x-transition:leave-start="opacity-100 translate-y-0"
+                x-transition:leave-end="opacity-0 -translate-y-2"
+                class="md:hidden mt-4 pb-4 border-t border-gray-200">
 
                 <!-- Mobile Navigation Links -->
                 <div class="pt-4 pb-3 space-y-1">
-                    <x-nav-link href="/" class="block">home</x-nav-link>
-                    <x-nav-link href="/hd" class="block">explore</x-nav-link>
-                    <x-nav-link href="/hd" class="block">write</x-nav-link>
-                    <x-nav-link href="/hd" class="block">vision</x-nav-link>
+                    <x-nav-link href="{{ route('home') }}" class="block">Home</x-nav-link>
+                    <x-nav-link href="{{ route('explore') }}" class="block">Explore</x-nav-link>
+                    @auth
+                        <x-nav-link href="{{ route('publish-blog.create') }}" class="block">Write</x-nav-link>
+                    @endauth
                 </div>
 
                 <!-- Mobile Auth Section -->

@@ -5,7 +5,7 @@
     <div class="flex flex-col sm:flex-row">
         <!-- Image Section -->
         <div class="sm:w-80 h-48 sm:h-auto overflow-hidden bg-gray-100 flex-shrink-0">
-            <img src="{{ asset('storage/' . $post->article_cover) }}"
+            <img src="{{ $post->cover_url }}"
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 alt="{{ $post->title }}" />
         </div>

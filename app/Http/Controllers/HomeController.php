@@ -76,22 +76,53 @@ class HomeController extends Controller
     {
         $query = $request->search;
         if ($query === null) {
-            Notifier::warning('Make sure to fill in the search field!');
-            return redirect()->back();
+            return redirect()->back()->with('warning', 'Make sure to fill in the search field!');
         }
 
         $lastPost = Post::where('status', 'published')
-                            ->where('views', '>', 0)
+                            ->where(function ($q) use ($query) {
+                                $q->where('title', 'like', "%{$query}%")
+                                  ->orWhere('content', 'like', "%{$query}%")
+                                  ->orWhere('category', 'like', "%{$query}%")
+                                  ->orWhere('tag1', 'like', "%{$query}%")
+                                  ->orWhere('tag2', 'like', "%{$query}%")
+                                  ->orWhere('tag3', 'like', "%{$query}%");
+                            })
                             ->orderBy('views', 'desc')
-                            ->latest()
-                            ->paginate(6);
+                            ->paginate(8);
 
         $reading_time = [];
         foreach ($lastPost as $post) {
             $reading_time[] = (new Bookworm())->estimate($post->content);
         }
 
-
         return view('search', compact('query', 'lastPost', 'reading_time'));
+    }
+
+    // Explore — browse all published articles with optional category filter
+    public function explore(Request $request)
+    {
+        $categories = Post::where('status', 'published')
+                            ->whereNotNull('category')
+                            ->select('category', DB::raw('count(*) as posts_count'))
+                            ->groupBy('category')
+                            ->orderByDesc('posts_count')
+                            ->get();
+
+        $activeCategory = $request->input('category');
+
+        $query = Post::with('user')->where('status', 'published');
+        if ($activeCategory) {
+            $query->where('category', $activeCategory);
+        }
+
+        $posts = $query->orderBy('views', 'desc')->paginate(12);
+
+        $reading_time = [];
+        foreach ($posts as $post) {
+            $reading_time[] = (new Bookworm())->estimate($post->content);
+        }
+
+        return view('explore', compact('posts', 'categories', 'activeCategory', 'reading_time'));
     }
 }

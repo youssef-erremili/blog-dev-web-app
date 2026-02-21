@@ -28,7 +28,7 @@
                     @php
                         $meta = $categoryMeta[strtolower($category->category)] ?? $defaultMeta;
                     @endphp
-                    <a href="#"
+                    <a href="{{ route('explore', ['category' => $category->category]) }}"
                        class="group bg-gradient-to-br {{ $meta['gradient'] }} border {{ $meta['border'] }} rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                         <!-- Icon -->
                         <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-white shadow-sm flex items-center justify-center group-hover:shadow-md transition-shadow duration-300">

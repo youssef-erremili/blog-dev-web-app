@@ -15,18 +15,19 @@
     {{-- Browse by Category --}}
     <x-categories-section :categories="$categories"></x-categories-section>
 
-    <div class="w-[94%] mx-auto">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Recent Blog Articles --}}
-        <div class="mt-20 mb-10 h-auto w-full">
-            <section>
-                <h1 class="text-xl font-semibold text-gray-700 capitalize">Recent blog articles</h1>
-            </section>
-            <div class="flex items-center justify-between flex-wrap">
+        <div class="py-20">
+            <div class="text-center mb-12">
+                <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Recent Blog Articles</h1>
+                <p class="text-gray-500 mt-2">Stay up to date with the latest stories from our community</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 @foreach ($lastPost as $index => $post)
                     <x-card :$post :reading="$reading_time[$index]"/>
                 @endforeach
             </div>
-            <div class="my-10 w-2/3 mx-auto flex justify-center">
+            <div class="mt-12 flex justify-center">
                 {{ $lastPost->links() }}
             </div>
         </div>
