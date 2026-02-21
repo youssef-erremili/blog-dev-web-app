@@ -16,6 +16,19 @@ class Post extends Model
     use HasFactory, SoftDeletes;
     use HasViewCount;
 
+    /**
+     * Get the cover image URL.
+     * Handles both external URLs (seeded data) and local storage paths (user uploads).
+     */
+    public function getCoverUrlAttribute(): string
+    {
+        if (str_starts_with($this->article_cover, 'http')) {
+            return $this->article_cover;
+        }
+
+        return asset('storage/' . $this->article_cover);
+    }
+
     // Define the views threshold
     public function checkAndFeaturePost()
     {

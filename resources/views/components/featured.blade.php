@@ -14,7 +14,7 @@
                 <!-- Main Featured Article (First Article) -->
                 @if(isset($article[0]))
                     <div class="col-span-2 row-span-4 relative group overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
-                        <img src="{{ asset('storage/' . $article[0]->article_cover) }}" 
+                        <img src="{{ $article[0]->cover_url }}" 
                              class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" 
                              alt="{{ $article[0]->title }}"
                              loading="lazy">
@@ -47,7 +47,7 @@
                 @for($i = 1; $i <= 4; $i++)
                     @if(isset($article[$i]))
                         <div class="row-span-2 relative group overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
-                            <img src="{{ asset('storage/' . $article[$i]->article_cover) }}" 
+                            <img src="{{ $article[$i]->cover_url }}" 
                                  class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" 
                                  alt="{{ $article[$i]->title }}"
                                  loading="lazy">
@@ -80,7 +80,7 @@
                 @foreach($article->take(4) as $index => $item)
                     <div class="relative group overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 {{ $index === 0 ? 'md:row-span-2' : '' }}">
                         <div class="{{ $index === 0 ? 'h-80' : 'h-48' }}">
-                            <img src="{{ asset('storage/' . $item->article_cover) }}" 
+                            <img src="{{ $item->cover_url }}" 
                                  class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" 
                                  alt="{{ $item->title }}"
                                  loading="lazy">
@@ -119,7 +119,7 @@
             @foreach($article->take(3) as $index => $item)
                 <div class="relative group overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
                     <div class="h-48">
-                        <img src="{{ asset('storage/' . $item->article_cover) }}" 
+                        <img src="{{ $item->cover_url }}" 
                              class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" 
                              alt="{{ $item->title }}"
                              loading="lazy">

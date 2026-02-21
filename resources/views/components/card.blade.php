@@ -5,7 +5,7 @@
     <!-- Image Section -->
     <div class="relative overflow-hidden h-48">
         <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            src="{{ asset('storage/' . $post->article_cover) }}" alt="{{ $post->title }}" loading="lazy" />
+            src="{{ $post->cover_url }}" alt="{{ $post->title }}" loading="lazy" />
 
         <!-- Category Badge -->
         <div class="absolute top-4 left-4">

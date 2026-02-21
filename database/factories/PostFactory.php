@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Carbon\Carbon;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
@@ -17,19 +18,21 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => fake()->randomElement(['1', '2', '3', '4', '5']),
+            'user_id' => fake()->numberBetween(1, 100),
             'title' => fake()->text(90),
             'content' => fake()->realTextBetween('4000', '8000'),
-            'status' => fake()->randomElement(['published', 'draft']),
-            'article_cover' => 'article_cover/1737244137.jpg',
-            'category' => fake()->randomElement(['Technology', 'Health', 'Business', 'Lifestyle', 'Personal Development', 'Art', 'Travel', 'Education', 'Finance', 'Food', 'Politics', 'Science', 'Entertainment', 'Sports', 'Culture', 'Design']),
-            'tag1' => fake()->randomElement(['AI', 'tech', 'bussiness', 'world', 'days']),
-            'tag2' => fake()->randomElement(['AI', 'tech', 'bussiness', 'world', 'days']),
-            'tag3' => fake()->randomElement(['AI', 'tech', 'bussiness', 'world', 'days']),
-            'tag4' => fake()->randomElement(['AI', 'tech', 'bussiness', 'world', 'days']),
-            'tag5' => fake()->randomElement(['AI', 'tech', 'bussiness', 'world', 'days']),
-            'created_at' => now(),
-            'updated_at' => now()
+            'status' => 'published',
+            'article_cover' => 'https://picsum.photos/seed/' . fake()->unique()->numberBetween(1, 10000) . '/800/500',
+            'category' => fake()->randomElement(['Technology', 'Health', 'Business', 'Lifestyle', 'Personal Development', 'Art', 'Travel', 'Education', 'Finance', 'Food', 'Design', 'Coding', 'Software', 'Motivation']),
+            'tag1' => fake()->randomElement(['AI', 'tech', 'business', 'world', 'coding']),
+            'tag2' => fake()->randomElement(['design', 'startup', 'health', 'life', 'productivity']),
+            'tag3' => fake()->randomElement(['innovation', 'career', 'mindset', 'growth', 'science']),
+            'tag4' => fake()->randomElement(['web', 'mobile', 'data', 'cloud', 'security']),
+            'tag5' => fake()->randomElement(['leadership', 'creativity', 'learning', 'future', 'trends']),
+            'views' => fake()->numberBetween(10, 5000),
+            'featured' => fake()->randomElement(['true', 'false']),
+            'created_at' => Carbon::instance(fake()->dateTimeBetween('-1 year', 'now')),
+            'updated_at' => now(),
         ];
     }
 }

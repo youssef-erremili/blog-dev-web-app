@@ -201,7 +201,7 @@
                 <!-- Featured Image -->
                 <div class="relative">
                     <img class="w-full h-64 sm:h-80 lg:h-96 object-cover"
-                        src="{{ asset('storage/' . $post->article_cover) }}" alt="{{ $post->title }}">
+                        src="{{ $post->cover_url }}" alt="{{ $post->title }}">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                 </div>
 
